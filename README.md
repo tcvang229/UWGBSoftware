@@ -1,3 +1,7 @@
-UWGB Software, Spring 2020
+UWGB Software Engineering, Spring 2020
 
-Hi
+Developers:
+Nathaniel Kennis
+Dylan Hoffman
+Jackson Massey
+Tswjfwmeng Vang
