@@ -1,0 +1,116 @@
+{
+  "format": 1,
+  "restore": {
+    "/Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2.Android/M.OBD.2.Android.csproj": {}
+  },
+  "projects": {
+    "/Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2.Android/M.OBD.2.Android.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2.Android/M.OBD.2.Android.csproj",
+        "projectName": "M.OBD._2.Android",
+        "projectPath": "/Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2.Android/M.OBD.2.Android.csproj",
+        "packagesPath": "/Users/dhoffman/.nuget/packages/",
+        "outputPath": "/Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2.Android/obj/",
+        "projectStyle": "PackageReference",
+        "skipContentFileWrite": true,
+        "configFilePaths": [
+          "/Users/dhoffman/.config/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "monoandroid90"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "monoandroid90": {
+            "projectReferences": {
+              "/Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2/M.OBD.2.csproj": {
+                "projectPath": "/Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2/M.OBD.2.csproj"
+              }
+            }
+          }
+        }
+      },
+      "frameworks": {
+        "monoandroid90": {
+          "dependencies": {
+            "Xamarin.Essentials": {
+              "target": "Package",
+              "version": "[1.3.1, )"
+            },
+            "Xamarin.Forms": {
+              "target": "Package",
+              "version": "[4.3.0.908675, )"
+            }
+          }
+        }
+      }
+    },
+    "/Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2/M.OBD.2.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2/M.OBD.2.csproj",
+        "projectName": "M.OBD.2",
+        "projectPath": "/Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2/M.OBD.2.csproj",
+        "packagesPath": "/Users/dhoffman/.nuget/packages/",
+        "outputPath": "/Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2/obj/",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "/Users/dhoffman/.config/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netstandard2.0"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netstandard2.0": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netstandard2.0": {
+          "dependencies": {
+            "NETStandard.Library": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.0.3, )",
+              "autoReferenced": true
+            },
+            "Xamarin.Essentials": {
+              "target": "Package",
+              "version": "[1.3.1, )"
+            },
+            "Xamarin.Forms": {
+              "target": "Package",
+              "version": "[4.3.0.908675, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.1.101/RuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

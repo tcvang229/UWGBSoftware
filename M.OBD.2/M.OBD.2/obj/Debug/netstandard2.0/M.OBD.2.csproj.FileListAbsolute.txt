@@ -1,0 +1,15 @@
+/Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2/bin/Debug/netstandard2.0/M.OBD.2.deps.json
+/Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2/bin/Debug/netstandard2.0/M.OBD.2.dll
+/Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2/bin/Debug/netstandard2.0/ref/M.OBD.2.dll
+/Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2/bin/Debug/netstandard2.0/M.OBD.2.pdb
+/Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2/obj/Debug/netstandard2.0/M.OBD.2.csprojAssemblyReference.cache
+/Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2/obj/Debug/netstandard2.0/App.xaml.g.cs
+/Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2/obj/Debug/netstandard2.0/MainPage.xaml.g.cs
+/Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2/obj/Debug/netstandard2.0/ProfilePage.xaml.g.cs
+/Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2/obj/Debug/netstandard2.0/ResultsPage.xaml.g.cs
+/Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2/obj/Debug/netstandard2.0/M.OBD.2.AssemblyInfoInputs.cache
+/Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2/obj/Debug/netstandard2.0/M.OBD.2.AssemblyInfo.cs
+/Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2/obj/Debug/netstandard2.0/XamlC.stamp
+/Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2/obj/Debug/netstandard2.0/M.OBD.2.dll
+/Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2/obj/Debug/netstandard2.0/ref/M.OBD.2.dll
+/Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2/obj/Debug/netstandard2.0/M.OBD.2.pdb
