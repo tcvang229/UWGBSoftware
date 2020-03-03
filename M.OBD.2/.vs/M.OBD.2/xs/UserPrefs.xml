@@ -1,26 +1,12 @@
 ﻿<Properties StartupConfiguration="{0E5AD1F0-3713-4733-B50A-E68CC540F077}|Default">
+  <MonoDevelop.Ide.ItemProperties.M.OBD.2.iOS automaticSigning="False" />
   <MonoDevelop.Ide.ItemProperties.M.OBD.2.Android AndroidDesignerPreferredTheme="Theme.AppCompat.Light.NoActionBar" PreferredExecutionTarget="Android.pixel_3_pie_9_0_-_api_28" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="M.OBD.2.iOS/obj/iPhoneSimulator/Debug/Resources/MainPage.xaml.g.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="M.OBD.2.iOS/AppDelegate.cs">
     <Files>
-      <File FileName="M.OBD.2/AssemblyInfo.cs" Line="3" Column="60" />
-      <File FileName="M.OBD.2/App.xaml" />
-      <File FileName="M.OBD.2/App.xaml.cs" />
-      <File FileName="M.OBD.2/MainPage.xaml" Line="18" Column="48" />
-      <File FileName="M.OBD.2/MainPage.xaml.cs" Line="22" Column="1" />
-      <File FileName="M.OBD.2.Android/MainActivity.cs" />
-      <File FileName="M.OBD.2.iOS/AppDelegate.cs" />
-      <File FileName="M.OBD.2/ProfilePage.xaml" />
-      <File FileName="M.OBD.2/ProfilePage.xaml.cs" />
-      <File FileName="M.OBD.2/ResultsPage.xaml" />
-      <File FileName="M.OBD.2/ResultsPage.xaml.cs" />
-      <File FileName="M.OBD.2/Model/AbstractInput.cs" />
-      <File FileName="M.OBD.2/Model/OB2Input.cs" />
-      <File FileName="M.OBD.2/Model/AbstractInputInterface.cs" />
-      <File FileName="M.OBD.2/Model/AbstractOutput.cs" />
-      <File FileName="M.OBD.2/Model/OB2Output.cs" />
-      <File FileName="M.OBD.2/Model/AbstractToolFactory.cs" />
-      <File FileName="M.OBD.2/Model/OBD2Factory.cs" />
-      <File FileName="M.OBD.2.iOS/obj/iPhoneSimulator/Debug/Resources/MainPage.xaml.g.cs" Line="25" Column="1" />
+      <File FileName="M.OBD.2.iOS/Main.cs" Line="1" Column="1" />
+      <File FileName="M.OBD.2.iOS/Info.plist" />
+      <File FileName="M.OBD.2.iOS/Entitlements.plist" />
+      <File FileName="M.OBD.2.iOS/AppDelegate.cs" Line="27" Column="4" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -30,14 +16,19 @@
               <Node name="Dependencies" expanded="True">
                 <Node name="PackageDependencies" expanded="True" />
               </Node>
-              <Node name="Model" expanded="True" />
+              <Node name="Bluetooth" expanded="True" />
               <Node name="App.xaml" expanded="True" />
-              <Node name="MainPage.xaml" expanded="True">
-                <Node name="MainPage.xaml.cs" selected="True" />
-              </Node>
+              <Node name="MainPage.xaml" expanded="True" />
+              <Node name="ResultsPage.xaml" expanded="True" />
             </Node>
-            <Node name="M.OBD.2.Android" expanded="True" />
-            <Node name="M.OBD.2.iOS" expanded="True" />
+            <Node name="M.OBD.2.Android" expanded="True">
+              <Node name="References" expanded="True" />
+            </Node>
+            <Node name="M.OBD.2.iOS" expanded="True">
+              <Node name="References" expanded="True" />
+              <Node name="Packages" expanded="True" />
+              <Node name="AppDelegate.cs" selected="True" />
+            </Node>
           </Node>
         </State>
       </Pad>

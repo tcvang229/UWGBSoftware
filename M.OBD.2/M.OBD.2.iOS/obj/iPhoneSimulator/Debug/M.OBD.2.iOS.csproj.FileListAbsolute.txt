@@ -44,7 +44,9 @@
 /Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2.iOS/bin/iPhoneSimulator/Debug/zh-Hans/Xamarin.Forms.Platform.iOS.resources.dll
 /Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2.iOS/bin/iPhoneSimulator/Debug/zh-Hant/Xamarin.Forms.Platform.iOS.resources.dll
 /Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2.iOS/bin/iPhoneSimulator/Debug/M.OBD.2.dll
+/Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2.iOS/bin/iPhoneSimulator/Debug/Mono.Android.dll
 /Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2.iOS/bin/iPhoneSimulator/Debug/M.OBD.2.pdb
+/Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2.iOS/bin/iPhoneSimulator/Debug/Mono.Android.pdb
 /Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2.iOS/obj/iPhoneSimulator/Debug/ibtool/_BundleResourceWithLogicalName.items
 /Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2.iOS/obj/iPhoneSimulator/Debug/actool/_PartialAppManifest.items
 /Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2.iOS/obj/iPhoneSimulator/Debug/actool/_BundleResourceWithLogicalName.items
