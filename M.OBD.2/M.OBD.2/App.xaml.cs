@@ -10,7 +10,7 @@ namespace M.OBD._2
     {
         //string to hold the location of the sql-lite database
         //init to empty
-        public string Database = string.Empty;
+        public static string Database = string.Empty;
 
         public App()
         {

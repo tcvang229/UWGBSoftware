@@ -38,7 +38,7 @@
           "dependencies": {
             "Xamarin.Essentials": {
               "target": "Package",
-              "version": "[1.5.0, )"
+              "version": "[1.5.1, )"
             },
             "Xamarin.Forms": {
               "target": "Package",
@@ -91,11 +91,15 @@
             },
             "Xamarin.Essentials": {
               "target": "Package",
-              "version": "[1.5.0, )"
+              "version": "[1.5.1, )"
             },
             "Xamarin.Forms": {
               "target": "Package",
               "version": "[4.5.0.356, )"
+            },
+            "sqlite-net-pcl": {
+              "target": "Package",
+              "version": "[1.6.292, )"
             }
           },
           "imports": [
