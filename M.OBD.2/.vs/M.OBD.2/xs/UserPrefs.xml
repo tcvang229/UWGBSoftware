@@ -1,0 +1,26 @@
+﻿<Properties StartupConfiguration="{0E5AD1F0-3713-4733-B50A-E68CC540F077}|Default">
+  <MonoDevelop.Ide.ItemProperties.M.OBD.2.Android PreferredExecutionTarget="Android.3.2_HVGA_slider_ADP1_API_25" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="M.OBD.2/App.xaml">
+    <Files>
+      <File FileName="M.OBD.2/App.xaml" Line="22" Column="15" />
+    </Files>
+    <Pads>
+      <Pad Id="ProjectPad">
+        <State name="__root__">
+          <Node name="M.OBD.2" expanded="True">
+            <Node name="M.OBD.2" expanded="True">
+              <Node name="App.xaml" selected="True" />
+            </Node>
+            <Node name="M.OBD.2.Android" expanded="True" />
+          </Node>
+        </State>
+      </Pad>
+    </Pads>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MultiItemStartupConfigurations />
+</Properties>

@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2/M.OBD.2.csproj": {}
+    "/Users/dhoffman/Desktop/SoftwareEngineering/UWGBSoftware/M.OBD.2/M.OBD.2/M.OBD.2.csproj": {}
   },
   "projects": {
-    "/Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2/M.OBD.2.csproj": {
+    "/Users/dhoffman/Desktop/SoftwareEngineering/UWGBSoftware/M.OBD.2/M.OBD.2/M.OBD.2.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2/M.OBD.2.csproj",
+        "projectUniqueName": "/Users/dhoffman/Desktop/SoftwareEngineering/UWGBSoftware/M.OBD.2/M.OBD.2/M.OBD.2.csproj",
         "projectName": "M.OBD.2",
-        "projectPath": "/Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2/M.OBD.2.csproj",
+        "projectPath": "/Users/dhoffman/Desktop/SoftwareEngineering/UWGBSoftware/M.OBD.2/M.OBD.2/M.OBD.2.csproj",
         "packagesPath": "/Users/dhoffman/.nuget/packages/",
-        "outputPath": "/Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2/obj/",
+        "outputPath": "/Users/dhoffman/Desktop/SoftwareEngineering/UWGBSoftware/M.OBD.2/M.OBD.2/obj/",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"

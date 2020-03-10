@@ -2076,11 +2076,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2.Android/M.OBD.2.Android.csproj",
+      "projectUniqueName": "/Users/dhoffman/Desktop/SoftwareEngineering/UWGBSoftware/M.OBD.2/M.OBD.2.Android/M.OBD.2.Android.csproj",
       "projectName": "M.OBD._2.Android",
-      "projectPath": "/Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2.Android/M.OBD.2.Android.csproj",
+      "projectPath": "/Users/dhoffman/Desktop/SoftwareEngineering/UWGBSoftware/M.OBD.2/M.OBD.2.Android/M.OBD.2.Android.csproj",
       "packagesPath": "/Users/dhoffman/.nuget/packages/",
-      "outputPath": "/Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2.Android/obj/",
+      "outputPath": "/Users/dhoffman/Desktop/SoftwareEngineering/UWGBSoftware/M.OBD.2/M.OBD.2.Android/obj/",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "configFilePaths": [
@@ -2095,8 +2095,8 @@
       "frameworks": {
         "monoandroid90": {
           "projectReferences": {
-            "/Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2/M.OBD.2.csproj": {
-              "projectPath": "/Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2/M.OBD.2.csproj"
+            "/Users/dhoffman/Desktop/SoftwareEngineering/UWGBSoftware/M.OBD.2/M.OBD.2/M.OBD.2.csproj": {
+              "projectPath": "/Users/dhoffman/Desktop/SoftwareEngineering/UWGBSoftware/M.OBD.2/M.OBD.2/M.OBD.2.csproj"
             }
           }
         }

@@ -1257,11 +1257,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2.iOS/M.OBD.2.iOS.csproj",
+      "projectUniqueName": "/Users/dhoffman/Desktop/SoftwareEngineering/UWGBSoftware/M.OBD.2/M.OBD.2.iOS/M.OBD.2.iOS.csproj",
       "projectName": "M.OBD._2.iOS",
-      "projectPath": "/Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2.iOS/M.OBD.2.iOS.csproj",
+      "projectPath": "/Users/dhoffman/Desktop/SoftwareEngineering/UWGBSoftware/M.OBD.2/M.OBD.2.iOS/M.OBD.2.iOS.csproj",
       "packagesPath": "/Users/dhoffman/.nuget/packages/",
-      "outputPath": "/Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2.iOS/obj/",
+      "outputPath": "/Users/dhoffman/Desktop/SoftwareEngineering/UWGBSoftware/M.OBD.2/M.OBD.2.iOS/obj/",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "configFilePaths": [
@@ -1276,8 +1276,8 @@
       "frameworks": {
         "xamarinios10": {
           "projectReferences": {
-            "/Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2/M.OBD.2.csproj": {
-              "projectPath": "/Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2/M.OBD.2.csproj"
+            "/Users/dhoffman/Desktop/SoftwareEngineering/UWGBSoftware/M.OBD.2/M.OBD.2/M.OBD.2.csproj": {
+              "projectPath": "/Users/dhoffman/Desktop/SoftwareEngineering/UWGBSoftware/M.OBD.2/M.OBD.2/M.OBD.2.csproj"
             }
           }
         }

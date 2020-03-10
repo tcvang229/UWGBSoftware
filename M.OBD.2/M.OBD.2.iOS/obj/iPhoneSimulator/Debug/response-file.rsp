@@ -1,5 +1,5 @@
---cache=/Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2.iOS/obj/iPhoneSimulator/Debug/mtouch-cache
---sim=/Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2.iOS/bin/iPhoneSimulator/Debug/M.OBD._2.iOS.app
+--cache=/Users/dhoffman/Desktop/SoftwareEngineering/UWGBSoftware/M.OBD.2/M.OBD.2.iOS/obj/iPhoneSimulator/Debug/mtouch-cache
+--sim=/Users/dhoffman/Desktop/SoftwareEngineering/UWGBSoftware/M.OBD.2/M.OBD.2.iOS/bin/iPhoneSimulator/Debug/M.OBD._2.iOS.app
 --executable=M.OBD._2.iOS
  --debug
  --sgen-conc
@@ -10,10 +10,9 @@
  --aot-options=-O=-float32
  --http-message-handler=NSUrlSessionHandler
  --abi=x86_64
---symbollist=/Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2.iOS/obj/iPhoneSimulator/Debug/mtouch-symbols.list
+--symbollist=/Users/dhoffman/Desktop/SoftwareEngineering/UWGBSoftware/M.OBD.2/M.OBD.2.iOS/obj/iPhoneSimulator/Debug/mtouch-symbols.list
  --dsym=no
--r=/Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2/bin/Debug/netstandard2.0/M.OBD.2.dll
--r=/Library/Frameworks/Xamarin.iOS.framework/Versions/Current/lib/mono/Xamarin.iOS/MonoTouch.NUnitLite.dll
+-r=/Users/dhoffman/Desktop/SoftwareEngineering/UWGBSoftware/M.OBD.2/M.OBD.2/bin/Debug/netstandard2.0/M.OBD.2.dll
 -r=/Library/Frameworks/Xamarin.iOS.framework/Versions/Current/lib/mono/Xamarin.iOS/mscorlib.dll
 -r=/Library/Frameworks/Xamarin.iOS.framework/Versions/Current/lib/mono/Xamarin.iOS/OpenTK-1.0.dll
 -r=/Library/Frameworks/Xamarin.iOS.framework/Versions/Current/lib/mono/Xamarin.iOS/System.Core.dll
@@ -165,7 +164,12 @@
 -r=/Library/Frameworks/Xamarin.iOS.framework/Versions/Current/lib/mono/Xamarin.iOS/Facades/System.Xml.XPath.XDocument.dll
 -r=/Library/Frameworks/Xamarin.iOS.framework/Versions/Current/lib/mono/Xamarin.iOS/Facades/System.Xml.XPath.XmlDocument.dll
 -r=/Library/Frameworks/Xamarin.iOS.framework/Versions/Current/lib/mono/Xamarin.iOS/Facades/System.Xml.Xsl.Primitives.dll
--r=/Users/dhoffman/.nuget/packages/xamarin.essentials/1.5.0/lib/xamarinios10/Xamarin.Essentials.dll
+-r=/Users/dhoffman/.nuget/packages/sqlite-net-pcl/1.6.292/lib/netstandard1.1/SQLite-net.dll
+-r=/Users/dhoffman/.nuget/packages/sqlitepclraw.bundle_green/1.1.13/lib/Xamarin.iOS10/SQLitePCLRaw.batteries_green.dll
+-r=/Users/dhoffman/.nuget/packages/sqlitepclraw.bundle_green/1.1.13/lib/Xamarin.iOS10/SQLitePCLRaw.batteries_v2.dll
+-r=/Users/dhoffman/.nuget/packages/sqlitepclraw.core/1.1.13/lib/Xamarin.iOS10/SQLitePCLRaw.core.dll
+-r=/Users/dhoffman/.nuget/packages/sqlitepclraw.provider.sqlite3.ios_unified/1.1.13/lib/Xamarin.iOS10/SQLitePCLRaw.provider.sqlite3.dll
+-r=/Users/dhoffman/.nuget/packages/xamarin.essentials/1.5.1/lib/xamarinios10/Xamarin.Essentials.dll
 -r=/Users/dhoffman/.nuget/packages/xamarin.forms/4.5.0.356/lib/Xamarin.iOS10/Xamarin.Forms.Core.dll
 -r=/Users/dhoffman/.nuget/packages/xamarin.forms/4.5.0.356/lib/Xamarin.iOS10/Xamarin.Forms.Platform.dll
 -r=/Users/dhoffman/.nuget/packages/xamarin.forms/4.5.0.356/lib/Xamarin.iOS10/Xamarin.Forms.Platform.iOS.dll
@@ -204,8 +208,8 @@
 -r=/Users/dhoffman/.nuget/packages/xamarin.forms/4.5.0.356/lib/Xamarin.iOS10/zh-HK/Xamarin.Forms.Platform.iOS.resources.dll
 -r=/Users/dhoffman/.nuget/packages/xamarin.forms/4.5.0.356/lib/Xamarin.iOS10/zh-Hans/Xamarin.Forms.Platform.iOS.resources.dll
 -r=/Users/dhoffman/.nuget/packages/xamarin.forms/4.5.0.356/lib/Xamarin.iOS10/zh-Hant/Xamarin.Forms.Platform.iOS.resources.dll
--r=/Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2/bin/Debug/netstandard2.0/M.OBD.2.dll
--r=/Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2/bin/Debug/netstandard2.0/Mono.Android.dll
+-r=/Users/dhoffman/Desktop/SoftwareEngineering/UWGBSoftware/M.OBD.2/M.OBD.2/bin/Debug/netstandard2.0/M.OBD.2.dll
+-r=/Users/dhoffman/Desktop/SoftwareEngineering/UWGBSoftware/M.OBD.2/M.OBD.2/bin/Debug/netstandard2.0/Mono.Android.dll
  --target-framework=Xamarin.iOS,v1.0
---root-assembly=/Users/dhoffman/Desktop/SEWork/UWGBSoftware/M.OBD.2/M.OBD.2.iOS/bin/iPhoneSimulator/Debug/M.OBD._2.iOS.exe
+--root-assembly=/Users/dhoffman/Desktop/SoftwareEngineering/UWGBSoftware/M.OBD.2/M.OBD.2.iOS/bin/iPhoneSimulator/Debug/M.OBD._2.iOS.exe
  
