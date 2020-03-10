@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Application xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:d="http://xamarin.com/schemas/2014/forms/design" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="M.OBD._2.App">
+    <Application.Resources>
+
+        <ResourceDictionary>
+            <Color x:Key="phoneixGreen">#0F5640</Color>
+            <Color x:Key="phoneixMediumGreen">#50f205</Color>
+            <Color x:Key="phoneixGray">#666666</Color>
+            <Color x:Key="phoneixLightGreen">#a1ff6b</Color>
+            <Color x:Key="phoneixLightBlue">#adffdb</Color>
+            <Color x:Key="phoneixOrange">#ff7319</Color>
+            <Color x:Key="phoneixLightGray">#dfe4e1</Color>
+            
+            <Style TargetType="Button">
+                <Setter Property="BackgroundColor" Value="{StaticResource phoneixGreen}"/>
+                <Setter Property="TextColor" Value="White"/>
+                <Setter Property="CornerRadius" Value="18"/>
+            </Style>
+        </ResourceDictionary>
+
+    </Application.Resources>
+</Application>
