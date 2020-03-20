@@ -1,6 +1,6 @@
 ﻿
-using System.Collections.Generic;
 using Android.Bluetooth;
+using System.Collections.Generic;
 
 namespace M.OBD2
 {

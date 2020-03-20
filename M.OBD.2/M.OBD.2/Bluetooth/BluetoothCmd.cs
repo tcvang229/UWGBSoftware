@@ -4,12 +4,16 @@ using M.OBD._2;
 using SQLite;
 using Xamarin.Forms;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using Android.OS;
+using Org.Json;
+using Newtonsoft.Json;
 
 namespace M.OBD2
 {
     
-    public class BluetoothCmd
+    public class BluetoothCmd : ProcessValue
     {
         //SQL Attributes for ID
         [PrimaryKey, AutoIncrement]
@@ -29,10 +33,17 @@ namespace M.OBD2
         public int Rate { get; set; }
         public int Decimals { get; set; }
         public string Expression { get; set; }
+        public int Bytes { get; set; }
+        public bool isRxBytes { get; set; }
+        public string sCommand_Types { get; set; } // Command type enum array in Json encoded format ex: "{2}" or  "{2,3,4}" ...
+        public bool isSelected { get; set; }                // If user has selected 
 
-        //not sure how the db will handle this type?
+        // Non DB Values
+        public byte[] CmdBytes { get; set; }    // Pre generated command bytes for faster iteration from the Cmd string
+        // Associated Command_Type - multiple indicates multi values used in a given Expression string 
+        // Ex: Expression = "(a*b*1740.572)/(3600*c/100)", Command_Types = { COMMAND_TYPE.MPG, COMMAND_TYPE.VSS, COMMAND_TYPE.MAF }
         public BlueToothCmds.COMMAND_TYPE[] Command_Types { get; set; }
-        public DateTime dtNext { get; set; }
+        public BlueToothCmds.SELECTION_TYPE Selection_Type { get; set; } // Command selection state Ex. User, Process ...
 
         public BluetoothCmd()
         {
@@ -41,13 +52,54 @@ namespace M.OBD2
 
     public class BlueToothCmds : List<BluetoothCmd>
     {
-        public enum COMMAND_TYPE
+        #region Declarations
+
+        public const int MAX_COMMANDS = 10; // Maximum user process selections
+        public const string SCOMMAND_SPECIFIER = ","; // Duplicated specifier types for faster iteration
+        public const char COMMAND_SPECIFIER = ',';
+
+        public enum COMMAND_TYPE // Process command type 
         {
             DEFAULT,
             AFR,
             VSS,
             MAF,
-            MPG
+            MPG,
+            TPS
+        }
+
+        public enum SELECTION_TYPE // Current selection state of a process
+        {
+            NONE,   // No selection
+            USER,   // User selected
+            PROCESS,    // Process selected
+            USER_PROCESS // User and Process selected
+        }
+
+        #endregion
+
+        #region Initialization
+
+        public void InitExpressions()
+        {
+
+        }
+
+        public void InitCommandBytes()
+        {
+            foreach (BluetoothCmd bthcmd in this.Where(bthcmd => !string.IsNullOrEmpty(bthcmd.Cmd)))
+            {
+                bthcmd.CmdBytes = Encoding.ASCII.GetBytes(bthcmd.Cmd + Bluetooth.LINE_BREAK);
+            }
+        }
+
+        #endregion
+
+        #region DB
+
+        public BlueToothCmds() // ToDo: load commands from Db
+        {
+            //ToDo: //integrate with a User class to get their preferences??
         }
 
         //method to create a bluetooth command and insert it into the DB
@@ -72,8 +124,6 @@ namespace M.OBD2
                     Console.WriteLine("Error, Bluetooth Command was not successfully added to DB");
                 }
             }
-
-
         }
 
         public async Task getAllCommandsAsync()
@@ -92,53 +142,77 @@ namespace M.OBD2
                                 select c.CategoryName).Distinct().ToList();
                  */
             }
-
         }
 
-        public BlueToothCmds() // ToDo: load commands from Db
+        #endregion
+
+        #region Command Type Related
+
+        public static string CommandTypesToJson(COMMAND_TYPE[] Command_Types) // Array to Json serialization method for handling db arrays
         {
-        //ToDo: //integrate with a User class to get their preferences??
+            try
+            {
+                return JsonConvert.SerializeObject(Command_Types);
+            }
+            catch
+            {
+            }
+
+            return null;
         }
+
+        public static COMMAND_TYPE[] JsonToCommandTypes(string sCommand_Types) // Json to array deserialize method for handling db arrays
+        {
+            if (!string.IsNullOrEmpty(sCommand_Types))
+            {
+                try
+                { 
+                    return JsonConvert.DeserializeObject<COMMAND_TYPE[]>(sCommand_Types);
+                }
+                catch
+                {
+                }
+            }
+            return null;
+        }
+
+        #endregion
+
+        #region Test
 
         public void CreateTestCommands()
         {
+            // Format 01##01
+            // 01 = Service
+            // https://en.wikipedia.org/wiki/OBD-II_PIDs#Service_05
+
             Add(new BluetoothCmd()
             {
-                Id = 0,
-                Name = "RPM",
+                Id = 2,
+                Name = "IGN",
                 Units = "",
                 isImperial = true,
-                Cmd = "",
-                Rate =  200,
+                Cmd = "ATIGN",
+                Rate = 1000,
                 Decimals = 0,
-                Expression = "a*1",
+                isRxBytes = false,
+                Expression = "",
                 Command_Types = new[] { COMMAND_TYPE.DEFAULT }
             });
 
             Add(new BluetoothCmd()
             {
-                Id = 1,
-                Name = "VOLTS",
-                Units = "VDC",
+                Id = 3,
+                Name = "TEMP",
+                Units = "%",
                 isImperial = true,
-                Cmd = "",
-                Rate = 200,
+                Cmd = "01051",
+                Rate = 2000,
                 Decimals = 0,
-                Expression = "a*1",
+                isRxBytes = true,
+                Bytes = 1,
+                Expression = "(a * 100 / 255)",
                 Command_Types = new[] { COMMAND_TYPE.DEFAULT }
-            });
-
-            Add(new BluetoothCmd()
-                {
-                    Id = 2,
-                    Name = "AFR",
-                    Units = "",
-                    isImperial = true,
-                    Cmd = "",
-                    Rate = 1000,
-                    Decimals = 2,
-                    Expression = "a*1",
-                    Command_Types = new[] { COMMAND_TYPE.AFR }
             });
 
             Add(new BluetoothCmd()
@@ -147,38 +221,35 @@ namespace M.OBD2
                 Name = "VSS",
                 Units = "Mph",
                 isImperial = true,
-                Cmd = "",
+                Cmd = "010D1",
                 Rate = 1000,
-                Decimals = 2,
+                Decimals = 1,
+                isRxBytes = true,
+                Bytes = 1,
                 Expression = "a*1",
                 Command_Types = new[] { COMMAND_TYPE.VSS }
             });
 
-            Add(new BluetoothCmd()
-            {
-                Id = 4,
-                Name = "MAF",
-                Units = "g/s",
-                isImperial = true,
-                Cmd = "",
-                Rate = 500,
-                Decimals = 2,
-                Expression = "a*1",
-                Command_Types = new[] { COMMAND_TYPE.MAF }
-            });
+            //Add(new BluetoothCmd()
+            //{
+            //    Id = 5,
+            //    Name = "MPG",
+            //    Units = "",
+            //    isImperial = true,
+            //    Cmd = null,
+            //    Rate = 5000,
+            //    Decimals = 1,
+            //    Expression = "(a*b*1740.572)/(3600*c/100)",
+            //    Command_Types = new[] { COMMAND_TYPE.MPG, COMMAND_TYPE.VSS, COMMAND_TYPE.MAF }
+            //});
 
-            Add(new BluetoothCmd()
+            InitCommandBytes();
+
+            foreach (BluetoothCmd b in this) // Init expressions
             {
-                Id = 5,
-                Name = "MPG",
-                Units = "",
-                isImperial = true,
-                Cmd = null,
-                Rate = 5000,
-                Decimals = 1,
-                Expression = "(a*b*1740.572)/(3600*c/100",
-                Command_Types = new[] { COMMAND_TYPE.MPG, COMMAND_TYPE.AFR, COMMAND_TYPE.VSS, COMMAND_TYPE.MAF }
-            });
+                b.InitExpression(b.Expression, b.Command_Types);
+            }
         }
+        #endregion
     }
 }

@@ -72,7 +72,8 @@ namespace M.OBD
             BlueToothCmds oBthCmds = new BlueToothCmds();
             oBthCmds.CreateTestCommands();
 
-            await oBth.RunProcesses(oBthCmds);
+            Process oProcess = new Process(oBth, oBthCmds);
+            await oProcess.RunProcesses();
         }
 
         private async void DisplayMessage(string message)

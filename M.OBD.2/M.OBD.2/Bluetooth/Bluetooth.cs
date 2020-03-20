@@ -3,6 +3,7 @@ using Android.Bluetooth;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -16,12 +17,16 @@ namespace M.OBD2
 
         private static string status_message;
         private const char END_CHAR = '>';
-        private const string LINE_BREAK = " \r";
-        private static readonly string[] REPLACE_VALUES = { "SEARCHING", "\\s", "\r", ">" };
+        public const string LINE_BREAK = " \r";
+        private static readonly string[] REPLACE_VALUES = { "SEARCHING", "\\s", LINE_BREAK, END_CHAR.ToString() };
         private const string CONNECTION_VERIFY = "ELM327";
         private const int MAX_LENGTH = 1000;
         private static bool isDebug;
         private BluetoothConnection oBluetoothConnection;
+        private static string response;
+        private readonly List<string> InitCommands;
+        private readonly byte[] DTC_CLEAR;
+        private const string RX_MESSAGE = "...";
 
         #endregion
 
@@ -31,35 +36,27 @@ namespace M.OBD2
         {
             status_message = string.Empty;
             isDebug = _isDebug;
-        }
 
-        public async Task RunProcesses(BlueToothCmds oBlueToothCmds)
-        {
-            DateTime dtCurrent = DateTime.UtcNow;
-
-            foreach (BluetoothCmd bcmd in oBlueToothCmds)
+            InitCommands = new List<string>
             {
-                bcmd.dtNext = dtCurrent.AddMilliseconds(bcmd.Rate);
-            }
+                "?\r",
+                "ATZ\r", 
+                //"AT@1\r", // Display device identifier
+                //"ATE0\r",  // Echo off
+                "ATL0\r",  // Linefeed off
+                //"ATAT0\r", // Disable adaptive timing
+                //"ATST0F", // Set 'nodata' timeout
+                "ATSP0", // Search for protocol
+                //"ATDP", // Display protocol
+                "ATS0", // Remove spaces from ecu responses
+                //"ATH1", // Display header info
+                //"ATMA", // Display all info
+                //"AT@1\r", 
+                //"AT@2\r",
+                "0100\r" // Keep alive
+            };
 
-            await Task.Run(() =>
-            {
-                while (true)
-                {
-                    foreach (BluetoothCmd bcmd in oBlueToothCmds)
-                    {
-                        dtCurrent = DateTime.UtcNow;
-
-                        if (dtCurrent >= bcmd.dtNext)
-                        {
-                            // ToDo: main processing routines!
-
-                            bcmd.dtNext = dtCurrent.AddMilliseconds(bcmd.Rate);
-                            Debug.WriteLine("Process:" + bcmd.Name);
-                        }
-                    }
-                }
-            }).ConfigureAwait(false);
+            DTC_CLEAR = Encoding.ASCII.GetBytes("04" + "\r");
         }
 
         #endregion
@@ -111,27 +108,45 @@ namespace M.OBD2
                 return null;
             }
 
-            foreach (BluetoothConnection bc in this) // Iterate paired devices
+            foreach (BluetoothConnection bc in this.Where(bc => bc.device_name.Equals(name, StringComparison.OrdinalIgnoreCase)))
             {
-                if (bc.device_name.Equals(name, StringComparison.OrdinalIgnoreCase)) // ToDo: address dynamically following an OS pair operation - remove?
-                    //&& bc.device_address.Equals(address, StringComparison.OrdinalIgnoreCase)) 
+                if (await OpenDevice(bc))
                 {
-                    if (await OpenDevice(bc) && await SendCommand(bc, "AT Z"))
+                    await SendCommandAsync(bc, InitCommands[0]);
+                    await SendCommandAsync(bc, InitCommands[1]);
+                    if (CheckResponse(response, CONNECTION_VERIFY))
                     {
+                        for (int i = 2; i < InitCommands.Count; i++)
+                        {
+                            if (!await SendCommandAsync(bc, InitCommands[i]))
+                            {
+                                SetStatusMessage("Failed to Initialize device");
+                                return null;
+                            }
+                        }
+
                         SetStatusMessage("Device Connected!");
                         return bc;
                     }
-
-                    SetStatusMessage("Failed to open device");
-                    return null;
                 }
+
+                SetStatusMessage("Failed to open device");
+                return null;
             }
 
             SetStatusMessage("Could not find device");
             return null;
         }
 
-        private static async Task<bool>  OpenDevice(BluetoothConnection bc)
+        private static bool CheckResponse(string result, string value)
+        {
+            if (string.IsNullOrEmpty(result) || string.IsNullOrEmpty(value))
+                return false;
+
+            return result.IndexOf(value, StringComparison.OrdinalIgnoreCase) >= 0;
+        }
+
+        private static async Task<bool> OpenDevice(BluetoothConnection bc)
         {
             try
             {
@@ -139,7 +154,7 @@ namespace M.OBD2
                     Debug.WriteLine("Opening Device Name: {0} Address: {1}", bc.device_name, bc.device_address);
 
                 BluetoothDevice oBthDevice = BluetoothAdapter.DefaultAdapter.GetRemoteDevice(bc.device_address);
-        
+
                 if (oBthDevice == null)
                     throw new Exception("Unable to connect to device");
 
@@ -155,7 +170,7 @@ namespace M.OBD2
 
                 await oBthSocket.ConnectAsync();
 
-                if(!oBthSocket.IsConnected)
+                if (!oBthSocket.IsConnected)
                     throw new Exception("Unable to connect to socket");
 
                 bc.oBthDevice = oBthDevice;
@@ -197,13 +212,53 @@ namespace M.OBD2
 
         #region Command Sending and Receiving
 
-        public static async Task<bool> SendCommand(BluetoothConnection bc, string command)
+        public async Task<bool> SendCommandAsync(BluetoothCmd bcmd)
+        {
+            BluetoothConnection bc = oBluetoothConnection;
+
+            if (bc == null || !bc.oBthSocket.IsConnected)
+                return false;
+
+            if (isDebug)
+                Debug.WriteLine("Tx: " + bcmd.Cmd);
+
+            bcmd.sbResponse.Clear();
+
+            try
+            {
+                await bc.oBthSocket.OutputStream.WriteAsync(bcmd.CmdBytes, 0, bcmd.CmdBytes.Length);
+                await bc.oBthSocket.OutputStream.FlushAsync();
+
+                bcmd.sbResponse.Append(ReadData(bc.oBthSocket));
+                bcmd.tx_good++;
+
+                bool result = ValidateResponse(bcmd);
+
+                if (isDebug)
+                    Debug.WriteLine("Rx: {0}  Valid:{1}", response, result);
+
+                return result;
+            }
+            catch (Exception e)
+            {
+                status_message = string.Format("{0}: {1}", "Read Error", e.Message);
+                bcmd.tx_fail++;
+
+                if (isDebug)
+                    Debug.WriteLine(status_message);
+                return false;
+            }
+        }
+
+        public static async Task<bool> SendCommandAsync(BluetoothConnection bc, string command)
         {
             if (bc == null || !bc.oBthSocket.IsConnected)
                 return false;
 
             if (isDebug)
                 Debug.WriteLine("Tx: " + command);
+
+            response = string.Empty;
 
             byte[] cmd = Encoding.ASCII.GetBytes(command + LINE_BREAK);
 
@@ -212,10 +267,11 @@ namespace M.OBD2
                 await bc.oBthSocket.OutputStream.WriteAsync(cmd, 0, cmd.Length);
                 await bc.oBthSocket.OutputStream.FlushAsync();
 
-                string response = ReadData(bc.oBthSocket);
+                response = ReadData(bc.oBthSocket);
 
                 if (!string.IsNullOrEmpty(response)) // ToDo: process values!
                 {
+
                     if (isDebug)
                         Debug.WriteLine("Rx: " + response);
                 }
@@ -253,6 +309,55 @@ namespace M.OBD2
             }
 
             return sb.ToString();
+        }
+
+        #endregion
+
+        #region Response Processing
+
+        private static bool ValidateResponse(BluetoothCmd bcmd)
+        {
+            if (bcmd.sbResponse.Length == 0 || bcmd.sbResponse.Length <= bcmd.Cmd.Length) // If response is empty or length is invalid 
+                return false;
+
+            string msg = bcmd.sbResponse.ToString().Substring(0, bcmd.Cmd.Length); // Isolate the expected echoed value
+            return msg.Equals(bcmd.Cmd, StringComparison.OrdinalIgnoreCase) && ProcessResponse(bcmd); // Return if echoed portion found and the processing result
+        }
+
+        private static bool ProcessResponse(BluetoothCmd bcmd)
+        {
+            // Trim the returned value portion
+            bcmd.Response = bcmd.sbResponse.ToString().Substring(bcmd.Cmd.Length).Trim();
+
+            if (!string.IsNullOrEmpty(bcmd.Response)) // Check if valid
+            {
+                if (!bcmd.isRxBytes) // If a string message: update counter, return as success
+                {
+                    bcmd.rx_good++;
+                    return true;
+                }
+
+                // ToDo: Debug test value
+                // bcmd.Response = "41053F";
+
+                if (bcmd.Bytes != 0 && !bcmd.Response.StartsWith(RX_MESSAGE, StringComparison.OrdinalIgnoreCase)) // If we are expecting bytes returned and response is valid
+                {
+                    // Attempt to parse the hex value
+                    if (int.TryParse(bcmd.Response.Substring(bcmd.Response.Length - (bcmd.Bytes * 2)), NumberStyles.HexNumber, null, out int result))
+                    {
+                        // Store result and call math expression parser
+                        bcmd.rxvalue = result;
+                        if (bcmd.Calculate()) // On success: update counter and return result
+                        {
+                            bcmd.rx_good++;
+                            return true;
+                        }
+                    }
+                }
+            }
+            // Response was invalid: update counter and return as failed
+            bcmd.rx_fail++;
+            return false;
         }
 
         #endregion

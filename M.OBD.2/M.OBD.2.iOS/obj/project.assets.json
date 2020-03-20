@@ -2,6 +2,24 @@
   "version": 3,
   "targets": {
     "Xamarin.iOS,Version=v1.0": {
+      "MathParser.org-mXparser/4.4.2": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard21/MathParser.org-mXparser.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard21/MathParser.org-mXparser.dll": {}
+        }
+      },
+      "Newtonsoft.Json/12.0.3": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {}
+        }
+      },
       "sqlite-net-pcl/1.6.292": {
         "type": "package",
         "dependencies": {
@@ -190,6 +208,8 @@
         "type": "project",
         "framework": ".NETStandard,Version=v2.0",
         "dependencies": {
+          "MathParser.org-mXparser": "4.4.2",
+          "Newtonsoft.Json": "12.0.3",
           "Xamarin.Essentials": "1.5.1",
           "Xamarin.Forms": "4.5.0.356",
           "sqlite-net-pcl": "1.6.292"
@@ -203,6 +223,24 @@
       }
     },
     "Xamarin.iOS,Version=v1.0/win": {
+      "MathParser.org-mXparser/4.4.2": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard21/MathParser.org-mXparser.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard21/MathParser.org-mXparser.dll": {}
+        }
+      },
+      "Newtonsoft.Json/12.0.3": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {}
+        }
+      },
       "sqlite-net-pcl/1.6.292": {
         "type": "package",
         "dependencies": {
@@ -391,6 +429,8 @@
         "type": "project",
         "framework": ".NETStandard,Version=v2.0",
         "dependencies": {
+          "MathParser.org-mXparser": "4.4.2",
+          "Newtonsoft.Json": "12.0.3",
           "Xamarin.Essentials": "1.5.1",
           "Xamarin.Forms": "4.5.0.356",
           "sqlite-net-pcl": "1.6.292"
@@ -404,6 +444,24 @@
       }
     },
     "Xamarin.iOS,Version=v1.0/win-x64": {
+      "MathParser.org-mXparser/4.4.2": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard21/MathParser.org-mXparser.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard21/MathParser.org-mXparser.dll": {}
+        }
+      },
+      "Newtonsoft.Json/12.0.3": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {}
+        }
+      },
       "sqlite-net-pcl/1.6.292": {
         "type": "package",
         "dependencies": {
@@ -592,6 +650,8 @@
         "type": "project",
         "framework": ".NETStandard,Version=v2.0",
         "dependencies": {
+          "MathParser.org-mXparser": "4.4.2",
+          "Newtonsoft.Json": "12.0.3",
           "Xamarin.Essentials": "1.5.1",
           "Xamarin.Forms": "4.5.0.356",
           "sqlite-net-pcl": "1.6.292"
@@ -605,6 +665,24 @@
       }
     },
     "Xamarin.iOS,Version=v1.0/win-x86": {
+      "MathParser.org-mXparser/4.4.2": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard21/MathParser.org-mXparser.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard21/MathParser.org-mXparser.dll": {}
+        }
+      },
+      "Newtonsoft.Json/12.0.3": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Newtonsoft.Json.dll": {}
+        }
+      },
       "sqlite-net-pcl/1.6.292": {
         "type": "package",
         "dependencies": {
@@ -793,6 +871,8 @@
         "type": "project",
         "framework": ".NETStandard,Version=v2.0",
         "dependencies": {
+          "MathParser.org-mXparser": "4.4.2",
+          "Newtonsoft.Json": "12.0.3",
           "Xamarin.Essentials": "1.5.1",
           "Xamarin.Forms": "4.5.0.356",
           "sqlite-net-pcl": "1.6.292"
@@ -807,6 +887,97 @@
     }
   },
   "libraries": {
+    "MathParser.org-mXparser/4.4.2": {
+      "sha512": "V72hYZPG3VEt9NgjQ2gXxL55JWNlgi8TDLOgtoNu8raYVb+IRqgQTKssvDyGK5vzyvTi9WglmmbkEODhgeI4+w==",
+      "type": "package",
+      "path": "mathparser.org-mxparser/4.4.2",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.txt",
+        "README.txt",
+        "images/icon.png",
+        "lib/net20/MathParser.org-mXparser.dll",
+        "lib/net35/MathParser.org-mXparser.dll",
+        "lib/net40/MathParser.org-mXparser.dll",
+        "lib/net45/MathParser.org-mXparser.dll",
+        "lib/net451/MathParser.org-mXparser.dll",
+        "lib/net452/MathParser.org-mXparser.dll",
+        "lib/net46/MathParser.org-mXparser.dll",
+        "lib/net461/MathParser.org-mXparser.dll",
+        "lib/net462/MathParser.org-mXparser.dll",
+        "lib/net47/MathParser.org-mXparser.dll",
+        "lib/net471/MathParser.org-mXparser.dll",
+        "lib/net472/MathParser.org-mXparser.dll",
+        "lib/net48/MathParser.org-mXparser.dll",
+        "lib/netcoreapp10/MathParser.org-mXparser.deps.json",
+        "lib/netcoreapp10/MathParser.org-mXparser.dll",
+        "lib/netcoreapp11/MathParser.org-mXparser.deps.json",
+        "lib/netcoreapp11/MathParser.org-mXparser.dll",
+        "lib/netcoreapp20/MathParser.org-mXparser.deps.json",
+        "lib/netcoreapp20/MathParser.org-mXparser.dll",
+        "lib/netcoreapp21/MathParser.org-mXparser.deps.json",
+        "lib/netcoreapp21/MathParser.org-mXparser.dll",
+        "lib/netcoreapp22/MathParser.org-mXparser.deps.json",
+        "lib/netcoreapp22/MathParser.org-mXparser.dll",
+        "lib/netcoreapp30/MathParser.org-mXparser.deps.json",
+        "lib/netcoreapp30/MathParser.org-mXparser.dll",
+        "lib/netcoreapp31/MathParser.org-mXparser.deps.json",
+        "lib/netcoreapp31/MathParser.org-mXparser.dll",
+        "lib/netstandard10/MathParser.org-mXparser.deps.json",
+        "lib/netstandard10/MathParser.org-mXparser.dll",
+        "lib/netstandard11/MathParser.org-mXparser.deps.json",
+        "lib/netstandard11/MathParser.org-mXparser.dll",
+        "lib/netstandard12/MathParser.org-mXparser.deps.json",
+        "lib/netstandard12/MathParser.org-mXparser.dll",
+        "lib/netstandard13/MathParser.org-mXparser.deps.json",
+        "lib/netstandard13/MathParser.org-mXparser.dll",
+        "lib/netstandard14/MathParser.org-mXparser.deps.json",
+        "lib/netstandard14/MathParser.org-mXparser.dll",
+        "lib/netstandard15/MathParser.org-mXparser.deps.json",
+        "lib/netstandard15/MathParser.org-mXparser.dll",
+        "lib/netstandard16/MathParser.org-mXparser.deps.json",
+        "lib/netstandard16/MathParser.org-mXparser.dll",
+        "lib/netstandard20/MathParser.org-mXparser.deps.json",
+        "lib/netstandard20/MathParser.org-mXparser.dll",
+        "lib/netstandard21/MathParser.org-mXparser.deps.json",
+        "lib/netstandard21/MathParser.org-mXparser.dll",
+        "lib/portable45-net45+win8+wpa81/MathParser.org-mXparser.dll",
+        "mathparser.org-mxparser.4.4.2.nupkg.sha512",
+        "mathparser.org-mxparser.nuspec"
+      ]
+    },
+    "Newtonsoft.Json/12.0.3": {
+      "sha512": "6mgjfnRB4jKMlzHSl+VD+oUc1IebOZabkbyWj2RiTgWwYPPuaK1H97G1sHqGwPlS5npiF5Q0OrxN1wni2n5QWg==",
+      "type": "package",
+      "path": "newtonsoft.json/12.0.3",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "lib/net20/Newtonsoft.Json.dll",
+        "lib/net20/Newtonsoft.Json.xml",
+        "lib/net35/Newtonsoft.Json.dll",
+        "lib/net35/Newtonsoft.Json.xml",
+        "lib/net40/Newtonsoft.Json.dll",
+        "lib/net40/Newtonsoft.Json.xml",
+        "lib/net45/Newtonsoft.Json.dll",
+        "lib/net45/Newtonsoft.Json.xml",
+        "lib/netstandard1.0/Newtonsoft.Json.dll",
+        "lib/netstandard1.0/Newtonsoft.Json.xml",
+        "lib/netstandard1.3/Newtonsoft.Json.dll",
+        "lib/netstandard1.3/Newtonsoft.Json.xml",
+        "lib/netstandard2.0/Newtonsoft.Json.dll",
+        "lib/netstandard2.0/Newtonsoft.Json.xml",
+        "lib/portable-net40+sl5+win8+wp8+wpa81/Newtonsoft.Json.dll",
+        "lib/portable-net40+sl5+win8+wp8+wpa81/Newtonsoft.Json.xml",
+        "lib/portable-net45+win8+wp8+wpa81/Newtonsoft.Json.dll",
+        "lib/portable-net45+win8+wp8+wpa81/Newtonsoft.Json.xml",
+        "newtonsoft.json.12.0.3.nupkg.sha512",
+        "newtonsoft.json.nuspec",
+        "packageIcon.png"
+      ]
+    },
     "sqlite-net-pcl/1.6.292": {
       "sha512": "TZPs206/ZZXhDAgCzxE5Dmw1enkRmtpd1RKt+dLJA6Kvml4RxwkasRs4js2kijtGxik1SLCs39rh9nl9YFwrYg==",
       "type": "package",
@@ -1252,32 +1423,39 @@
     ]
   },
   "packageFolders": {
-    "/Users/dhoffman/.nuget/packages/": {}
+    "C:\\Users\\User\\.nuget\\packages\\": {},
+    "D:\\Microsoft\\Xamarin\\NuGet\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/dhoffman/Desktop/SoftwareEngineering/UWGBSoftware/M.OBD.2/M.OBD.2.iOS/M.OBD.2.iOS.csproj",
-      "projectName": "M.OBD._2.iOS",
-      "projectPath": "/Users/dhoffman/Desktop/SoftwareEngineering/UWGBSoftware/M.OBD.2/M.OBD.2.iOS/M.OBD.2.iOS.csproj",
-      "packagesPath": "/Users/dhoffman/.nuget/packages/",
-      "outputPath": "/Users/dhoffman/Desktop/SoftwareEngineering/UWGBSoftware/M.OBD.2/M.OBD.2.iOS/obj/",
+      "projectUniqueName": "C:\\Users\\User\\source\\repos\\tcvang229\\UWGBSoftware\\tcvang229\\UWGBSoftware\\M.OBD.2\\M.OBD.2.iOS\\M.OBD.2.iOS.csproj",
+      "projectName": "M.OBD.2.iOS",
+      "projectPath": "C:\\Users\\User\\source\\repos\\tcvang229\\UWGBSoftware\\tcvang229\\UWGBSoftware\\M.OBD.2\\M.OBD.2.iOS\\M.OBD.2.iOS.csproj",
+      "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\User\\source\\repos\\tcvang229\\UWGBSoftware\\tcvang229\\UWGBSoftware\\M.OBD.2\\M.OBD.2.iOS\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
+      "fallbackFolders": [
+        "D:\\Microsoft\\Xamarin\\NuGet\\"
+      ],
       "configFilePaths": [
-        "/Users/dhoffman/.config/NuGet/NuGet.Config"
+        "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
       "originalTargetFrameworks": [
         "xamarinios10"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
         "xamarinios10": {
           "projectReferences": {
-            "/Users/dhoffman/Desktop/SoftwareEngineering/UWGBSoftware/M.OBD.2/M.OBD.2/M.OBD.2.csproj": {
-              "projectPath": "/Users/dhoffman/Desktop/SoftwareEngineering/UWGBSoftware/M.OBD.2/M.OBD.2/M.OBD.2.csproj"
+            "C:\\Users\\User\\source\\repos\\tcvang229\\UWGBSoftware\\tcvang229\\UWGBSoftware\\M.OBD.2\\M.OBD.2\\M.OBD.2.csproj": {
+              "projectPath": "C:\\Users\\User\\source\\repos\\tcvang229\\UWGBSoftware\\tcvang229\\UWGBSoftware\\M.OBD.2\\M.OBD.2\\M.OBD.2.csproj"
             }
           }
         }

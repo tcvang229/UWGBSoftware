@@ -1,28 +1,32 @@
 {
   "format": 1,
   "restore": {
-    "/Users/dhoffman/Desktop/SoftwareEngineering/UWGBSoftware/M.OBD.2/M.OBD.2/M.OBD.2.csproj": {}
+    "C:\\Users\\User\\source\\repos\\tcvang229\\UWGBSoftware\\tcvang229\\UWGBSoftware\\M.OBD.2\\M.OBD.2\\M.OBD.2.csproj": {}
   },
   "projects": {
-    "/Users/dhoffman/Desktop/SoftwareEngineering/UWGBSoftware/M.OBD.2/M.OBD.2/M.OBD.2.csproj": {
+    "C:\\Users\\User\\source\\repos\\tcvang229\\UWGBSoftware\\tcvang229\\UWGBSoftware\\M.OBD.2\\M.OBD.2\\M.OBD.2.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/dhoffman/Desktop/SoftwareEngineering/UWGBSoftware/M.OBD.2/M.OBD.2/M.OBD.2.csproj",
+        "projectUniqueName": "C:\\Users\\User\\source\\repos\\tcvang229\\UWGBSoftware\\tcvang229\\UWGBSoftware\\M.OBD.2\\M.OBD.2\\M.OBD.2.csproj",
         "projectName": "M.OBD.2",
-        "projectPath": "/Users/dhoffman/Desktop/SoftwareEngineering/UWGBSoftware/M.OBD.2/M.OBD.2/M.OBD.2.csproj",
-        "packagesPath": "/Users/dhoffman/.nuget/packages/",
-        "outputPath": "/Users/dhoffman/Desktop/SoftwareEngineering/UWGBSoftware/M.OBD.2/M.OBD.2/obj/",
+        "projectPath": "C:\\Users\\User\\source\\repos\\tcvang229\\UWGBSoftware\\tcvang229\\UWGBSoftware\\M.OBD.2\\M.OBD.2\\M.OBD.2.csproj",
+        "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\User\\source\\repos\\tcvang229\\UWGBSoftware\\tcvang229\\UWGBSoftware\\M.OBD.2\\M.OBD.2\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "/usr/local/share/dotnet/sdk/NuGetFallbackFolder"
+          "D:\\Microsoft\\Xamarin\\NuGet\\",
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
         ],
         "configFilePaths": [
-          "/Users/dhoffman/.config/NuGet/NuGet.Config"
+          "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netstandard2.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -39,11 +43,19 @@
       "frameworks": {
         "netstandard2.0": {
           "dependencies": {
+            "MathParser.org-mXparser": {
+              "target": "Package",
+              "version": "[4.4.2, )"
+            },
             "NETStandard.Library": {
               "suppressParent": "All",
               "target": "Package",
               "version": "[2.0.3, )",
               "autoReferenced": true
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[12.0.3, )"
             },
             "Xamarin.Essentials": {
               "target": "Package",
@@ -68,7 +80,7 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/3.1.102/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
         }
       }
     }
