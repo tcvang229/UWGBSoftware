@@ -15,8 +15,10 @@ namespace M.OBD
         public ResultsPage()
         {
             InitializeComponent();
+
             // ToDo: pass user settings value or null as default to invoke a users selection
-            OpenBluetooth("OBDII", "00:1D:A5:05:4F:05");
+            // ToDo: Remove test flag
+            OpenBluetooth("OBDII", "00:1D:A5:05:4F:05", true);
         }
 
         /// <summary>
@@ -24,8 +26,9 @@ namespace M.OBD
         /// </summary>
         /// <param name="name"></param>
         /// <param name="address"></param>
-
-        private async void OpenBluetooth(string name, string address)
+        /// <param name="isTest"></param>
+        /// 
+        private async void OpenBluetooth(string name, string address, bool isTest)
         {
             if (!Bluetooth.CheckAdapterPresent()) // Check if bluetooth is available on this device: display message and return on failure
             {
@@ -40,19 +43,23 @@ namespace M.OBD
                 return;
             }
 
-            Bluetooth oBth = new Bluetooth(true); // Create connection object
+            Bluetooth oBth = new Bluetooth(true, isTest); // Create connection object
 
             if (!oBth.LoadPairedDevices()) // Attempt to load paired devices: display message and return on failure
             {
                 DisplayMessage(Bluetooth.GetStatusMessage());
-                return;
+
+                if (!oBth.isTestMode())
+                    return;
             }
 
             if (!oBth.CheckPairedDevices()) // Check if there are paired devices available: display message and return on failure
             {
                 // ToDo: open OS settings page?
                 DisplayMessage(Bluetooth.GetStatusMessage());
-                return;
+
+                if (!oBth.isTestMode())
+                    return;
             }
 
             if (!await oBth.OpenPairedDevice(name, address)) // Attempt to open paired device: if failed get list of paired devices
@@ -62,7 +69,8 @@ namespace M.OBD
                 // ToDo: populate a listview and let user select the OBDII device
                 // Retry oBth.OpenPairedDevice(name, address);
 
-                return;
+                if (!oBth.isTestMode())
+                    return;
             }
 
             // Success! //////////

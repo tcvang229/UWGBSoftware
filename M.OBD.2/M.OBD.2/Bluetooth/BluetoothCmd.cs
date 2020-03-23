@@ -36,7 +36,9 @@ namespace M.OBD2
         public int Bytes { get; set; }
         public bool isRxBytes { get; set; }
         public string sCommand_Types { get; set; } // Command type enum array in Json encoded format ex: "{2}" or  "{2,3,4}" ...
-        public bool isSelected { get; set; }                // If user has selected 
+        public bool isSelected { get; set; } // If user has selected 
+        public double Value_Min { get; set; }   // Min value contraint
+        public double Value_Max { get; set; }  // Max value constraint
 
         // Non DB Values
         public byte[] CmdBytes { get; set; }    // Pre generated command bytes for faster iteration from the Cmd string
@@ -209,6 +211,8 @@ namespace M.OBD2
                 Cmd = "01051",
                 Rate = 2000,
                 Decimals = 0,
+                Value_Min = -60,
+                Value_Max = 300,
                 isRxBytes = true,
                 Bytes = 1,
                 Expression = "(a * 100 / 255)",
@@ -224,6 +228,8 @@ namespace M.OBD2
                 Cmd = "010D1",
                 Rate = 1000,
                 Decimals = 1,
+                Value_Min = 0,
+                Value_Max = 300,
                 isRxBytes = true,
                 Bytes = 1,
                 Expression = "a*1",

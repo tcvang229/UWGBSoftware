@@ -40,10 +40,22 @@ namespace M.OBD2
                     {
                         if (bcmd.CmdBytes != null && bcmd.CmdBytes.Length != 0)
                         {
-                            if (await oBluetooth.SendCommandAsync(bcmd))
-                                Debug.WriteLine("Process: {0} Rx: {1} RxValue: {2} Value: {3}", bcmd.Name,  bcmd.Response,  (bcmd.isRxBytes) ? bcmd.rxvalue : -1, bcmd.value);
+                            if (!oBluetooth.isTestMode())
+                            {
+                                if (await oBluetooth.SendCommandAsync(bcmd))
+                                    Debug.WriteLine("Process: {0} Rx: {1} RxValue: {2} Value: {3}", bcmd.Name,
+                                        bcmd.Response, (bcmd.isRxBytes) ? bcmd.rxvalue : -1, bcmd.value);
+                                else
+                                    Debug.WriteLine("Process: {0} {1}", bcmd.Name, Bluetooth.GetStatusMessage());
+                            }
                             else
-                                Debug.WriteLine("Process: {0} {1}", bcmd.Name, Bluetooth.GetStatusMessage());
+                            {
+                                if (oBluetooth.SendCommandAsync_Test(bcmd))
+                                    Debug.WriteLine("Process: {0} Rx: {1} RxValue: {2} Value: {3}", bcmd.Name,
+                                        bcmd.Response, (bcmd.isRxBytes) ? bcmd.rxvalue : -1, bcmd.value);
+                                else
+                                    Debug.WriteLine("Process: {0} {1}", bcmd.Name, Bluetooth.GetStatusMessage());
+                            }
                         }
                         
                         bcmd.dtNext = dtCurrent.AddMilliseconds(bcmd.Rate);

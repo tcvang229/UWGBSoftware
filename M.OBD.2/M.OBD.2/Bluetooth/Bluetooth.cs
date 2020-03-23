@@ -21,21 +21,23 @@ namespace M.OBD2
         private static readonly string[] REPLACE_VALUES = { "SEARCHING", "\\s", LINE_BREAK, END_CHAR.ToString() };
         private const string CONNECTION_VERIFY = "ELM327";
         private const int MAX_LENGTH = 1000;
-        private static bool isDebug;
+        private static bool isDebug, isTest;
         private BluetoothConnection oBluetoothConnection;
         private static string response;
         private readonly List<string> InitCommands;
         private readonly byte[] DTC_CLEAR;
         private const string RX_MESSAGE = "...";
+        private static Random oRandom;
 
         #endregion
 
         #region Main Control
 
-        public Bluetooth(bool _isDebug)
+        public Bluetooth(bool _isDebug, bool _isTest)
         {
             status_message = string.Empty;
             isDebug = _isDebug;
+            isTest = _isTest;
 
             InitCommands = new List<string>
             {
@@ -210,6 +212,65 @@ namespace M.OBD2
 
         #endregion
 
+        #region Test Related
+
+        public bool SendCommandAsync_Test(BluetoothCmd bcmd)
+        {
+            if (isDebug)
+                Debug.WriteLine("Tx: " + bcmd.Cmd);
+
+            bcmd.sbResponse.Clear();
+
+            try
+            {
+                bcmd.sbResponse.Append(ReadData_Test(bcmd));
+                bcmd.tx_good++;
+
+                bool result = ValidateResponse(bcmd);
+
+                if (isDebug)
+                    Debug.WriteLine("Rx: {0}  Valid:{1}", response, result);
+
+                return result;
+            }
+            catch (Exception e)
+            {
+                status_message = string.Format("{0}: {1}", "Read Error", e.Message);
+                bcmd.tx_fail++;
+
+                if (isDebug)
+                    Debug.WriteLine(status_message);
+                return false;
+            }
+        }
+
+        private static string ReadData_Test(BluetoothCmd bcmd)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            if (oRandom == null)
+                oRandom = new Random();
+
+            sb.Append(bcmd.Cmd);
+
+            if (!string.IsNullOrEmpty(bcmd.Expression))
+            {
+                for (int i = 0; i < bcmd.Bytes; i++)
+                {
+                    sb.Append(oRandom.Next(0, 255).ToString("X2"));
+                }
+            }
+            else
+                sb.Append("FF");
+
+            if (sb.Length == 0 || sb.Length > MAX_LENGTH)
+                return string.Empty;
+
+            return sb.ToString();
+        }
+
+        #endregion
+
         #region Command Sending and Receiving
 
         public async Task<bool> SendCommandAsync(BluetoothCmd bcmd)
@@ -380,6 +441,15 @@ namespace M.OBD2
 
             if (isDebug)
                 Debug.WriteLine(status_message);
+        }
+
+        #endregion
+
+        #region Misc
+
+        public bool isTestMode()
+        {
+            return isTest;
         }
 
         #endregion
