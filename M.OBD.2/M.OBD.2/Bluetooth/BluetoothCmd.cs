@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region Using Statements
+
+using System;
 using System.Collections.Generic;
 using M.OBD._2;
 using SQLite;
@@ -10,57 +12,89 @@ using Android.OS;
 using Org.Json;
 using Newtonsoft.Json;
 
+#endregion
+
 namespace M.OBD2
 {
-    
+    /// <summary>
+    /// Bluetooth Command Process
+    /// </summary>
     public class BluetoothCmd : ProcessValue
     {
         //SQL Attributes for ID
         [PrimaryKey, AutoIncrement]
         public long Id { get; set; }
 
+        // Processes display name
         [MaxLength(100)]
         public string Name { get; set; }
 
+        // Displayed units value ex. psi, vdc, g/s
         [MaxLength(10)]
         public string Units { get; set; }
 
+        // If calculation/units is imperial or metric
         public bool isImperial { get; set; }
 
+        // Associated AT command ex. 104030
         [MaxLength(10)]
         public string Cmd { get; set; }
 
+        // AT command Tx rate in ms
         public int Rate { get; set; }
-        public int Decimals { get; set; }
-        public string Expression { get; set; }
-        public int Bytes { get; set; }
-        public bool isRxBytes { get; set; }
-        public string sCommand_Types { get; set; } // Command type enum array in Json encoded format ex: "{2}" or  "{2,3,4}" ...
-        public bool isSelected { get; set; } // If user has selected 
-        public double Value_Min { get; set; }   // Min value contraint
-        public double Value_Max { get; set; }  // Max value constraint
 
-        // Non DB Values
-        public byte[] CmdBytes { get; set; }    // Pre generated command bytes for faster iteration from the Cmd string
+        // Displayed number of decimal values
+        public int Decimals { get; set; }
+
+        // Associated math expression including variables ex. a*1
+        public string Expression { get; set; }
+
+        // Number of bytes expected in a response
+        public int Bytes { get; set; }
+
+        //  If this command expects a response in bytes or a string 
+        public bool isRxBytes { get; set; }
+
+        // Command type enum array in Json encoded format ex: "{2}" or  "{2,3,4}" ...
+        public string sCommand_Types { get; set; }
+
+        // If the user has selected this process
+        public bool isSelected { get; set; }
+
+        // Process min value contraint
+        public double Value_Min { get; set; }
+
+        // Process max value constraint
+        public double Value_Max { get; set; }
+
+        // Non DB Values /////
+
+        // Pre generated command bytes for faster iteration
+        public byte[] CmdBytes { get; set; }    
+
         // Associated Command_Type - multiple indicates multi values used in a given Expression string 
         // Ex: Expression = "(a*b*1740.572)/(3600*c/100)", Command_Types = { COMMAND_TYPE.MPG, COMMAND_TYPE.VSS, COMMAND_TYPE.MAF }
         public BlueToothCmds.COMMAND_TYPE[] Command_Types { get; set; }
-        public BlueToothCmds.SELECTION_TYPE Selection_Type { get; set; } // Command selection state Ex. User, Process ...
 
-        public BluetoothCmd()
-        {
-        }
+        // Command selection state Ex. User, Process ...
+        public BlueToothCmds.SELECTION_TYPE Selection_Type { get; set; }
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class BlueToothCmds : List<BluetoothCmd>
     {
         #region Declarations
 
-        public const int MAX_COMMANDS = 10; // Maximum user process selections
-        public const string SCOMMAND_SPECIFIER = ","; // Duplicated specifier types for faster iteration
+        // Maximum user process selections
+        public const int MAX_COMMANDS = 10;
+        // Duplicated specifier types for faster iteration
+        public const string SCOMMAND_SPECIFIER = ","; 
         public const char COMMAND_SPECIFIER = ',';
 
-        public enum COMMAND_TYPE // Process command type 
+        // Process command type 
+        public enum COMMAND_TYPE 
         {
             DEFAULT,
             AFR,
@@ -70,7 +104,8 @@ namespace M.OBD2
             TPS
         }
 
-        public enum SELECTION_TYPE // Current selection state of a process
+        // Current selection state of a process
+        public enum SELECTION_TYPE 
         {
             NONE,   // No selection
             USER,   // User selected
@@ -84,14 +119,17 @@ namespace M.OBD2
 
         public void InitExpressions()
         {
-
+            foreach (BluetoothCmd b in this.Where(b=> !string.IsNullOrEmpty(b.Expression))) // Init expressions
+            {
+                b.InitExpression(b.Expression, b.Command_Types);
+            }
         }
 
         public void InitCommandBytes()
         {
-            foreach (BluetoothCmd bthcmd in this.Where(bthcmd => !string.IsNullOrEmpty(bthcmd.Cmd)))
+            foreach (BluetoothCmd b in this.Where(b => !string.IsNullOrEmpty(b.Cmd)))
             {
-                bthcmd.CmdBytes = Encoding.ASCII.GetBytes(bthcmd.Cmd + Bluetooth.LINE_BREAK);
+                b.CmdBytes = Encoding.ASCII.GetBytes(b.Cmd + Bluetooth.LINE_BREAK);
             }
         }
 
@@ -150,7 +188,8 @@ namespace M.OBD2
 
         #region Command Type Related
 
-        public static string CommandTypesToJson(COMMAND_TYPE[] Command_Types) // Array to Json serialization method for handling db arrays
+        // Array to Json serialization method for handling db arrays
+        public static string CommandTypesToJson(COMMAND_TYPE[] Command_Types) 
         {
             try
             {
@@ -163,7 +202,8 @@ namespace M.OBD2
             return null;
         }
 
-        public static COMMAND_TYPE[] JsonToCommandTypes(string sCommand_Types) // Json to array deserialize method for handling db arrays
+        // Json to array deserialize method for handling db arrays
+        public static COMMAND_TYPE[] JsonToCommandTypes(string sCommand_Types) 
         {
             if (!string.IsNullOrEmpty(sCommand_Types))
             {
@@ -180,7 +220,7 @@ namespace M.OBD2
 
         #endregion
 
-        #region Test
+        #region Test Related
 
         public void CreateTestCommands()
         {
@@ -249,13 +289,11 @@ namespace M.OBD2
             //    Command_Types = new[] { COMMAND_TYPE.MPG, COMMAND_TYPE.VSS, COMMAND_TYPE.MAF }
             //});
 
+            // Initialize
             InitCommandBytes();
-
-            foreach (BluetoothCmd b in this) // Init expressions
-            {
-                b.InitExpression(b.Expression, b.Command_Types);
-            }
+            InitExpressions();
         }
+
         #endregion
     }
 }

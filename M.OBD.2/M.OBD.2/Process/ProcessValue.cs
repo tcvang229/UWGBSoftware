@@ -1,8 +1,10 @@
-﻿using System;
+﻿#region Using Statements
+using System;
 using System.Collections.Generic;
 using System.Text;
 using Android.OS;
 using org.mariuszgromada.math.mxparser;
+#endregion
 
 namespace M.OBD2
 {

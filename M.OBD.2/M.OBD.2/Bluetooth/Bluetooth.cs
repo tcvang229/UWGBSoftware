@@ -15,20 +15,26 @@ namespace M.OBD2
     {
         #region Declarations
 
-        private static string status_message;
-        private const char END_CHAR = '>';
-        public const string LINE_BREAK = " \r";
-        private static readonly string[] REPLACE_VALUES = { "SEARCHING", "\\s", LINE_BREAK, END_CHAR.ToString() };
-        private const string CONNECTION_VERIFY = "ELM327";
-        private const int MAX_LENGTH = 1000;
-        private static bool isDebug, isTest;
+        // Objects
         private BluetoothConnection oBluetoothConnection;
-        private static string response;
-        private readonly List<string> InitCommands;
-        private readonly byte[] DTC_CLEAR;
-        private const string RX_MESSAGE = "...";
         private static Random oRandom;
 
+        // Vars
+        private static string status_message;
+        private static bool isDebug;
+        private static bool isTest;
+        private static string response;
+
+        // Constants
+        private readonly List<string> InitCommands;
+        private readonly byte[] DTC_CLEAR = Encoding.ASCII.GetBytes("04" + "\r");
+        private const string RX_MESSAGE = "...";
+        private const char END_CHAR = '>';
+        public const string LINE_BREAK = " \r";
+        private static readonly string[] REPLACE_VALUES = { "SEARCHING", "\\s", LINE_BREAK, ">" };
+        private const string CONNECTION_VERIFY = "ELM327";
+        private const int MAX_LENGTH = 1000;
+        
         #endregion
 
         #region Main Control
@@ -41,24 +47,13 @@ namespace M.OBD2
 
             InitCommands = new List<string>
             {
-                "?\r",
-                "ATZ\r", 
-                //"AT@1\r", // Display device identifier
-                //"ATE0\r",  // Echo off
+                "?\r",      // Init
+                "ATZ\r",    // Reset
                 "ATL0\r",  // Linefeed off
-                //"ATAT0\r", // Disable adaptive timing
-                //"ATST0F", // Set 'nodata' timeout
                 "ATSP0", // Search for protocol
-                //"ATDP", // Display protocol
                 "ATS0", // Remove spaces from ecu responses
-                //"ATH1", // Display header info
-                //"ATMA", // Display all info
-                //"AT@1\r", 
-                //"AT@2\r",
-                "0100\r" // Keep alive
+                "0100\r" // Keep alive (optional)
             };
-
-            DTC_CLEAR = Encoding.ASCII.GetBytes("04" + "\r");
         }
 
         #endregion
@@ -116,6 +111,7 @@ namespace M.OBD2
                 {
                     await SendCommandAsync(bc, InitCommands[0]);
                     await SendCommandAsync(bc, InitCommands[1]);
+
                     if (CheckResponse(response, CONNECTION_VERIFY))
                     {
                         for (int i = 2; i < InitCommands.Count; i++)
@@ -240,6 +236,7 @@ namespace M.OBD2
 
                 if (isDebug)
                     Debug.WriteLine(status_message);
+
                 return false;
             }
         }
@@ -307,6 +304,7 @@ namespace M.OBD2
 
                 if (isDebug)
                     Debug.WriteLine(status_message);
+
                 return false;
             }
         }
@@ -330,12 +328,8 @@ namespace M.OBD2
 
                 response = ReadData(bc.oBthSocket);
 
-                if (!string.IsNullOrEmpty(response)) // ToDo: process values!
-                {
-
-                    if (isDebug)
-                        Debug.WriteLine("Rx: " + response);
-                }
+                if (isDebug && !string.IsNullOrEmpty(response))
+                    Debug.WriteLine("Rx: " + response);
 
                 return true;
             }
@@ -390,25 +384,25 @@ namespace M.OBD2
             // Trim the returned value portion
             bcmd.Response = bcmd.sbResponse.ToString().Substring(bcmd.Cmd.Length).Trim();
 
-            if (!string.IsNullOrEmpty(bcmd.Response)) // Check if valid
+            // Check if valid
+            if (!string.IsNullOrEmpty(bcmd.Response)) 
             {
-                if (!bcmd.isRxBytes) // If a string message: update counter, return as success
+                // If a string message: update counter, return as success
+                if (!bcmd.isRxBytes) 
                 {
                     bcmd.rx_good++;
                     return true;
                 }
 
-                // ToDo: Debug test value
-                // bcmd.Response = "41053F";
-
-                if (bcmd.Bytes != 0 && !bcmd.Response.StartsWith(RX_MESSAGE, StringComparison.OrdinalIgnoreCase)) // If we are expecting bytes returned and response is valid
+                // If we are expecting bytes returned and response is valid
+                if (bcmd.Bytes != 0 && !bcmd.Response.StartsWith(RX_MESSAGE, StringComparison.OrdinalIgnoreCase)) 
                 {
                     // Attempt to parse the hex value
                     if (int.TryParse(bcmd.Response.Substring(bcmd.Response.Length - (bcmd.Bytes * 2)), NumberStyles.HexNumber, null, out int result))
                     {
                         // Store result and call math expression parser
                         bcmd.rxvalue = result;
-                        if (bcmd.Calculate()) // On success: update counter and return result
+                        if (bcmd.Calculate())
                         {
                             bcmd.rx_good++;
                             return true;

@@ -7,7 +7,6 @@ using System.Threading.Tasks;
 using M.OBD2;
 using Xamarin.Forms;
 
-
 namespace M.OBD
 {
     public partial class ResultsPage : ContentPage
