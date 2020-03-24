@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,14 +12,173 @@ namespace M.OBD
 {
     public partial class ResultsPage : ContentPage
     {
+        private static Bluetooth oBluetooth;
+        private static ProcessItems ProcessItems;
+        private BlueToothCmds oBlueToothCmds;
+        private DataTemplate CellTemplate;
+
+        private bool isTimerRun;
+        private const int TIMER_UPDATE = 25;       // Update timer iteration delay in ms
+        private bool isUpdate;
+
         public ResultsPage()
         {
             InitializeComponent();
+            InitListView();
 
             // ToDo: pass user settings value or null as default to invoke a users selection
             // ToDo: Remove test flag
             OpenBluetooth("OBDII", "00:1D:A5:05:4F:05", true);
         }
+
+        #region Processing
+
+        public void RunProcesses()
+        {
+            isTimerRun = true;
+            DateTime dtCurrent = DateTime.UtcNow;
+
+            foreach (BluetoothCmd bcmd in oBlueToothCmds)
+            {
+                bcmd.dtNext = dtCurrent.AddMilliseconds(bcmd.Rate);
+            }
+
+            Device.StartTimer
+            (
+                TimeSpan.FromMilliseconds(TIMER_UPDATE), () =>
+                {
+                    isUpdate = false;
+                    foreach (BluetoothCmd bcmd in oBlueToothCmds)
+                    {
+                        dtCurrent = DateTime.UtcNow;
+
+                        if (dtCurrent >= bcmd.dtNext)
+                        {
+                            if (dtCurrent >= bcmd.dtNext)
+                            {
+                                RunProcess(bcmd, oBluetooth.isTestMode());
+
+                                bcmd.dtNext = dtCurrent.AddMilliseconds(bcmd.Rate);
+                                isUpdate = true;
+                                //Debug.WriteLine("Process:" + bcmd.Name);
+                            }
+                        }
+                    }
+
+                    if (isUpdate)
+                    {
+                        UpdateListViewItems();
+                        UpdateListView();
+                    }
+
+                    return isTimerRun;
+                }
+            );
+        }
+
+        private static void RunProcess(BluetoothCmd bcmd, bool isTestMode)
+        {
+            if (bcmd.CmdBytes != null && bcmd.CmdBytes.Length != 0)
+            {
+                if (!isTestMode)
+                {
+                    Task.Run(async () =>
+                    {
+                        if (await oBluetooth.SendCommandAsync(bcmd))
+                            UpdateProcessItem(bcmd);
+                        else
+                            Debug.WriteLine("Process: {0} {1}", bcmd.Name, Bluetooth.GetStatusMessage());
+                    });
+                }
+                else
+                {
+                    if (oBluetooth.SendCommandAsync_Test(bcmd))
+                        UpdateProcessItem(bcmd);
+                    else
+                        Debug.WriteLine("Process: {0} {1}", bcmd.Name, Bluetooth.GetStatusMessage());
+                }
+            }
+        }
+
+        private static void UpdateProcessItem(BluetoothCmd bcmd)
+        {
+            // ToDo: Add direct ProcessItem reference to BluetoothCmd objects for faster iteration?
+
+            foreach (ProcessItem pi in ProcessItems.Where(pi => pi.id == bcmd.Id))
+            {
+                pi.Value = bcmd.value.ToString();
+                break;
+            }
+
+            //Debug.WriteLine("Process: {0} Rx: {1} RxValue: {2} Value: {3}", bcmd.Name,
+            //    bcmd.Response, (bcmd.isRxBytes) ? bcmd.rxvalue : -1, bcmd.value);
+        }
+
+        #endregion
+
+        #region Listview Related
+
+        private void InitListView()
+        {
+            ProcessItems = new ProcessItems();
+            CellTemplate = new DataTemplate(typeof(ProcessCell));
+            lvwResults.ItemTemplate = CellTemplate;
+            lvwResults.ItemsSource = ProcessItems;
+            //lvwResults.Header = "Results";
+        }
+
+        private void UpdateListView()
+        {
+            lvwResults.ItemTemplate = CellTemplate;
+            lvwResults.ItemsSource = null;
+            lvwResults.ItemsSource = ProcessItems;
+        }
+
+        private void InitListViewItems(BlueToothCmds oBthCmds)
+        {
+            ProcessItems.Clear();
+
+            foreach (BluetoothCmd bthCmd in oBthCmds)
+            {
+                AddListViewItem(bthCmd);
+            }
+
+            UpdateListView();
+            UpdateListViewItems();
+        }
+
+        private static void UpdateListViewItems()
+        {
+            if (ProcessItems == null || ProcessItems.Count == 0)
+                return;
+
+            // ToDo: any item ui changes here
+            foreach (ProcessItem pi in ProcessItems)
+            {
+                pi.ImageSource = "Tools_icon";
+            }
+        }
+
+        private static void AddListViewItem(BluetoothCmd bthCmd)
+        {
+            if (!string.IsNullOrEmpty(bthCmd.Name))
+            {
+                ProcessItems.Add
+                (
+                    new ProcessItem
+                    {
+                        Name = bthCmd.Name,
+                        Value = string.Empty,
+                        Units = bthCmd.Units,
+                        id = bthCmd.Id
+                    }
+                );
+            }
+        }
+
+        #endregion
+
+        #region Bluetooth Connection Related
 
         /// <summary>
         /// Performs Bluetooth connection operations
@@ -42,33 +202,33 @@ namespace M.OBD
                 return;
             }
 
-            Bluetooth oBth = new Bluetooth(true, isTest); // Create connection object
+            oBluetooth = new Bluetooth(true, isTest); // Create connection object
 
-            if (!oBth.LoadPairedDevices()) // Attempt to load paired devices: display message and return on failure
+            if (!oBluetooth.LoadPairedDevices()) // Attempt to load paired devices: display message and return on failure
             {
                 DisplayMessage(Bluetooth.GetStatusMessage());
 
-                if (!oBth.isTestMode())
+                if (!oBluetooth.isTestMode())
                     return;
             }
 
-            if (!oBth.CheckPairedDevices()) // Check if there are paired devices available: display message and return on failure
+            if (!oBluetooth.CheckPairedDevices()) // Check if there are paired devices available: display message and return on failure
             {
                 // ToDo: open OS settings page?
                 DisplayMessage(Bluetooth.GetStatusMessage());
 
-                if (!oBth.isTestMode())
+                if (!oBluetooth.isTestMode())
                     return;
             }
 
-            if (!await oBth.OpenPairedDevice(name, address)) // Attempt to open paired device: if failed get list of paired devices
+            if (!await oBluetooth.OpenPairedDevice(name, address)) // Attempt to open paired device: if failed get list of paired devices
             {
-                List<BluetoothConnection> bcs = oBth.GetPairedDevices();
+                List<BluetoothConnection> bcs = oBluetooth.GetPairedDevices();
 
                 // ToDo: populate a listview and let user select the OBDII device
                 // Retry oBth.OpenPairedDevice(name, address);
 
-                if (!oBth.isTestMode())
+                if (!oBluetooth.isTestMode())
                     return;
             }
 
@@ -76,16 +236,18 @@ namespace M.OBD
 
             // Load some test commands and run processing loop
 
-            BlueToothCmds oBthCmds = new BlueToothCmds();
-            oBthCmds.CreateTestCommands();
+            oBlueToothCmds = new BlueToothCmds();
+            oBlueToothCmds.CreateTestCommands();
 
-            Process oProcess = new Process(oBth, oBthCmds);
-            await oProcess.RunProcesses();
+            InitListViewItems(oBlueToothCmds);
+            RunProcesses();
         }
 
         private async void DisplayMessage(string message)
         {
             await DisplayAlert("Alert", message, "OK");
         }
+
+        #endregion
     }
 }
