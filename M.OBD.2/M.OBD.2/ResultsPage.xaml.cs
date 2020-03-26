@@ -20,7 +20,6 @@ namespace M.OBD
 
         private bool isTimerRun;
         private const int TIMER_UPDATE = 25;       // Update timer iteration delay in ms
-        private bool isUpdate;
 
         public ResultsPage()
         {
@@ -58,7 +57,6 @@ namespace M.OBD
             (
                 TimeSpan.FromMilliseconds(TIMER_UPDATE), () =>
                 {
-                    isUpdate = false;
                     foreach (BluetoothCmd bcmd in oBlueToothCmds)
                     {
                         dtCurrent = DateTime.UtcNow;
@@ -70,16 +68,9 @@ namespace M.OBD
                                 RunProcess(bcmd, oBluetooth.isTestMode());
 
                                 bcmd.dtNext = dtCurrent.AddMilliseconds(bcmd.Rate);
-                                isUpdate = true;
                                 //Debug.WriteLine("Process:" + bcmd.Name);
                             }
                         }
-                    }
-
-                    if (isUpdate)
-                    {
-                        UpdateListViewItems();
-                        UpdateListView();
                     }
 
                     return isTimerRun;
@@ -138,14 +129,7 @@ namespace M.OBD
             //lvwResults.Header = "Results";
         }
 
-        private void UpdateListView()
-        {
-            lvwResults.ItemTemplate = CellTemplate;
-            lvwResults.ItemsSource = null;
-            lvwResults.ItemsSource = ProcessItems;
-        }
-
-        private void InitListViewItems(BlueToothCmds oBthCmds)
+        private static void InitListViewItems(BlueToothCmds oBthCmds)
         {
             ProcessItems.Clear();
 
@@ -154,7 +138,6 @@ namespace M.OBD
                 AddListViewItem(bthCmd);
             }
 
-            UpdateListView();
             UpdateListViewItems();
         }
 
@@ -166,7 +149,7 @@ namespace M.OBD
             // ToDo: any item ui changes here
             foreach (ProcessItem pi in ProcessItems)
             {
-                pi.ImageSource = "Tools_icon";
+                //pi.ImageSource = "Tools_icon";
             }
         }
 

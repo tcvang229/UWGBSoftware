@@ -40,10 +40,10 @@ namespace M.OBD2
         // AT command Tx rate in ms
         public int Rate { get; set; }
 
-        // Displayed number of decimal values
+        // Rounding and displayed decimal formatting
         public int Decimals { get; set; }
 
-        // Associated math expression per type including variables ex. a*1
+        // Associated math expression per unit type including variables ex. (a*1) ...
         public string Expression_Imperial { get; set; }
 
         public string Expression_Metric { get; set; }
