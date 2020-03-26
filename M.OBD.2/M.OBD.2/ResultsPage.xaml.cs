@@ -16,6 +16,7 @@ namespace M.OBD
         private static ProcessItems ProcessItems;
         private BlueToothCmds oBlueToothCmds;
         private DataTemplate CellTemplate;
+        private UserSetting oUserSetting;
 
         private bool isTimerRun;
         private const int TIMER_UPDATE = 25;       // Update timer iteration delay in ms
@@ -25,11 +26,21 @@ namespace M.OBD
         {
             InitializeComponent();
             InitListView();
+            InitUserSettings();
 
             // ToDo: pass user settings value or null as default to invoke a users selection
             // ToDo: Remove test flag
             OpenBluetooth("OBDII", "00:1D:A5:05:4F:05", true);
         }
+
+        #region User Settings
+
+        private void InitUserSettings()
+        {
+            oUserSetting = new UserSetting();
+        }
+
+        #endregion
 
         #region Processing
 
@@ -169,7 +180,7 @@ namespace M.OBD
                     {
                         Name = bthCmd.Name,
                         Value = string.Empty,
-                        Units = bthCmd.Units,
+                        Units = bthCmd.GetUnits(),
                         id = bthCmd.Id
                     }
                 );
@@ -237,7 +248,7 @@ namespace M.OBD
             // Load some test commands and run processing loop
 
             oBlueToothCmds = new BlueToothCmds();
-            oBlueToothCmds.CreateTestCommands();
+            oBlueToothCmds.CreateTestCommands(oUserSetting.GetUserUnits());
 
             InitListViewItems(oBlueToothCmds);
             RunProcesses();

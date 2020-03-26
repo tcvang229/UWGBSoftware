@@ -4,12 +4,9 @@ using System;
 using System.Collections.Generic;
 using M.OBD._2;
 using SQLite;
-using Xamarin.Forms;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Android.OS;
-using Org.Json;
 using Newtonsoft.Json;
 
 #endregion
@@ -29,12 +26,12 @@ namespace M.OBD2
         [MaxLength(100)]
         public string Name { get; set; }
 
-        // Displayed units value ex. psi, vdc, g/s
+        // Displayed units value per type ex. psi, vdc, g/s
         [MaxLength(10)]
-        public string Units { get; set; }
+        public string Units_Imperial { get; set; }
 
-        // If calculation/units is imperial or metric
-        public bool isImperial { get; set; }
+        [MaxLength(10)]
+        public string Units_Metric { get; set; }
 
         // Associated AT command ex. 104030
         [MaxLength(10)]
@@ -46,8 +43,10 @@ namespace M.OBD2
         // Displayed number of decimal values
         public int Decimals { get; set; }
 
-        // Associated math expression including variables ex. a*1
-        public string Expression { get; set; }
+        // Associated math expression per type including variables ex. a*1
+        public string Expression_Imperial { get; set; }
+
+        public string Expression_Metric { get; set; }
 
         // Number of bytes expected in a response
         public int Bytes { get; set; }
@@ -70,7 +69,7 @@ namespace M.OBD2
         // Non DB Values /////
 
         // Pre generated command bytes for faster iteration
-        public byte[] CmdBytes { get; set; }    
+        public byte[] CmdBytes { get; set; }
 
         // Associated Command_Type - multiple indicates multi values used in a given Expression string 
         // Ex: Expression = "(a*b*1740.572)/(3600*c/100)", Command_Types = { COMMAND_TYPE.MPG, COMMAND_TYPE.VSS, COMMAND_TYPE.MAF }
@@ -117,11 +116,11 @@ namespace M.OBD2
 
         #region Initialization
 
-        public void InitExpressions()
+        public void InitExpressions(UserSetting.UNIT_TYPE Unit_Type)
         {
-            foreach (BluetoothCmd b in this.Where(b=> !string.IsNullOrEmpty(b.Expression))) // Init expressions
+            foreach (BluetoothCmd b in this) // Init expressions
             {
-                b.InitExpression(b.Expression, b.Command_Types);
+                b.InitExpression(b, Unit_Type);
             }
         }
 
@@ -222,7 +221,7 @@ namespace M.OBD2
 
         #region Test Related
 
-        public void CreateTestCommands()
+        public void CreateTestCommands(UserSetting.UNIT_TYPE Unit_Type)
         {
             // Format 01##01
             // 01 = Service
@@ -230,24 +229,24 @@ namespace M.OBD2
 
             Add(new BluetoothCmd()
             {
-                Id = 2,
+                Id = 0,
                 Name = "IGN",
-                Units = "",
-                isImperial = true,
+                Expression_Imperial = "",
+                Units_Imperial = "",
                 Cmd = "ATIGN",
                 Rate = 1000,
-                Decimals = 0,
                 isRxBytes = false,
-                Expression = "",
                 Command_Types = new[] { COMMAND_TYPE.DEFAULT }
             });
 
             Add(new BluetoothCmd()
             {
-                Id = 3,
+                Id = 1,
                 Name = "TEMP",
-                Units = "%",
-                isImperial = true,
+                Expression_Imperial = "(a * 100 / 255)",
+                Units_Imperial = "F",
+                Expression_Metric = "(a * 100 / 255)",
+                Units_Metric = "C",
                 Cmd = "01051",
                 Rate = 2000,
                 Decimals = 0,
@@ -255,16 +254,17 @@ namespace M.OBD2
                 Value_Max = 300,
                 isRxBytes = true,
                 Bytes = 1,
-                Expression = "(a * 100 / 255)",
                 Command_Types = new[] { COMMAND_TYPE.DEFAULT }
             });
 
             Add(new BluetoothCmd()
             {
-                Id = 3,
+                Id = 2,
                 Name = "VSS",
-                Units = "Mph",
-                isImperial = true,
+                Expression_Imperial = "(a * 1)",
+                Units_Imperial = "MPH",
+                Expression_Metric = "(a * 1)",
+                Units_Metric = "KPH",
                 Cmd = "010D1",
                 Rate = 1000,
                 Decimals = 1,
@@ -272,7 +272,6 @@ namespace M.OBD2
                 Value_Max = 300,
                 isRxBytes = true,
                 Bytes = 1,
-                Expression = "a*1",
                 Command_Types = new[] { COMMAND_TYPE.VSS }
             });
 
@@ -291,7 +290,7 @@ namespace M.OBD2
 
             // Initialize
             InitCommandBytes();
-            InitExpressions();
+            InitExpressions(Unit_Type);
         }
 
         #endregion

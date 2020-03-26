@@ -250,7 +250,7 @@ namespace M.OBD2
 
             sb.Append(bcmd.Cmd);
 
-            if (!string.IsNullOrEmpty(bcmd.Expression))
+            if (!string.IsNullOrEmpty(bcmd.sExpression))
             {
                 for (int i = 0; i < bcmd.Bytes; i++)
                 {

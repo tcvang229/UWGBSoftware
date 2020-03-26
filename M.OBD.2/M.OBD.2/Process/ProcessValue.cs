@@ -22,34 +22,69 @@ namespace M.OBD2
         public double value { get; set; }       // Processed value
         public bool isValid { get; set; }
         public Expression e;
+        public string sExpression { get; set; }
+
         private List<Argument> arguments;
-        private string LastExpression { get; set; }
+        private string LastExpression;
+        private string sUnits;
+        private double min;
+        private double max;
+        private int decimals;
 
         public ProcessValue()
         {
             sbResponse = new StringBuilder();
         }
 
-        public void InitExpression(string Expression, BlueToothCmds.COMMAND_TYPE[] Command_Types)
+        /// <summary>
+        ///  Initializes a given commands math expression based on supplied unit type 
+        /// </summary>
+        /// <param name="bthcmd"></param>
+        /// <param name="Unit_Type"></param>
+
+        public void InitExpression(BluetoothCmd bthcmd, UserSetting.UNIT_TYPE Unit_Type)
         {
-            if (string.IsNullOrEmpty(Expression) || Command_Types == null || Command_Types.Length == 0) // Validate
+            if (bthcmd.Command_Types == null || bthcmd.Command_Types.Length == 0)
                 return;
 
-            e = new Expression(Expression.Trim());
+            bool isImperial_Expression = (bthcmd.Expression_Imperial != null);
+            bool isImperial_Units = !(string.IsNullOrEmpty(bthcmd.Units_Imperial));
+            bool isMetric_Expression = (bthcmd.Expression_Metric != null);
+            bool isMetric_Units = !(string.IsNullOrEmpty(bthcmd.Units_Metric));
+
+            if (!isMetric_Expression && !isImperial_Expression) 
+                return;
+
+            string varvalue;
+            sExpression = null;
+            sUnits = string.Empty;
+
+            sExpression = (Unit_Type == UserSetting.UNIT_TYPE.METRIC && isMetric_Expression) 
+                ? bthcmd.Expression_Metric 
+                : bthcmd.Expression_Imperial;
+
+            if (string.IsNullOrEmpty(sExpression)) 
+                return;
+
+            if (Unit_Type == UserSetting.UNIT_TYPE.METRIC && isMetric_Units)
+                sUnits = bthcmd.Units_Metric;
+            else if (isImperial_Units)
+                sUnits = bthcmd.Units_Imperial;
+
+            e = new Expression(sExpression.Trim());
             arguments = new List<Argument>();
 
-            for (int idx = 0; idx < Command_Types.Length; idx++)
+            for (int idx = 0; idx < bthcmd.Command_Types.Length; idx++)
             {
-                string varvalue = ProcessValues.GetVariable(idx);
+                varvalue = ProcessValues.GetVariable(idx);
                 arguments.Add(new Argument(varvalue));
                 e.addArguments(arguments[idx]);
-
                 //arguments[idx].setArgumentValue(0); // ToDo: initial value?
             }
 
-            // Test
-            // double result = e.calculate();
-            // string exp = e.getExpressionString();
+            min = bthcmd.Value_Min;
+            max = bthcmd.Value_Max;
+            decimals = bthcmd.Decimals;
         }
 
         public bool Calculate()
@@ -66,12 +101,27 @@ namespace M.OBD2
             {
                 p.arguments[0].setArgumentValue(p.rxvalue); 
                 p.value = p.e.calculate();
+                p.value = Math.Round(p.value, p.decimals);
+
+                if (p.value < p.min)
+                    p.value = p.min;
+                if (p.value > p.max)
+                    p.value = p.max;
 
                 // ToDo: remove for release
                 p.LastExpression = p.e.getExpressionString();
             }
+            else // Multi variable
+            {
+                
+            }
 
             return true;
+        }
+
+        public string GetUnits()
+        {
+            return sUnits;
         }
     }
 
