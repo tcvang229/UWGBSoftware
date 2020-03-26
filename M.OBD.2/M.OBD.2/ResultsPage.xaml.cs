@@ -24,6 +24,7 @@ namespace M.OBD
         public ResultsPage()
         {
             InitializeComponent();
+
             InitListView();
             InitUserSettings();
 
@@ -63,13 +64,10 @@ namespace M.OBD
 
                         if (dtCurrent >= bcmd.dtNext)
                         {
-                            if (dtCurrent >= bcmd.dtNext)
-                            {
-                                RunProcess(bcmd, oBluetooth.isTestMode());
+                            RunProcess(bcmd, oBluetooth.isTestMode());
 
-                                bcmd.dtNext = dtCurrent.AddMilliseconds(bcmd.Rate);
-                                //Debug.WriteLine("Process:" + bcmd.Name);
-                            }
+                            bcmd.dtNext = dtCurrent.AddMilliseconds(bcmd.Rate);
+                            //Debug.WriteLine("Process:" + bcmd.Name);
                         }
                     }
 
@@ -183,17 +181,21 @@ namespace M.OBD
         /// 
         private async void OpenBluetooth(string name, string address, bool isTest)
         {
+
+
             if (!Bluetooth.CheckAdapterPresent()) // Check if bluetooth is available on this device: display message and return on failure
             {
                 DisplayMessage(Bluetooth.GetStatusMessage());
-                return;
+                if (!oBluetooth.isTestMode())
+                    return;
             }
 
             if (!Bluetooth.CheckAdapterEnabled()) // Check if bluetooth is enabled on this device: display message and return on failure
             {
                 // ToDo: open OS settings page?
                 DisplayMessage(Bluetooth.GetStatusMessage());
-                return;
+                if (!oBluetooth.isTestMode())
+                    return;
             }
 
             oBluetooth = new Bluetooth(true, isTest); // Create connection object
