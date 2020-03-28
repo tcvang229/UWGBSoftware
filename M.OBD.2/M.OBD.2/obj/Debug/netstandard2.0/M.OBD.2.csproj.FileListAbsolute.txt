@@ -51,3 +51,5 @@ C:\Users\User\source\repos\tcvang229\UWGBSoftware\tcvang229\UWGBSoftware\M.OBD.2
 C:\Users\User\source\repos\tcvang229\UWGBSoftware\tcvang229\UWGBSoftware\M.OBD.2\M.OBD.2\bin\Debug\netstandard2.0\Mono.Android.xml
 C:\Users\User\source\repos\tcvang229\UWGBSoftware\tcvang229\UWGBSoftware\M.OBD.2\M.OBD.2\obj\Debug\netstandard2.0\M.OBD.2.csproj.CopyComplete
 C:\Users\User\source\repos\tcvang229\UWGBSoftware\tcvang229\UWGBSoftware\M.OBD.2\M.OBD.2\obj\Debug\netstandard2.0\XamlC.stamp
+C:\Users\User\source\repos\tcvang229\UWGBSoftware\tcvang229\UWGBSoftware\M.OBD.2\M.OBD.2\obj\Debug\netstandard2.0\ConnectPage.xaml.g.cs
+C:\Users\User\source\repos\tcvang229\UWGBSoftware\tcvang229\UWGBSoftware\M.OBD.2\M.OBD.2\obj\Debug\netstandard2.0\LoggingPage.xaml.g.cs

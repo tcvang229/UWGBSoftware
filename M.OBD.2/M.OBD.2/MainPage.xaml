@@ -11,9 +11,15 @@
                      />
     </TabbedPage.ToolbarItems>
 
-        <local:ResultsPage Title="Results"
+    <local:ConnectPage Title="Connect"
+                       Icon="connection.png"/>
+
+    <local:ResultsPage Title="Results"
                            Icon="results.png"/>
 
-        <local:ProfilePage Title="Profile"
+    <local:LoggingPage Title="Log"
+                       Icon="logging.png"/>
+
+    <local:ProfilePage Title="Profile"
                            Icon="profile.png"/>
 </TabbedPage>
