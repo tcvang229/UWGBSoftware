@@ -25,7 +25,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Mono.Android">
-      <HintPath>D:\Programming\vstudio 2019\Common7\IDE\ReferenceAssemblies\Microsoft\Framework\MonoAndroid\v9.0\Mono.Android.dll</HintPath>
+      <HintPath></HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
