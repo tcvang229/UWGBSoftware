@@ -4,6 +4,21 @@
         <StackLayout>
             <ListView x:Name ="lvwResults">
             </ListView>
+
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width ="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Button Grid.Row="2" Grid.Column="0" Text="Connect" x:Name ="btnConnect" Clicked="btnConnect_Clicked" IsEnabled="False"/>
+                <Button Grid.Row="4" Grid.Column="0" Text="Disconnect" x:Name ="btnDisconnect" Clicked="btnDisconnect_Clicked" IsEnabled="False"/>
+            </Grid>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

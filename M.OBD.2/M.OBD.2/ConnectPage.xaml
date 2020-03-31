@@ -1,6 +1,25 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="M.OBD.ConnectPage">
-    <ContentPage.Content>
-        <Entry Text="This is the ConnectPage"/>
-    </ContentPage.Content>
+    <StackLayout>
+        <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width ="auto"/>
+            <ColumnDefinition Width ="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+        <Label Grid.Row="1" Grid.Column="0" Text="Device:" VerticalTextAlignment="Center"/>
+        <Picker Grid.Row="1" Grid.Column="1" x:Name="pkrDevices" Title ="None"  HorizontalOptions="Fill" 
+                ItemDisplayBinding="{Binding device_name}" SelectedIndexChanged = "pkrDevices_SelectedIndexChanged" IsEnabled="False"/>
+        <Label Grid.Row="3" Grid.Column="0"  Text="State:"/>
+            <Label Grid.Row="3" Grid.Column="1" x:Name ="lblState" Text=""/>
+        <Button Grid.Row="5" Grid.Column="0"  Grid.ColumnSpan ="2" Text="Select" x:Name ="btnSelect" Clicked="btnSelect_Clicked" IsEnabled="False"/>
+        </Grid>
+    </StackLayout>
 </ContentPage>

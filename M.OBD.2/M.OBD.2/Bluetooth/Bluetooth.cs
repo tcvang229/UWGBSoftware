@@ -8,7 +8,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Android.Bluetooth;
-
 #endregion
 
 namespace M.OBD2
@@ -26,6 +25,7 @@ namespace M.OBD2
         private static bool isDebug;
         private static bool isTest;
         private static string response;
+        private BLUETOOTH_STATE Bluetooth_State;
 
         // Constants
         private readonly List<string> InitCommands;
@@ -36,7 +36,14 @@ namespace M.OBD2
         private static readonly string[] REPLACE_VALUES = { "SEARCHING", "\\s", LINE_BREAK, ">" };
         private const string CONNECTION_VERIFY = "ELM327";
         private const int MAX_LENGTH = 1000;
-        
+
+        public enum BLUETOOTH_STATE
+        {
+            DISCONNECTED,
+            CONNECTED,
+            ERROR
+        }
+
         #endregion
 
         #region Main Control
@@ -82,24 +89,41 @@ namespace M.OBD2
             }
         }
 
+        public static List<BluetoothConnection> GetPairedDevices()
+        {
+            try
+            {
+                if (!BluetoothAdapter.DefaultAdapter.IsEnabled)
+                    throw new Exception("Bluetooth is not enabled");
+
+                List<BluetoothConnection> bthConnections =  new List<BluetoothConnection>();
+
+                bthConnections.AddRange(BluetoothAdapter.DefaultAdapter.BondedDevices.Select(device => new BluetoothConnection(device.Name, device.Address)).ToList());
+
+                SetStatusMessage(string.Format("{0} paired devices found", bthConnections.Count));
+
+                return bthConnections;
+            }
+            catch (Exception e)
+            {
+                SetErrorMessage("Error Getting Paired Devices", e);
+                return null;
+            }
+        }
+
         public bool CheckPairedDevices()
         {
             return Count > 0;
         }
 
-        public List<BluetoothConnection> GetPairedDevices()
+        public async Task<bool> OpenPairedDevice(string name, string address, bool isInit)
         {
-            return this;
-        }
-
-        public async Task<bool> OpenPairedDevice(string name, string address)
-        {
-            oBluetoothConnection = await GetPairedDevice(name, address);
+            oBluetoothConnection = await GetPairedDevice(name, address, isInit);
 
             return oBluetoothConnection != null;
         }
 
-        private async Task<BluetoothConnection> GetPairedDevice(string name, string address)
+        private async Task<BluetoothConnection> GetPairedDevice(string name, string address, bool isInit)
         {
             if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(address))
             {
@@ -116,12 +140,15 @@ namespace M.OBD2
 
                     if (CheckResponse(response, CONNECTION_VERIFY))
                     {
-                        for (int i = 2; i < InitCommands.Count; i++)
+                        if (!isInit)
                         {
-                            if (!await SendCommandAsync(bc, InitCommands[i]))
+                            for (int i = 2; i < InitCommands.Count; i++)
                             {
-                                SetStatusMessage("Failed to Initialize device");
-                                return null;
+                                if (!await SendCommandAsync(bc, InitCommands[i]))
+                                {
+                                    SetStatusMessage("Failed to Initialize device");
+                                    return null;
+                                }
                             }
                         }
 
@@ -183,6 +210,44 @@ namespace M.OBD2
             catch (Exception e)
             {
                 SetErrorMessage("Error Opening Device " + bc.device_name, e);
+                return false;
+            }
+        }
+
+        public bool CheckConnection()
+        {
+            if (oBluetoothConnection == null || oBluetoothConnection.oBthDevice == null || oBluetoothConnection.oBthSocket == null)
+                return false;
+
+            return oBluetoothConnection.oBthSocket.IsConnected;
+        }
+
+        public bool CloseConnection()
+        {
+            try
+            {
+                if (isDebug)
+                    Debug.WriteLine("Closing Bluetooth Device");
+
+                if (oBluetoothConnection.oBthDevice == null)
+                    throw new Exception("Unable to close device");
+
+                if (oBluetoothConnection.oBthSocket == null)
+                    throw new Exception("Unable to close connection socket");
+
+                if (!oBluetoothConnection.oBthSocket.IsConnected)
+                    throw new Exception("Socket was already closed");
+
+                oBluetoothConnection.oBthSocket.Close();
+
+                if (oBluetoothConnection.oBthSocket.IsConnected)
+                    throw new Exception("Unable to close connection socket");
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                SetErrorMessage("Error Closing Bluetooth Connection", e);
                 return false;
             }
         }

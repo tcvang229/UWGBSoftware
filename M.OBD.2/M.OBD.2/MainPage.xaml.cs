@@ -10,6 +10,8 @@ namespace M.OBD
         public MainPage()
         {
             InitializeComponent();
+
+
         }
 
         void ToolbarItem_Clicked(System.Object sender, System.EventArgs e)

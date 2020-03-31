@@ -8,9 +8,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: global::Xamarin.Forms.Xaml.XamlResourceIdAttribute("M.OBD.2.LoggingPage.xaml", "LoggingPage.xaml", typeof(global::M.OBD.2.LoggingPage))]
+[assembly: global::Xamarin.Forms.Xaml.XamlResourceIdAttribute("M.OBD.2.LoggingPage.xaml", "LoggingPage.xaml", typeof(global::M.OBD.LoggingPage))]
 
-namespace M.OBD.2 {
+namespace M.OBD {
     
     
     [global::Xamarin.Forms.Xaml.XamlFilePathAttribute("LoggingPage.xaml")]
