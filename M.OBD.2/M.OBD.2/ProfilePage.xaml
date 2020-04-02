@@ -1,6 +1,49 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms" xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" x:Class="M.OBD.ProfilePage">
     <ContentPage.Content>
-        <Entry Text="This is the ProfilePage"/>
+        <StackLayout>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width ="auto"/>
+                    <ColumnDefinition Width ="auto"/>
+                    <ColumnDefinition Width ="auto"/>
+                    <ColumnDefinition Width ="auto"/>
+                    <ColumnDefinition Width ="auto"/>
+                    <ColumnDefinition Width ="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="auto"/>
+
+
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Units -->
+                <Label Grid.Row="1" Grid.Column="1" Text="Imperial" VerticalTextAlignment="Center"/>
+                <Label Grid.Row="1" Grid.Column="2" Text="Metric" VerticalTextAlignment="Center"/>
+                <Label Grid.Row="2" Grid.Column="0" Text="Units:" VerticalTextAlignment="Center"/>
+                <CheckBox Grid.Row="2" Grid.Column="1"  x:Name="chkImperial" CheckedChanged="chkImperial_CheckedChanged" />
+                <CheckBox Grid.Row="2" Grid.Column="2"  x:Name="chkMetric" CheckedChanged="chkMetric_CheckedChanged" />
+
+                <!-- Logging -->
+                <Label Grid.Row="4" Grid.Column="1" Text="Enabled" VerticalTextAlignment="Center"/>
+                <Label Grid.Row="4" Grid.Column="2" Text="Auto" VerticalTextAlignment="Center"/>
+                <Label Grid.Row="4" Grid.Column="3" Text="Path" VerticalTextAlignment="Center"/>
+                <Label Grid.Row="5" Grid.Column="0"  Text= "Logging:" VerticalTextAlignment="Center"/>
+                <CheckBox Grid.Row="5" Grid.Column="1"  x:Name="chkLoggingEnabled" CheckedChanged="chkLoggingEnabled_CheckedChanged" />
+                <CheckBox Grid.Row="5" Grid.Column="2"  x:Name="chkLoggingAuto" CheckedChanged="chkLoggingAuto_CheckedChanged" />
+                <Entry Grid.Row="5" Grid.Column="3"  x:Name="txtLogPath"/>
+
+                <!-- Save/Cancel -->
+                <Button Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" Text="Save" x:Name ="btnSave" Clicked="btnSave_Clicked" IsEnabled="False"/>
+                <Button Grid.Row="7" Grid.Column="2" Grid.ColumnSpan="3" Text="Cancel" x:Name ="btnCancel" Clicked="btnCancel_Clicked" IsEnabled="False"/>
+            </Grid>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

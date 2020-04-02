@@ -13,6 +13,8 @@ namespace M.OBD
         private readonly Bluetooth oBluetooth;
         private readonly UserSetting oUserSetting;
 
+        private bool isChanged;
+
         #endregion
 
         #region Page Initialization and Update
@@ -23,7 +25,6 @@ namespace M.OBD
 
             InitBluetooth(out oBluetooth);
             InitUserSettings(out oUserSetting);
-            InitUserSettings();
             InitControls();
         }
 
@@ -41,11 +42,40 @@ namespace M.OBD
         {
             Appearing += Page_Appearing;
 
+            UpdateUnitCheckBoxes();
+            chkImperial.CheckedChanged += chkImperial_CheckedChanged;
+            chkMetric.CheckedChanged += chkMetric_CheckedChanged;
+            chkLoggingEnabled.CheckedChanged += chkLoggingEnabled_CheckedChanged;
+            chkLoggingAuto.CheckedChanged += chkLoggingAuto_CheckedChanged;
+            btnSave.Clicked += btnSave_Clicked;
+            btnCancel.Clicked += btnCancel_Clicked;
+            UpdateChangedState(false);
         }
 
-        public void InitUserSettings()
+        private void chkLoggingAuto_CheckedChanged(object sender, CheckedChangedEventArgs e)
         {
+            UpdateChangedState(true);
+        }
 
+        private void chkLoggingEnabled_CheckedChanged(object sender, CheckedChangedEventArgs e)
+        {
+            UpdateChangedState(true);
+        }
+
+        private void chkMetric_CheckedChanged(object sender, CheckedChangedEventArgs e)
+        {
+            if (chkMetric.IsChecked)
+                chkImperial.IsChecked = false;
+
+            UpdateChangedState(true);
+        }
+
+        private void chkImperial_CheckedChanged(object sender, CheckedChangedEventArgs e)
+        {
+            if (chkImperial.IsChecked)
+                chkMetric.IsChecked = false;
+
+            UpdateChangedState(true);
         }
 
         public void Page_Appearing(object sender, EventArgs e)
@@ -57,6 +87,8 @@ namespace M.OBD
         public void UpdateControls()
         {
             IsEnabled = Bluetooth.isBluetoothDisconnected();
+
+            UpdateUnitCheckBoxes();
         }
 
         public void UpdateUserSettings()
@@ -65,5 +97,40 @@ namespace M.OBD
         }
 
         #endregion
+
+        #region Check Boxes
+
+        private void UpdateUnitCheckBoxes()
+        {
+            chkImperial.IsChecked = oUserSetting.GetImperialUnits();
+            chkMetric.IsChecked = !oUserSetting.GetImperialUnits();
+        }
+
+        #endregion
+
+        #region Save/Cancel
+
+        private void btnCancel_Clicked(object sender, EventArgs e)
+        {
+            if (isChanged)
+                UpdateChangedState(false);
+        }
+
+        private void btnSave_Clicked(object sender, EventArgs e)
+        {
+            if (isChanged)
+                UpdateChangedState(false);
+        }
+
+        private void UpdateChangedState(bool state)
+        {
+            isChanged = state;
+
+            btnSave.IsEnabled = isChanged;
+            btnCancel.IsEnabled = isChanged;
+        }
+
+        #endregion
+
     }
 }

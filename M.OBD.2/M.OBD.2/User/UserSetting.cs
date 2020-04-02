@@ -66,6 +66,16 @@ namespace M.OBD2
             return !string.IsNullOrEmpty(Device_Name) && !string.IsNullOrEmpty(Device_Address);
         }
 
+        public bool GetMetricUnits()
+        {
+            return isMetric;
+        }
+
+        public bool GetImperialUnits()
+        {
+            return isMetric;
+        }
+
         public UNIT_TYPE GetUserUnits()
         {
             return Unit_Type;
