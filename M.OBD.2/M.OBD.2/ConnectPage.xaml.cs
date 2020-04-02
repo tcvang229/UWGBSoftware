@@ -7,7 +7,7 @@ using Xamarin.Forms;
 
 namespace M.OBD
 {
-    public partial class ConnectPage : ContentPage
+    public partial class ConnectPage : ContentPage, IPageLoad
     {
         #region Declarations
 
@@ -25,36 +25,53 @@ namespace M.OBD
 
         #endregion
 
-        #region Main Control
+        #region Page Initialization and Update
 
         public ConnectPage()
         {
             InitializeComponent();
 
-            LoadUserSetting();
+            InitBluetooth(out oBluetooth);
+            InitUserSettings();
             InitControls();
         }
 
-        private void ConnectPage_Appearing(object sender, EventArgs e)
+        public void InitBluetooth(out Bluetooth bluetooth)
         {
-            SetSelectState(STATE.NONE);
+            bluetooth = App.GetBluetooth();
         }
 
-        private void LoadUserSetting()
+        public void InitUserSettings()
         {
             oUserSetting = null;
             oUserSetting = new UserSetting();
         }
 
-        private void InitControls()
+        public void InitControls()
         {
-            Appearing += ConnectPage_Appearing;
+            Appearing += Page_Appearing;
             pkrDevices.SelectedIndexChanged += pkrDevices_SelectedIndexChanged;
             pkrDevices.Unfocused += pkrDevices_Unfocused;
             btnSelect.Clicked += btnSelect_Clicked;
 
             SetPickerSelection();
             SetSelectState(STATE.NONE);
+        }
+
+        public void Page_Appearing(object sender, EventArgs e)
+        {
+            UpdateControls();
+            UpdateUserSettings();
+        }
+
+        public void UpdateControls()
+        {
+            SetSelectState(STATE.NONE);
+        }
+
+        public void UpdateUserSettings()
+        {
+
         }
 
         #endregion
@@ -71,7 +88,7 @@ namespace M.OBD
             State = state;
             IsEnabled = false;
 
-            if (State == STATE.SELECT && App.isBluetoothDisconnected() && !isPickerActive)
+            if (State == STATE.SELECT && Bluetooth.isBluetoothDisconnected() && !isPickerActive)
             {
                 if (!CheckBluetooth())
                     return;
@@ -80,7 +97,7 @@ namespace M.OBD
                 LoadPicker();
             }
             else
-                btnSelect.IsEnabled = App.isBluetoothDisconnected();
+                btnSelect.IsEnabled = Bluetooth.isBluetoothDisconnected();
 
             State = STATE.NONE;
             IsEnabled = true;
@@ -102,11 +119,11 @@ namespace M.OBD
 
             try
             {
-                if (oBluetooth != null && oBluetooth.CheckConnection())
+                if (oBluetooth.CheckConnection())
                     oBluetooth.CloseConnection();
 
-                oBluetooth = null;
-                oBluetooth = new Bluetooth(true, false);
+                //oBluetooth = null;
+                //oBluetooth = new Bluetooth(true, false);
 
                 oBluetooth.LoadPairedDevices();
 

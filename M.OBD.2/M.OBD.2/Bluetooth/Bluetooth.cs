@@ -2,12 +2,14 @@
 //using Android.Bluetooth;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Android.Bluetooth;
+using Android.OS;
+using Debug = System.Diagnostics.Debug;
+
 #endregion
 
 namespace M.OBD2
@@ -25,7 +27,7 @@ namespace M.OBD2
         private static bool isDebug;
         private static bool isTest;
         private static string response;
-        private BLUETOOTH_STATE Bluetooth_State;
+        private static BLUETOOTH_STATE Bluetooth_State;
 
         // Constants
         private readonly List<string> InitCommands;
@@ -53,6 +55,7 @@ namespace M.OBD2
             status_message = string.Empty;
             isDebug = _isDebug;
             isTest = _isTest;
+            Bluetooth_State = BLUETOOTH_STATE.DISCONNECTED;
 
             InitCommands = new List<string>
             {
@@ -76,9 +79,11 @@ namespace M.OBD2
                 if (!BluetoothAdapter.DefaultAdapter.IsEnabled)
                     throw new Exception("Bluetooth is not enabled");
 
+                Clear();
+
                 AddRange(BluetoothAdapter.DefaultAdapter.BondedDevices.Select(device => new BluetoothConnection(device.Name, device.Address)).ToList());
 
-                SetStatusMessage(string.Format("{0} paired devices found", Count));
+                SetStatusMessage(String.Format("{0} paired devices found", Count));
 
                 return true;
             }
@@ -100,7 +105,7 @@ namespace M.OBD2
 
                 bthConnections.AddRange(BluetoothAdapter.DefaultAdapter.BondedDevices.Select(device => new BluetoothConnection(device.Name, device.Address)).ToList());
 
-                SetStatusMessage(string.Format("{0} paired devices found", bthConnections.Count));
+                SetStatusMessage(String.Format("{0} paired devices found", bthConnections.Count));
 
                 return bthConnections;
             }
@@ -125,7 +130,7 @@ namespace M.OBD2
 
         private async Task<BluetoothConnection> GetPairedDevice(string name, string address, bool isInit)
         {
-            if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(address))
+            if (String.IsNullOrEmpty(name) || String.IsNullOrEmpty(address))
             {
                 SetStatusMessage("No device parameters");
                 return null;
@@ -167,7 +172,7 @@ namespace M.OBD2
 
         private static bool CheckResponse(string result, string value)
         {
-            if (string.IsNullOrEmpty(result) || string.IsNullOrEmpty(value))
+            if (String.IsNullOrEmpty(result) || String.IsNullOrEmpty(value))
                 return false;
 
             return result.IndexOf(value, StringComparison.OrdinalIgnoreCase) >= 0;
@@ -185,7 +190,7 @@ namespace M.OBD2
                 if (oBthDevice == null)
                     throw new Exception("Unable to connect to device");
 
-                Android.OS.ParcelUuid[] puids = oBthDevice.GetUuids();
+                ParcelUuid[] puids = oBthDevice.GetUuids();
 
                 if (puids == null || puids.Length == 0)
                     throw new Exception("Invalid device UUID's");
@@ -275,6 +280,30 @@ namespace M.OBD2
 
         #endregion
 
+        #region Connection State Related
+
+        public static BLUETOOTH_STATE GetBluetoothState()
+        {
+            return Bluetooth_State;
+        }
+
+        public static void SetBluetoothState(BLUETOOTH_STATE _Bluetooth_State)
+        {
+            Bluetooth_State = _Bluetooth_State;
+        }
+
+        public static bool isBluetoothConnected()
+        {
+            return Bluetooth_State == BLUETOOTH_STATE.CONNECTED;
+        }
+
+        public static bool isBluetoothDisconnected()
+        {
+            return Bluetooth_State == BLUETOOTH_STATE.DISCONNECTED;
+        }
+
+        #endregion
+
         #region Test Related
 
         public bool SendCommandAsync_Test(BluetoothCmd bcmd)
@@ -298,7 +327,7 @@ namespace M.OBD2
             }
             catch (Exception e)
             {
-                status_message = string.Format("{0}: {1}", "Read Error", e.Message);
+                status_message = String.Format("{0}: {1}", "Read Error", e.Message);
                 bcmd.tx_fail++;
 
                 if (isDebug)
@@ -317,7 +346,7 @@ namespace M.OBD2
 
             sb.Append(bcmd.Cmd);
 
-            if (!string.IsNullOrEmpty(bcmd.sExpression))
+            if (!String.IsNullOrEmpty(bcmd.sExpression))
             {
                 for (int i = 0; i < bcmd.Bytes; i++)
                 {
@@ -328,7 +357,7 @@ namespace M.OBD2
                 sb.Append("FF");
 
             if (sb.Length == 0 || sb.Length > MAX_LENGTH)
-                return string.Empty;
+                return String.Empty;
 
             return sb.ToString();
         }
@@ -366,7 +395,7 @@ namespace M.OBD2
             }
             catch (Exception e)
             {
-                status_message = string.Format("{0}: {1}", "Read Error", e.Message);
+                status_message = String.Format("{0}: {1}", "Read Error", e.Message);
                 bcmd.tx_fail++;
 
                 if (isDebug)
@@ -384,7 +413,7 @@ namespace M.OBD2
             if (isDebug)
                 Debug.WriteLine("Tx: " + command);
 
-            response = string.Empty;
+            response = String.Empty;
 
             byte[] cmd = Encoding.ASCII.GetBytes(command + LINE_BREAK);
 
@@ -395,14 +424,14 @@ namespace M.OBD2
 
                 response = ReadData(bc.oBthSocket);
 
-                if (isDebug && !string.IsNullOrEmpty(response))
+                if (isDebug && !String.IsNullOrEmpty(response))
                     Debug.WriteLine("Rx: " + response);
 
                 return true;
             }
             catch (Exception e)
             {
-                status_message = string.Format("{0}: {1}", "Read Error", e.Message);
+                status_message = String.Format("{0}: {1}", "Read Error", e.Message);
 
                 if (isDebug)
                     Debug.WriteLine(status_message);
@@ -423,11 +452,11 @@ namespace M.OBD2
             while (c != END_CHAR);
 
             if (sb.Length == 0 || sb.Length > MAX_LENGTH)
-                return string.Empty;
+                return String.Empty;
 
             foreach (string str in REPLACE_VALUES)
             {
-                sb.Replace(str, string.Empty);
+                sb.Replace(str, String.Empty);
             }
 
             return sb.ToString();
@@ -452,7 +481,7 @@ namespace M.OBD2
             bcmd.Response = bcmd.sbResponse.ToString().Substring(bcmd.Cmd.Length).Trim();
 
             // Check if valid
-            if (!string.IsNullOrEmpty(bcmd.Response)) 
+            if (!String.IsNullOrEmpty(bcmd.Response)) 
             {
                 // If a string message: update counter, return as success
                 if (!bcmd.isRxBytes) 
@@ -465,7 +494,7 @@ namespace M.OBD2
                 if (bcmd.Bytes != 0 && !bcmd.Response.StartsWith(RX_MESSAGE, StringComparison.OrdinalIgnoreCase)) 
                 {
                     // Attempt to parse the hex value
-                    if (int.TryParse(bcmd.Response.Substring(bcmd.Response.Length - (bcmd.Bytes * 2)), NumberStyles.HexNumber, null, out int result))
+                    if (Int32.TryParse(bcmd.Response.Substring(bcmd.Response.Length - (bcmd.Bytes * 2)), NumberStyles.HexNumber, null, out int result))
                     {
                         // Store result and call math expression parser
                         bcmd.rxvalue = result;
@@ -498,7 +527,7 @@ namespace M.OBD2
 
         private static void SetErrorMessage(string msg, Exception e)
         {
-            status_message = string.Format("{0}: {1}", msg, e.Message);
+            status_message = String.Format("{0}: {1}", msg, e.Message);
 
             if (isDebug)
                 Debug.WriteLine(status_message);

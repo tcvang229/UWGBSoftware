@@ -12,13 +12,13 @@ namespace M.OBD._2
         //string to hold the location of the sql-lite database
         //init to empty
         public static string Database = string.Empty;
-        private static Bluetooth.BLUETOOTH_STATE Bluetooth_State;
+
+        // Singleton Bluetooth instance 
+        private static Bluetooth oBluetooth;
 
         public App()
         {
             InitializeComponent();
-
-            SetBluetoothState(Bluetooth.BLUETOOTH_STATE.DISCONNECTED);
 
             //setup navigation for the rest of the project
             //make the MainPage the first page that opens
@@ -29,6 +29,7 @@ namespace M.OBD._2
         {
             InitializeComponent();
 
+            oBluetooth = new Bluetooth(true, true);
 
             MainPage = new NavigationPage(new MainPage());
 
@@ -47,24 +48,9 @@ namespace M.OBD._2
         {
         }
 
-        public static Bluetooth.BLUETOOTH_STATE GetBluetoothState()
+        public static Bluetooth GetBluetooth()
         {
-            return Bluetooth_State;
-        }
-
-        public static void SetBluetoothState(Bluetooth.BLUETOOTH_STATE _Bluetooth_State)
-        {
-            Bluetooth_State = _Bluetooth_State;
-        }
-
-        public static bool isBluetoothConnected()
-        {
-            return Bluetooth_State == Bluetooth.BLUETOOTH_STATE.CONNECTED;
-        }
-
-        public static bool isBluetoothDisconnected()
-        {
-            return Bluetooth_State == Bluetooth.BLUETOOTH_STATE.DISCONNECTED;
+            return oBluetooth ?? throw new Exception("Bluetooth Initialization Error!");
         }
     }
 }

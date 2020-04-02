@@ -12,11 +12,11 @@ using Xamarin.Forms;
 
 namespace M.OBD
 {
-    public partial class ResultsPage : ContentPage
+    public partial class ResultsPage : ContentPage, IPageLoad
     {
         #region Declarations
 
-        private static Bluetooth oBluetooth;
+        private readonly Bluetooth oBluetooth;
         private static ProcessItems ProcessItems;
         private BlueToothCmds oBlueToothCmds;
         private DataTemplate CellTemplate;
@@ -27,47 +27,46 @@ namespace M.OBD
 
         #endregion
 
-        #region Main Control
+        #region Page Initialization and Update
 
         public ResultsPage()
         {
             InitializeComponent();
 
-            InitListView();
+            InitBluetooth(out oBluetooth);
             InitControls();
             InitUserSettings();
         }
 
-        private void ResultsPage_Appearing(object sender, EventArgs e)
+        public void InitBluetooth(out Bluetooth bluetooth)
         {
-            UpdateControls();
+            bluetooth = App.GetBluetooth();
         }
 
-        private void UpdateControls(bool isDisconnected)
-        {
-            App.SetBluetoothState( (isDisconnected) 
-                ? Bluetooth.BLUETOOTH_STATE.DISCONNECTED 
-                : Bluetooth.BLUETOOTH_STATE.CONNECTED);
-            UpdateControls();
-        }
-
-        private void UpdateControls(Bluetooth.BLUETOOTH_STATE Bluetooth_State)
-        {
-            App.SetBluetoothState(Bluetooth_State);
-            UpdateControls();
-        }
-
-        private void UpdateControls()
-        {
-            btnConnect.IsEnabled = App.isBluetoothDisconnected();
-            btnDisconnect.IsEnabled = !btnConnect.IsEnabled;
-        }
-
-        private void InitControls()
+        public void InitControls()
         {
             btnConnect.Clicked += btnConnect_Clicked;
             btnDisconnect.Clicked += btnDisconnect_Clicked;
-            Appearing += ResultsPage_Appearing;
+            Appearing += Page_Appearing;
+
+            InitListView();
+        }
+
+        public void Page_Appearing(object sender, EventArgs e)
+        {
+            UpdateControls();
+            UpdateUserSettings();
+        }
+
+        public void UpdateControls()
+        {
+            btnConnect.IsEnabled = Bluetooth.isBluetoothDisconnected();
+            btnDisconnect.IsEnabled = !Bluetooth.isBluetoothDisconnected();
+        }
+
+        public void UpdateUserSettings()
+        {
+
         }
 
         #endregion
@@ -80,7 +79,9 @@ namespace M.OBD
                 return;
             
             isTimerRun = false; 
-            UpdateControls(Bluetooth.BLUETOOTH_STATE.DISCONNECTED);
+
+            Bluetooth.SetBluetoothState(Bluetooth.BLUETOOTH_STATE.DISCONNECTED);
+            UpdateControls();
         }
 
         private void btnConnect_Clicked(object sender, EventArgs e)
@@ -88,7 +89,8 @@ namespace M.OBD
             if (isTimerRun)
                 return;
 
-            UpdateControls(Bluetooth.BLUETOOTH_STATE.CONNECTED);
+            Bluetooth.SetBluetoothState(Bluetooth.BLUETOOTH_STATE.CONNECTED);
+            UpdateControls();
             // ToDo: pass user settings db values
             OpenBluetooth("OBDII", "00:1D:A5:05:4F:05", true);
         }
@@ -97,7 +99,7 @@ namespace M.OBD
 
         #region User Settings
 
-        private void InitUserSettings()
+        public void InitUserSettings()
         {
             oUserSetting = new UserSetting();
         }
@@ -127,7 +129,7 @@ namespace M.OBD
 
                         if (dtCurrent >= bcmd.dtNext)
                         {
-                            RunProcess(bcmd, oBluetooth.isTestMode());
+                            RunProcess(bcmd, oBluetooth);
 
                             bcmd.dtNext = dtCurrent.AddMilliseconds(bcmd.Rate);
                             //Debug.WriteLine("Process:" + bcmd.Name);
@@ -138,11 +140,11 @@ namespace M.OBD
             );
         }
 
-        private static void RunProcess(BluetoothCmd bcmd, bool isTestMode)
+        private static void RunProcess(BluetoothCmd bcmd, Bluetooth oBluetooth)
         {
             if (bcmd.CmdBytes != null && bcmd.CmdBytes.Length != 0)
             {
-                if (!isTestMode)
+                if (!oBluetooth.isTestMode())
                 {
                     Task.Run(async () =>
                     {
@@ -253,8 +255,8 @@ namespace M.OBD
 
         private async void OpenBluetooth(string name, string address, bool isTest)
         {
-            oBluetooth = null;
-            oBluetooth = new Bluetooth(true, isTest); // Create connection object
+            //oBluetooth = null;
+            //oBluetooth = new Bluetooth(true, isTest); // Create connection object
 
             if (!oBluetooth.isTestMode())
             {
@@ -323,7 +325,7 @@ namespace M.OBD
                     break;
             }
 
-            UpdateControls(true);
+            Bluetooth.SetBluetoothState(Bluetooth.BLUETOOTH_STATE.CONNECTED);
         }
 
         private async void DisplayMessage(string message)
