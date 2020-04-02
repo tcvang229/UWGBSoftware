@@ -6,14 +6,14 @@ using M.OBD2;
 namespace M.OBD
 {
     /// <summary>
-    /// Common initializing and update methods on content page loading and appearing
+    /// Common initializing and update methods per content page on loading and appearing
     /// </summary>
 
     internal interface IPageLoad
     { 
         // Contructor Methods
         void InitControls();
-        void InitUserSettings();
+        void InitUserSettings(out UserSetting usersetting);
         void InitBluetooth(out Bluetooth bluetooth);
 
         // Page refresh/update on appear methods

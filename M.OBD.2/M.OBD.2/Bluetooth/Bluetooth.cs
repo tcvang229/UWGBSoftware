@@ -83,7 +83,7 @@ namespace M.OBD2
 
                 AddRange(BluetoothAdapter.DefaultAdapter.BondedDevices.Select(device => new BluetoothConnection(device.Name, device.Address)).ToList());
 
-                SetStatusMessage(String.Format("{0} paired devices found", Count));
+                SetStatusMessage(string.Format("{0} paired devices found", Count));
 
                 return true;
             }
@@ -105,7 +105,7 @@ namespace M.OBD2
 
                 bthConnections.AddRange(BluetoothAdapter.DefaultAdapter.BondedDevices.Select(device => new BluetoothConnection(device.Name, device.Address)).ToList());
 
-                SetStatusMessage(String.Format("{0} paired devices found", bthConnections.Count));
+                SetStatusMessage(string.Format("{0} paired devices found", bthConnections.Count));
 
                 return bthConnections;
             }
@@ -130,7 +130,7 @@ namespace M.OBD2
 
         private async Task<BluetoothConnection> GetPairedDevice(string name, string address, bool isInit)
         {
-            if (String.IsNullOrEmpty(name) || String.IsNullOrEmpty(address))
+            if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(address))
             {
                 SetStatusMessage("No device parameters");
                 return null;
@@ -172,7 +172,7 @@ namespace M.OBD2
 
         private static bool CheckResponse(string result, string value)
         {
-            if (String.IsNullOrEmpty(result) || String.IsNullOrEmpty(value))
+            if (string.IsNullOrEmpty(result) || string.IsNullOrEmpty(value))
                 return false;
 
             return result.IndexOf(value, StringComparison.OrdinalIgnoreCase) >= 0;
@@ -327,7 +327,7 @@ namespace M.OBD2
             }
             catch (Exception e)
             {
-                status_message = String.Format("{0}: {1}", "Read Error", e.Message);
+                status_message = string.Format("{0}: {1}", "Read Error", e.Message);
                 bcmd.tx_fail++;
 
                 if (isDebug)
@@ -346,7 +346,7 @@ namespace M.OBD2
 
             sb.Append(bcmd.Cmd);
 
-            if (!String.IsNullOrEmpty(bcmd.sExpression))
+            if (!string.IsNullOrEmpty(bcmd.sExpression))
             {
                 for (int i = 0; i < bcmd.Bytes; i++)
                 {
@@ -357,7 +357,7 @@ namespace M.OBD2
                 sb.Append("FF");
 
             if (sb.Length == 0 || sb.Length > MAX_LENGTH)
-                return String.Empty;
+                return string.Empty;
 
             return sb.ToString();
         }
@@ -395,7 +395,7 @@ namespace M.OBD2
             }
             catch (Exception e)
             {
-                status_message = String.Format("{0}: {1}", "Read Error", e.Message);
+                status_message = string.Format("{0}: {1}", "Read Error", e.Message);
                 bcmd.tx_fail++;
 
                 if (isDebug)
@@ -413,7 +413,7 @@ namespace M.OBD2
             if (isDebug)
                 Debug.WriteLine("Tx: " + command);
 
-            response = String.Empty;
+            response = string.Empty;
 
             byte[] cmd = Encoding.ASCII.GetBytes(command + LINE_BREAK);
 
@@ -424,14 +424,14 @@ namespace M.OBD2
 
                 response = ReadData(bc.oBthSocket);
 
-                if (isDebug && !String.IsNullOrEmpty(response))
+                if (isDebug && !string.IsNullOrEmpty(response))
                     Debug.WriteLine("Rx: " + response);
 
                 return true;
             }
             catch (Exception e)
             {
-                status_message = String.Format("{0}: {1}", "Read Error", e.Message);
+                status_message = string.Format("{0}: {1}", "Read Error", e.Message);
 
                 if (isDebug)
                     Debug.WriteLine(status_message);
@@ -452,11 +452,11 @@ namespace M.OBD2
             while (c != END_CHAR);
 
             if (sb.Length == 0 || sb.Length > MAX_LENGTH)
-                return String.Empty;
+                return string.Empty;
 
             foreach (string str in REPLACE_VALUES)
             {
-                sb.Replace(str, String.Empty);
+                sb.Replace(str, string.Empty);
             }
 
             return sb.ToString();
@@ -481,7 +481,7 @@ namespace M.OBD2
             bcmd.Response = bcmd.sbResponse.ToString().Substring(bcmd.Cmd.Length).Trim();
 
             // Check if valid
-            if (!String.IsNullOrEmpty(bcmd.Response)) 
+            if (!string.IsNullOrEmpty(bcmd.Response)) 
             {
                 // If a string message: update counter, return as success
                 if (!bcmd.isRxBytes) 
@@ -494,7 +494,7 @@ namespace M.OBD2
                 if (bcmd.Bytes != 0 && !bcmd.Response.StartsWith(RX_MESSAGE, StringComparison.OrdinalIgnoreCase)) 
                 {
                     // Attempt to parse the hex value
-                    if (Int32.TryParse(bcmd.Response.Substring(bcmd.Response.Length - (bcmd.Bytes * 2)), NumberStyles.HexNumber, null, out int result))
+                    if (int.TryParse(bcmd.Response.Substring(bcmd.Response.Length - (bcmd.Bytes * 2)), NumberStyles.HexNumber, null, out int result))
                     {
                         // Store result and call math expression parser
                         bcmd.rxvalue = result;
@@ -527,7 +527,7 @@ namespace M.OBD2
 
         private static void SetErrorMessage(string msg, Exception e)
         {
-            status_message = String.Format("{0}: {1}", msg, e.Message);
+            status_message = string.Format("{0}: {1}", msg, e.Message);
 
             if (isDebug)
                 Debug.WriteLine(status_message);

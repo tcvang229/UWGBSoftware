@@ -16,7 +16,7 @@ namespace M.OBD
         #region Declarations
 
         private readonly Bluetooth oBluetooth;
-        private UserSetting oUserSetting;
+        private readonly UserSetting oUserSetting;
 
         #endregion
 
@@ -27,7 +27,7 @@ namespace M.OBD
             InitializeComponent();
 
             InitBluetooth(out oBluetooth);
-            InitUserSettings();
+            InitUserSettings(out oUserSetting);
             InitControls();
         }
 
@@ -36,16 +36,15 @@ namespace M.OBD
             bluetooth = App.GetBluetooth();
         }
 
+        public void InitUserSettings(out UserSetting usersetting)
+        {
+            usersetting = App.GetUserSetting();
+        }
+
         public void InitControls()
         {
             Appearing += Page_Appearing;
             btnClear.Clicked += btnClear_Clicked;
-        }
-
-        public void InitUserSettings()
-        {
-            oUserSetting = null;
-            oUserSetting = new UserSetting();
         }
 
         public void Page_Appearing(object sender, EventArgs e)
@@ -56,7 +55,7 @@ namespace M.OBD
 
         public void UpdateControls()
         {
-            btnClear.IsEnabled = Bluetooth.isBluetoothDisconnected();
+            btnClear.IsEnabled = !Bluetooth.isBluetoothDisconnected();
         }
 
         public void UpdateUserSettings()
@@ -68,6 +67,7 @@ namespace M.OBD
 
         private void btnClear_Clicked(object sender, EventArgs e)
         {
+
         }
     }
 }

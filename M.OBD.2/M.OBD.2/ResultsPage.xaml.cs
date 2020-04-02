@@ -20,7 +20,7 @@ namespace M.OBD
         private static ProcessItems ProcessItems;
         private BlueToothCmds oBlueToothCmds;
         private DataTemplate CellTemplate;
-        private UserSetting oUserSetting;
+        private readonly UserSetting oUserSetting;
 
         private bool isTimerRun;
         private const int TIMER_UPDATE = 25;       // Update timer iteration delay in ms
@@ -34,13 +34,18 @@ namespace M.OBD
             InitializeComponent();
 
             InitBluetooth(out oBluetooth);
+            InitUserSettings(out oUserSetting);
             InitControls();
-            InitUserSettings();
         }
 
         public void InitBluetooth(out Bluetooth bluetooth)
         {
             bluetooth = App.GetBluetooth();
+        }
+
+        public void InitUserSettings(out UserSetting usersetting)
+        {
+            usersetting = App.GetUserSetting();
         }
 
         public void InitControls()
@@ -93,15 +98,6 @@ namespace M.OBD
             UpdateControls();
             // ToDo: pass user settings db values
             OpenBluetooth("OBDII", "00:1D:A5:05:4F:05", true);
-        }
-
-        #endregion
-
-        #region User Settings
-
-        public void InitUserSettings()
-        {
-            oUserSetting = new UserSetting();
         }
 
         #endregion

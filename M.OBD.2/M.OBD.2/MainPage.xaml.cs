@@ -14,7 +14,7 @@ namespace M.OBD
 
         }
 
-        void ToolbarItem_Clicked(System.Object sender, System.EventArgs e)
+        void ToolbarItem_Clicked(object sender, System.EventArgs e)
         {
             //TODO
             

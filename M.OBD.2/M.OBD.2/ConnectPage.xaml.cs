@@ -11,8 +11,8 @@ namespace M.OBD
     {
         #region Declarations
 
-        private Bluetooth oBluetooth;
-        private UserSetting oUserSetting;
+        private readonly Bluetooth oBluetooth;
+        private readonly UserSetting oUserSetting;
         private bool isPickerActive;
         private bool isSelected;
 
@@ -32,7 +32,7 @@ namespace M.OBD
             InitializeComponent();
 
             InitBluetooth(out oBluetooth);
-            InitUserSettings();
+            InitUserSettings(out oUserSetting);
             InitControls();
         }
 
@@ -41,10 +41,9 @@ namespace M.OBD
             bluetooth = App.GetBluetooth();
         }
 
-        public void InitUserSettings()
+        public void InitUserSettings(out UserSetting usersetting)
         {
-            oUserSetting = null;
-            oUserSetting = new UserSetting();
+            usersetting = App.GetUserSetting();
         }
 
         public void InitControls()
@@ -216,7 +215,7 @@ namespace M.OBD
         
         #region Misc
 
-        void ToolbarItem_Clicked(System.Object sender, System.EventArgs e)
+        void ToolbarItem_Clicked(object sender, System.EventArgs e)
         {
             //TODO
         }

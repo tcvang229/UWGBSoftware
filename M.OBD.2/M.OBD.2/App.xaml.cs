@@ -13,8 +13,9 @@ namespace M.OBD._2
         //init to empty
         public static string Database = string.Empty;
 
-        // Singleton Bluetooth instance 
+        // Singleton instances
         private static Bluetooth oBluetooth;
+        private static UserSetting oUserSetting;
 
         public App()
         {
@@ -30,6 +31,7 @@ namespace M.OBD._2
             InitializeComponent();
 
             oBluetooth = new Bluetooth(true, true);
+            oUserSetting = new UserSetting();
 
             MainPage = new NavigationPage(new MainPage());
 
@@ -46,6 +48,11 @@ namespace M.OBD._2
 
         protected override void OnResume()
         {
+        }
+
+        public static UserSetting GetUserSetting()
+        {
+            return oUserSetting ?? throw new Exception("User Setting Initialization Error!");
         }
 
         public static Bluetooth GetBluetooth()
