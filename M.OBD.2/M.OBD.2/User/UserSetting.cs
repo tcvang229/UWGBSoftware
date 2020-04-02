@@ -16,8 +16,18 @@ namespace M.OBD2
         // Bluetooth device address
         private readonly string Device_Address;
 
+        // If logging is user enabled/disabled
+        private bool isLoggingEnabled;
+
+        // If logging starts automatically
+        private bool isLoggingAuto;
+
+        // Log file path
+        private string LoggingPath;
+
         // Non Db
         private UNIT_TYPE Unit_Type;
+        private string DEFAULT_LOG_PATH = ""; // ToDo: add a default file path
 
         public enum UNIT_TYPE
         {
@@ -34,6 +44,9 @@ namespace M.OBD2
             isMetric = false;
             Device_Name = "OBDII";
             Device_Address = "00:1D:A5:05:4F:05";
+            isLoggingEnabled = false;
+            isLoggingAuto = false;
+            LoggingPath = (string.IsNullOrEmpty(LoggingPath)) ? DEFAULT_LOG_PATH : LoggingPath; 
 
             UpdateUserUnits();
         }
@@ -61,6 +74,37 @@ namespace M.OBD2
         public void UpdateUserUnits()
         {
             Unit_Type = (isMetric) ? UNIT_TYPE.METRIC : UNIT_TYPE.IMPERIAL;
+        }
+
+        public bool GetLoggingEnabled()
+        {
+            return isLoggingEnabled;
+        }
+
+        public void SetLoggingEnabled(bool value)
+        {
+            isLoggingEnabled = value;
+        }
+
+        public bool GetLoggingAuto()
+        {
+            return isLoggingAuto;
+        }
+
+        public void SetLoggingAuto(bool value)
+        {
+            isLoggingAuto = value;
+        }
+
+        public string GetLoggingPath()
+        {
+            return LoggingPath;
+        }
+
+        public void SetLoggingPath(string value)
+        {
+            if (!string.IsNullOrEmpty(value))
+                LoggingPath = value;
         }
     }
 }

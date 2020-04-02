@@ -56,7 +56,7 @@ namespace M.OBD
 
         public void UpdateControls()
         {
-
+            IsEnabled = Bluetooth.isBluetoothDisconnected();
         }
 
         public void UpdateUserSettings()

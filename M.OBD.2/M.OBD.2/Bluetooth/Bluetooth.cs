@@ -19,7 +19,9 @@ namespace M.OBD2
         #region Declarations
 
         // Objects
+        
         private BluetoothConnection oBluetoothConnection;
+        private readonly Logging oLogging;
         private static Random oRandom;
 
         // Vars
@@ -48,7 +50,7 @@ namespace M.OBD2
 
         #endregion
 
-        #region Main Control
+        #region Initialization
 
         public Bluetooth(bool _isDebug, bool _isTest)
         {
@@ -56,6 +58,7 @@ namespace M.OBD2
             isDebug = _isDebug;
             isTest = _isTest;
             Bluetooth_State = BLUETOOTH_STATE.DISCONNECTED;
+            oLogging = new Logging();
 
             InitCommands = new List<string>
             {
