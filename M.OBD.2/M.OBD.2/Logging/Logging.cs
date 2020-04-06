@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace M.OBD2
+﻿namespace M.OBD2
 {
     public class Logging
     {

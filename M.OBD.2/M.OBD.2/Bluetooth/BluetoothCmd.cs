@@ -1,13 +1,13 @@
 ﻿#region Using Statements
 
+using M.OBD._2;
+using Newtonsoft.Json;
+using SQLite;
 using System;
 using System.Collections.Generic;
-using M.OBD._2;
-using SQLite;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 
 #endregion
 
@@ -89,11 +89,11 @@ namespace M.OBD2
         // Maximum user process selections
         public const int MAX_COMMANDS = 10;
         // Duplicated specifier types for faster iteration
-        public const string SCOMMAND_SPECIFIER = ","; 
+        public const string SCOMMAND_SPECIFIER = ",";
         public const char COMMAND_SPECIFIER = ',';
 
         // Process command type 
-        public enum COMMAND_TYPE 
+        public enum COMMAND_TYPE
         {
             DEFAULT,
             AFR,
@@ -104,7 +104,7 @@ namespace M.OBD2
         }
 
         // Current selection state of a process
-        public enum SELECTION_TYPE 
+        public enum SELECTION_TYPE
         {
             NONE,   // No selection
             USER,   // User selected
@@ -188,7 +188,7 @@ namespace M.OBD2
         #region Command Type Related
 
         // Array to Json serialization method for handling db arrays
-        public static string CommandTypesToJson(COMMAND_TYPE[] Command_Types) 
+        public static string CommandTypesToJson(COMMAND_TYPE[] Command_Types)
         {
             try
             {
@@ -202,12 +202,12 @@ namespace M.OBD2
         }
 
         // Json to array deserialize method for handling db arrays
-        public static COMMAND_TYPE[] JsonToCommandTypes(string sCommand_Types) 
+        public static COMMAND_TYPE[] JsonToCommandTypes(string sCommand_Types)
         {
             if (!string.IsNullOrEmpty(sCommand_Types))
             {
                 try
-                { 
+                {
                     return JsonConvert.DeserializeObject<COMMAND_TYPE[]>(sCommand_Types);
                 }
                 catch

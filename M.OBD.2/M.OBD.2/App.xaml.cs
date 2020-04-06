@@ -1,7 +1,6 @@
-﻿using System;
-using M.OBD2;
+﻿using M.OBD2;
+using System;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 //using M.OBD.2.Services;
 //using M.OBD.2.Views;
 

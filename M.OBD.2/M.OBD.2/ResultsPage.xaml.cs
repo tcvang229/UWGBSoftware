@@ -1,11 +1,11 @@
 ﻿#region Using statements
 
+using M.OBD._2;
+using M.OBD2;
 using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using M.OBD._2;
-using M.OBD2;
 using Xamarin.Forms;
 
 #endregion
@@ -82,8 +82,8 @@ namespace M.OBD
         {
             if (!isTimerRun)
                 return;
-            
-            isTimerRun = false; 
+
+            isTimerRun = false;
 
             Bluetooth.SetBluetoothState(Bluetooth.BLUETOOTH_STATE.DISCONNECTED);
             UpdateControls();
@@ -258,8 +258,8 @@ namespace M.OBD
             {
                 if (!Bluetooth.CheckAdapterPresent()) // Check if bluetooth is available on this device: display message and return on failure
                 {
-                   ProcessConnectionError(ERROR_TYPE.ADAPTER_ERROR);
-                   return;
+                    ProcessConnectionError(ERROR_TYPE.ADAPTER_ERROR);
+                    return;
                 }
 
                 if (!Bluetooth.CheckAdapterEnabled()) // Check if bluetooth is enabled on this device: display message and return on failure
@@ -309,7 +309,7 @@ namespace M.OBD
                 case ERROR_TYPE.ADAPTER_ERROR: // Fatal Bluetooth not present or device error
                     break;
                 case ERROR_TYPE.ADAPTER_DISABLED: // Bluetooth turned off
-                    
+
                     break;
                 case ERROR_TYPE.PAIR_ERROR:
                     break;

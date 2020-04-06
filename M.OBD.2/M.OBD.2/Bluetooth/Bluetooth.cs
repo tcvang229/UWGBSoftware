@@ -1,13 +1,13 @@
 ﻿#region Using Statements
 //using Android.Bluetooth;
+using Android.Bluetooth;
+using Android.OS;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Android.Bluetooth;
-using Android.OS;
 using Debug = System.Diagnostics.Debug;
 
 #endregion
@@ -19,7 +19,7 @@ namespace M.OBD2
         #region Declarations
 
         // Objects
-        
+
         private BluetoothConnection oBluetoothConnection;
         private readonly Logging oLogging;
         private static Random oRandom;
@@ -104,7 +104,7 @@ namespace M.OBD2
                 if (!BluetoothAdapter.DefaultAdapter.IsEnabled)
                     throw new Exception("Bluetooth is not enabled");
 
-                List<BluetoothConnection> bthConnections =  new List<BluetoothConnection>();
+                List<BluetoothConnection> bthConnections = new List<BluetoothConnection>();
 
                 bthConnections.AddRange(BluetoothAdapter.DefaultAdapter.BondedDevices.Select(device => new BluetoothConnection(device.Name, device.Address)).ToList());
 
@@ -484,17 +484,17 @@ namespace M.OBD2
             bcmd.Response = bcmd.sbResponse.ToString().Substring(bcmd.Cmd.Length).Trim();
 
             // Check if valid
-            if (!string.IsNullOrEmpty(bcmd.Response)) 
+            if (!string.IsNullOrEmpty(bcmd.Response))
             {
                 // If a string message: update counter, return as success
-                if (!bcmd.isRxBytes) 
+                if (!bcmd.isRxBytes)
                 {
                     bcmd.rx_good++;
                     return true;
                 }
 
                 // If we are expecting bytes returned and response is valid
-                if (bcmd.Bytes != 0 && !bcmd.Response.StartsWith(RX_MESSAGE, StringComparison.OrdinalIgnoreCase)) 
+                if (bcmd.Bytes != 0 && !bcmd.Response.StartsWith(RX_MESSAGE, StringComparison.OrdinalIgnoreCase))
                 {
                     // Attempt to parse the hex value
                     if (int.TryParse(bcmd.Response.Substring(bcmd.Response.Length - (bcmd.Bytes * 2)), NumberStyles.HexNumber, null, out int result))

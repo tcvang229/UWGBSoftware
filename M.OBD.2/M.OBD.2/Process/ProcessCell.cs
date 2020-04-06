@@ -56,9 +56,9 @@ namespace M.OBD2
                 Orientation = StackOrientation.Horizontal,
                 HorizontalOptions = LayoutOptions.StartAndExpand,
                 Padding = new Thickness(15, 5, 5, 15),
-                Children = 
+                Children =
                 {
-                      new StackLayout 
+                      new StackLayout
                       {
                         Orientation = StackOrientation.Horizontal,
                         Children = { imgStatus,lblName, lblValue, lblUnits }

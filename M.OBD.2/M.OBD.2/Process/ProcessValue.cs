@@ -1,15 +1,16 @@
 ﻿#region Using Statements
+using org.mariuszgromada.math.mxparser;
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Android.OS;
-using org.mariuszgromada.math.mxparser;
 #endregion
 
 namespace M.OBD2
 {
-    public class ProcessValue
+    public class ProcessValue : UnitFactory
     {
+        #region Declarations
+
         public DateTime dtNext { get; set; }
         public StringBuilder sbResponse { get; set; }
         public string Response { get; set; }
@@ -17,7 +18,7 @@ namespace M.OBD2
         public ulong tx_good { get; set; }
         public ulong rx_fail { get; set; }
         public ulong rx_good { get; set; }
-        
+
         public int rxvalue { get; set; }  // Received raw value
         public double value { get; set; }       // Processed value
         public bool isValid { get; set; }
@@ -30,6 +31,10 @@ namespace M.OBD2
         private double min;
         private double max;
         private int decimals;
+
+        #endregion
+
+        #region Initialization
 
         public ProcessValue()
         {
@@ -47,29 +52,14 @@ namespace M.OBD2
             if (bthcmd.Command_Types == null || bthcmd.Command_Types.Length == 0)
                 return;
 
-            bool isImperial_Expression = (bthcmd.Expression_Imperial != null);
-            bool isImperial_Units = !(string.IsNullOrEmpty(bthcmd.Units_Imperial));
-            bool isMetric_Expression = (bthcmd.Expression_Metric != null);
-            bool isMetric_Units = !(string.IsNullOrEmpty(bthcmd.Units_Metric));
+            InitUnitType(bthcmd, Unit_Type);
 
-            if (!isMetric_Expression && !isImperial_Expression) 
+            if (string.IsNullOrEmpty(sExpression))
                 return;
 
             string varvalue;
-            sExpression = null;
-            sUnits = string.Empty;
-
-            sExpression = (Unit_Type == UserSetting.UNIT_TYPE.METRIC && isMetric_Expression) 
-                ? bthcmd.Expression_Metric 
-                : bthcmd.Expression_Imperial;
-
-            if (string.IsNullOrEmpty(sExpression)) 
-                return;
-
-            if (Unit_Type == UserSetting.UNIT_TYPE.METRIC && isMetric_Units)
-                sUnits = bthcmd.Units_Metric;
-            else if (isImperial_Units)
-                sUnits = bthcmd.Units_Imperial;
+            e = null;
+            arguments = null;
 
             e = new Expression(sExpression.Trim());
             arguments = new List<Argument>();
@@ -87,6 +77,10 @@ namespace M.OBD2
             decimals = bthcmd.Decimals;
         }
 
+        #endregion
+
+        #region Calculations
+
         public bool Calculate()
         {
             return Calculate(this);
@@ -99,7 +93,7 @@ namespace M.OBD2
 
             if (p.arguments.Count == 1) // Single variable
             {
-                p.arguments[0].setArgumentValue(p.rxvalue); 
+                p.arguments[0].setArgumentValue(p.rxvalue);
                 p.value = p.e.calculate();
                 p.value = Math.Round(p.value, p.decimals);
 
@@ -113,21 +107,39 @@ namespace M.OBD2
             }
             else // Multi variable
             {
-                
+
             }
 
             return true;
         }
 
+        #endregion
+
+        #region Gets/Sets
+
         public string GetUnits()
         {
             return sUnits;
         }
+
+        public void SetUnits(string svalue)
+        {
+            sUnits = svalue;
+        }
+
+        public void SetExpression(string svalue)
+        {
+            sExpression = svalue;
+        }
+
+        #endregion
     }
+
+    #region Helper Class
 
     public class ProcessValues
     {
-       private static readonly char[] VARIABLES = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
+        private static readonly char[] VARIABLES = { 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z' };
 
         public static string GetVariable(int index)
         {
@@ -137,4 +149,6 @@ namespace M.OBD2
             return VARIABLES[index].ToString();
         }
     }
+
+    #endregion
 }

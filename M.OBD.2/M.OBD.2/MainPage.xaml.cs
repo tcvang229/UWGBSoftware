@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
+﻿
 using Xamarin.Forms;
 
 namespace M.OBD
@@ -17,7 +15,7 @@ namespace M.OBD
         void ToolbarItem_Clicked(object sender, System.EventArgs e)
         {
             //TODO
-            
+
         }
     }
 }

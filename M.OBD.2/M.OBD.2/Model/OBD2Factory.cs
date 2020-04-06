@@ -1,5 +1,4 @@
-﻿using System;
-namespace M.OBD.Model
+﻿namespace M.OBD.Model
 {
     public class OBD2Factory : AbstractToolFactory
     {

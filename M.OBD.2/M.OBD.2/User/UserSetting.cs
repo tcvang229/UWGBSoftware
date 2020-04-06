@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace M.OBD2
+﻿namespace M.OBD2
 {
     public class UserSetting
     {
@@ -46,7 +42,7 @@ namespace M.OBD2
             Device_Address = "00:1D:A5:05:4F:05";
             isLoggingEnabled = false;
             isLoggingAuto = false;
-            LoggingPath = (string.IsNullOrEmpty(LoggingPath)) ? DEFAULT_LOG_PATH : LoggingPath; 
+            LoggingPath = (string.IsNullOrEmpty(LoggingPath)) ? DEFAULT_LOG_PATH : LoggingPath;
 
             UpdateUserUnits();
         }

@@ -1,7 +1,7 @@
 ﻿#region Using Statements
-using System;
 using M.OBD._2;
 using M.OBD2;
+using System;
 using Xamarin.Forms;
 #endregion
 
@@ -150,7 +150,7 @@ namespace M.OBD
             try
             {
                 if (CheckPickerSelection()) return;
-                SetPickerSelection(((Picker) sender).SelectedIndex);
+                SetPickerSelection(((Picker)sender).SelectedIndex);
                 isSelected = true;
             }
             catch (Exception ex)
@@ -161,10 +161,10 @@ namespace M.OBD
 
         private void SetPickerSelection(int index)
         {
-            if (index == -1 || pkrDevices.Items.Count == 0) 
+            if (index == -1 || pkrDevices.Items.Count == 0)
                 return;
 
-            BluetoothConnection oBc = (BluetoothConnection) pkrDevices.SelectedItem;
+            BluetoothConnection oBc = (BluetoothConnection)pkrDevices.SelectedItem;
 
             if (oBc != null && oBluetooth != null)
             {
@@ -212,7 +212,7 @@ namespace M.OBD
         }
 
         #endregion
-        
+
         #region Misc
 
         void ToolbarItem_Clicked(object sender, System.EventArgs e)

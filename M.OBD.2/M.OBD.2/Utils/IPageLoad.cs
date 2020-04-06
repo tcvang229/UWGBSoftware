@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using M.OBD2;
+﻿using M.OBD2;
+using System;
 
 namespace M.OBD
 {
@@ -10,7 +8,7 @@ namespace M.OBD
     /// </summary>
 
     internal interface IPageLoad
-    { 
+    {
         // Contructor Methods
         void InitControls();
         void InitUserSettings(out UserSetting usersetting);

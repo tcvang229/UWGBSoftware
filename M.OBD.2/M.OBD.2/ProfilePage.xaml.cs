@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using M.OBD._2;
+﻿using M.OBD._2;
 using M.OBD2;
+using System;
 using Xamarin.Forms;
 
 namespace M.OBD
