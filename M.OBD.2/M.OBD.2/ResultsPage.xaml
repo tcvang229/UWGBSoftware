@@ -15,13 +15,14 @@
                     <RowDefinition Height="25"/>
                     <RowDefinition Height="auto"/>
                     <RowDefinition Height="25"/>
+                    <RowDefinition Height="0"/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
                 <Button Grid.Row="2" Grid.Column="0" Text="Run" x:Name ="btnConnect" Clicked="btnConnect_Clicked" IsEnabled="False"/>
                 <Button Grid.Row="2" Grid.Column="1" Text="Stop" x:Name ="btnDisconnect" Clicked="btnDisconnect_Clicked" IsEnabled="False"/>
                 <Button Grid.Row="2" Grid.Column="2" Text="Select" x:Name ="btnSelect" Clicked="btnSelect_Clicked" IsEnabled="False"/>
+                <Picker Grid.Row="4" Grid.Column="0" x:Name="pkrProcess" Title =""  ItemDisplayBinding="{Binding Name}" HorizontalOptions="Fill" SelectedIndexChanged = "pkrProcess_SelectedIndexChanged" IsEnabled="False" IsVisible="False"/>
             </Grid>
-            <Picker x:Name="pkrProcess" Title ="" TitleColor="White"  ItemDisplayBinding="{Binding Name}" HorizontalOptions="Fill" SelectedIndexChanged = "pkrProcess_SelectedIndexChanged" IsEnabled="False" IsVisible="False"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
