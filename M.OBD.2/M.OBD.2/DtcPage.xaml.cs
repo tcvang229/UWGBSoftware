@@ -1,17 +1,19 @@
 ﻿using M.OBD._2;
 using M.OBD2;
 using System;
+using System.Collections.Generic;
 using Xamarin.Forms;
 
 namespace M.OBD
 {
-
     public partial class DtcPage : ContentPage, IPageLoad
     {
         #region Declarations
 
         private readonly Bluetooth oBluetooth;
         private readonly UserSetting oUserSetting;
+
+        private bool isErrors;
 
         #endregion
 
@@ -62,7 +64,10 @@ namespace M.OBD
 
         private void btnClear_Clicked(object sender, EventArgs e)
         {
+            if (!isErrors)
+                return;
 
+            // ToDo: call clear routines
         }
     }
 }

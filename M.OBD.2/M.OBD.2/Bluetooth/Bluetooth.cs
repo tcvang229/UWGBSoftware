@@ -1,5 +1,4 @@
 ﻿#region Using Statements
-//using Android.Bluetooth;
 using Android.Bluetooth;
 using Android.OS;
 using System;
@@ -9,7 +8,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Debug = System.Diagnostics.Debug;
-
 #endregion
 
 namespace M.OBD2
@@ -19,9 +17,9 @@ namespace M.OBD2
         #region Declarations
 
         // Objects
-
         private BluetoothConnection oBluetoothConnection;
         private readonly Logging oLogging;
+        private readonly Dtc oDtc;
         private static Random oRandom;
 
         // Vars
@@ -33,7 +31,6 @@ namespace M.OBD2
 
         // Constants
         private readonly List<string> InitCommands;
-        private readonly byte[] DTC_CLEAR = Encoding.ASCII.GetBytes("04" + "\r");
         private const string RX_MESSAGE = "...";
         private const char END_CHAR = '>';
         public const string LINE_BREAK = " \r";
@@ -59,6 +56,7 @@ namespace M.OBD2
             isTest = _isTest;
             Bluetooth_State = BLUETOOTH_STATE.DISCONNECTED;
             oLogging = new Logging();
+            oDtc = new Dtc();
 
             InitCommands = new List<string>
             {

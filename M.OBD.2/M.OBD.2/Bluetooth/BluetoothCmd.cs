@@ -100,7 +100,9 @@ namespace M.OBD2
             VSS,
             MAF,
             MPG,
-            TPS
+            TPS,
+            DTC_READ,
+            DTC_CLEAR
         }
 
         // Current selection state of a process
@@ -130,6 +132,11 @@ namespace M.OBD2
             {
                 b.CmdBytes = Encoding.ASCII.GetBytes(b.Cmd + Bluetooth.LINE_BREAK);
             }
+        }
+
+        public static byte[] GetCommandBytes(string cmd)
+        {
+            return string.IsNullOrEmpty(cmd) ? null : Encoding.ASCII.GetBytes(cmd + Bluetooth.LINE_BREAK);
         }
 
         #endregion
