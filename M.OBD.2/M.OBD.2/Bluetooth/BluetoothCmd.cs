@@ -221,7 +221,7 @@ namespace M.OBD2
 
         #region Test Related
 
-        public void CreateTestCommands(UserSetting.UNIT_TYPE Unit_Type)
+        public void CreateTestCommands(UserSetting.UNIT_TYPE Unit_Type, bool isInitialize)
         {
             // Format 01##01
             // 01 = Service
@@ -236,6 +236,7 @@ namespace M.OBD2
                 Cmd = "ATIGN",
                 Rate = 1000,
                 isRxBytes = false,
+                isSelected = true,
                 Command_Types = new[] { COMMAND_TYPE.DEFAULT }
             });
 
@@ -254,6 +255,7 @@ namespace M.OBD2
                 Value_Max = 300,
                 isRxBytes = true,
                 Bytes = 1,
+                isSelected = true,
                 Command_Types = new[] { COMMAND_TYPE.DEFAULT }
             });
 
@@ -272,25 +274,91 @@ namespace M.OBD2
                 Value_Max = 300,
                 isRxBytes = true,
                 Bytes = 1,
+                isSelected = true,
                 Command_Types = new[] { COMMAND_TYPE.VSS }
             });
 
-            //Add(new BluetoothCmd()
-            //{
-            //    Id = 5,
-            //    Name = "MPG",
-            //    Units = "",
-            //    isImperial = true,
-            //    Cmd = null,
-            //    Rate = 5000,
-            //    Decimals = 1,
-            //    Expression = "(a*b*1740.572)/(3600*c/100)",
-            //    Command_Types = new[] { COMMAND_TYPE.MPG, COMMAND_TYPE.VSS, COMMAND_TYPE.MAF }
-            //});
+            Add(new BluetoothCmd()
+            {
+                Id = 3,
+                Name = "TPS",
+                Expression_Imperial = "(a * 1)",
+                Units_Imperial = "%",
+                Expression_Metric = "(a * 1)",
+                Units_Metric = "%",
+                Cmd = "010D1",
+                Rate = 1000,
+                Decimals = 0,
+                Value_Min = 0,
+                Value_Max = 100,
+                isRxBytes = true,
+                Bytes = 1,
+                isSelected = false,
+                Command_Types = new[] { COMMAND_TYPE.TPS }
+            });
 
-            // Initialize
-            InitCommandBytes();
-            InitExpressions(Unit_Type);
+            Add(new BluetoothCmd()
+            {
+                Id = 4,
+                Name = "MAF",
+                Expression_Imperial = "(a * 1)",
+                Units_Imperial = "G/S",
+                Expression_Metric = "(a * 1)",
+                Units_Metric = "G/S",
+                Cmd = "010D1",
+                Rate = 1000,
+                Decimals = 1,
+                Value_Min = 0,
+                Value_Max = 10000,
+                isRxBytes = true,
+                Bytes = 1,
+                isSelected = false,
+                Command_Types = new[] { COMMAND_TYPE.MAF }
+            });
+
+            Add(new BluetoothCmd()
+            {
+                Id = 5,
+                Name = "RPM",
+                Expression_Imperial = "(a * 1)",
+                Units_Imperial = "x1000",
+                Expression_Metric = "(a * 1)",
+                Units_Metric = "x1000",
+                Cmd = "010D1",
+                Rate = 500,
+                Decimals = 0,
+                Value_Min = 0,
+                Value_Max = 10000,
+                isRxBytes = true,
+                Bytes = 1,
+                isSelected = false,
+                Command_Types = new[] { COMMAND_TYPE.DEFAULT}
+            });
+
+            Add(new BluetoothCmd()
+            {
+                Id = 6,
+                Name = "Mileage",
+                Expression_Imperial = "(14.7*b*1740.572)/(3600*c/100)",
+                Units_Imperial = "MPG",
+                Expression_Metric = "(14.7*b*1740.572)/(3600*c/100)",
+                Units_Metric = "KPG",
+                Cmd = "",
+                Rate = 2000,
+                Decimals = 1,
+                Value_Min = 0,
+                Value_Max = 100,
+                isRxBytes = false,
+                Bytes = 0,
+                isSelected = false,
+                Command_Types = new[] { COMMAND_TYPE.MPG, COMMAND_TYPE.VSS, COMMAND_TYPE.MAF }
+            });
+
+            if (isInitialize)
+            {
+                InitCommandBytes();
+                InitExpressions(Unit_Type);
+            }
         }
 
         #endregion

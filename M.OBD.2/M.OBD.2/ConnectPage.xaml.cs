@@ -153,9 +153,8 @@ namespace M.OBD
                 SetPickerSelection(((Picker)sender).SelectedIndex);
                 isSelected = true;
             }
-            catch (Exception ex)
+            catch
             {
-
             }
         }
 

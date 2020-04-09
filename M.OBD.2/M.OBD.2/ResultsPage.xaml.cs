@@ -19,11 +19,14 @@ namespace M.OBD
         private readonly Bluetooth oBluetooth;
         private static ProcessItems ProcessItems;
         private BlueToothCmds oBlueToothCmds;
+        private BlueToothCmds oBlueToothCmds_Picker;
         private DataTemplate CellTemplate;
         private readonly UserSetting oUserSetting;
 
         private bool isTimerRun;
         private const int TIMER_UPDATE = 25;       // Update timer iteration delay in ms
+        private bool isPickerActive;
+        private bool isSelected;
 
         #endregion
 
@@ -52,7 +55,10 @@ namespace M.OBD
         {
             btnConnect.Clicked += btnConnect_Clicked;
             btnDisconnect.Clicked += btnDisconnect_Clicked;
+            btnSelect.Clicked += btnSelect_Clicked;
             Appearing += Page_Appearing;
+            pkrProcess.SelectedIndexChanged += pkrProcess_SelectedIndexChanged;
+            pkrProcess.Unfocused += pkrProcess_Unfocused;
 
             InitListView();
         }
@@ -67,11 +73,12 @@ namespace M.OBD
         {
             btnConnect.IsEnabled = Bluetooth.isBluetoothDisconnected();
             btnDisconnect.IsEnabled = !Bluetooth.isBluetoothDisconnected();
+            btnSelect.IsEnabled = Bluetooth.isBluetoothDisconnected();
         }
 
         public void UpdateUserSettings()
         {
-
+            // ToDo: Load DB values
         }
 
         #endregion
@@ -230,6 +237,84 @@ namespace M.OBD
 
         #endregion
 
+        #region Picker Related
+
+        private void btnSelect_Clicked(object sender, EventArgs e)
+        {
+            if (isTimerRun || isPickerActive)
+                return;
+
+            LoadPicker();
+        }
+
+        private void SetPickerSelection()
+        {
+            bool isUserDevice = oUserSetting.isUserDevice();
+        }
+
+        private void LoadPicker()
+        {
+            isPickerActive = true;
+
+            if (oBlueToothCmds_Picker == null)
+                oBlueToothCmds_Picker = new BlueToothCmds();
+
+            oBlueToothCmds_Picker.Clear();
+            
+            try
+            {
+                // ToDo: Load from db
+
+                oBlueToothCmds_Picker.CreateTestCommands(oUserSetting.GetUserUnits(), false);
+                oBlueToothCmds_Picker.RemoveAll(x => x.isSelected);
+                pkrProcess.ItemsSource = oBlueToothCmds_Picker;
+                pkrProcess.IsEnabled = true;
+                pkrProcess.IsVisible = true;
+                pkrProcess.SelectedItem = null;
+                pkrProcess.Focus();
+            }
+            catch (Exception ex)
+            {
+                DisplayMessage(ex.Message);
+                isPickerActive = false;
+            }
+        }
+
+        private void pkrProcess_Unfocused(object sender, FocusEventArgs e)
+        {
+            isPickerActive = false;
+            pkrProcess.IsEnabled = false;
+            pkrProcess.IsVisible = false;
+        }
+
+        private void pkrProcess_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (CheckPickerSelection()) return;
+                SetPickerSelection(((Picker)sender).SelectedIndex);
+                isSelected = true;
+            }
+            catch (Exception ex)
+            {
+                DisplayMessage(ex.Message);
+            }
+        }
+
+        private void SetPickerSelection(int index)
+        {
+            if (index == -1 || pkrProcess.Items.Count == 0)
+                return;
+        }
+
+        private bool CheckPickerSelection()
+        {
+            isSelected = !isSelected;
+            return !isSelected;
+        }
+
+        #endregion
+
         #region Bluetooth Connection Related
 
         /// <summary>
@@ -293,7 +378,7 @@ namespace M.OBD
             oBlueToothCmds = new BlueToothCmds();
 
             // ToDo: replace with db values
-            oBlueToothCmds.CreateTestCommands(oUserSetting.GetUserUnits());
+            oBlueToothCmds.CreateTestCommands(oUserSetting.GetUserUnits(), true);
 
             InitListViewItems(oBlueToothCmds);
             RunProcesses();

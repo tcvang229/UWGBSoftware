@@ -4,9 +4,10 @@
         <StackLayout>
             <ListView x:Name ="lvwResults">
             </ListView>
-
             <Grid>
                 <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width ="*"/>
+                    <ColumnDefinition Width ="*"/>
                     <ColumnDefinition Width ="*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
@@ -16,9 +17,11 @@
                     <RowDefinition Height="25"/>
                     <RowDefinition Height="auto"/>
                 </Grid.RowDefinitions>
-                <Button Grid.Row="2" Grid.Column="0" Text="Connect" x:Name ="btnConnect" Clicked="btnConnect_Clicked" IsEnabled="False"/>
-                <Button Grid.Row="4" Grid.Column="0" Text="Disconnect" x:Name ="btnDisconnect" Clicked="btnDisconnect_Clicked" IsEnabled="False"/>
+                <Button Grid.Row="2" Grid.Column="0" Text="Run" x:Name ="btnConnect" Clicked="btnConnect_Clicked" IsEnabled="False"/>
+                <Button Grid.Row="2" Grid.Column="1" Text="Stop" x:Name ="btnDisconnect" Clicked="btnDisconnect_Clicked" IsEnabled="False"/>
+                <Button Grid.Row="2" Grid.Column="2" Text="Select" x:Name ="btnSelect" Clicked="btnSelect_Clicked" IsEnabled="False"/>
             </Grid>
+            <Picker x:Name="pkrProcess" Title ="" TitleColor="White"  ItemDisplayBinding="{Binding Name}" HorizontalOptions="Fill" SelectedIndexChanged = "pkrProcess_SelectedIndexChanged" IsEnabled="False" IsVisible="False"/>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
