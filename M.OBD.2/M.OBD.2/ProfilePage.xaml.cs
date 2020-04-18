@@ -1,5 +1,6 @@
 ﻿using M.OBD._2;
 using M.OBD2;
+using SQLite;
 using System;
 using Xamarin.Forms;
 
@@ -21,10 +22,40 @@ namespace M.OBD
         public ProfilePage()
         {
             InitializeComponent();
+            getCurrentMetricSetting();
 
             InitBluetooth(out oBluetooth);
             InitUserSettings(out oUserSetting);
             InitControls();
+        }
+
+        //get the current metric setting from the DB
+        //then set the value in the UI
+        public void getCurrentMetricSetting()
+        {
+            //connect to the DB
+            using (SQLiteConnection connection = new SQLiteConnection(App.Database))
+            {
+
+                //get the entire table
+                var userSettings = connection.Table<UserSetting>();
+
+                //get the first entry in the table
+                bool isMetric = userSettings.FirstOrDefault().GetMetricUnits();
+
+                //if the user has saved metric as a preference
+                //update the check boxes in the UI
+                if (isMetric)
+                {
+                    chkMetric.IsChecked = true;
+                    chkImperial.IsChecked = false;
+                } else
+                {
+                    chkMetric.IsChecked = false;
+                    chkImperial.IsChecked = true;
+                }
+            }
+
         }
 
         public void InitBluetooth(out Bluetooth bluetooth)
