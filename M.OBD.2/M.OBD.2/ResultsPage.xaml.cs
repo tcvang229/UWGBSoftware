@@ -115,6 +115,10 @@ namespace M.OBD
         {
             isTimerRun = true;
 
+            // ToDo: remove after testing
+            Logging oLogging = new Logging();
+            oLogging.InitLogFile(oBlueToothCmds);
+
             DateTime dtCurrent = DateTime.UtcNow;
 
             foreach (BluetoothCmd bcmd in oBlueToothCmds)

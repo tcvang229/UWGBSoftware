@@ -40,8 +40,10 @@ namespace M.OBD
                 //get the entire table
                 var userSettings = connection.Table<UserSetting>();
 
+                // ToDo: temporary bypass
                 //get the first entry in the table
-                bool isMetric = userSettings.FirstOrDefault().GetMetricUnits();
+                //bool isMetric = userSettings.FirstOrDefault().GetMetricUnits();
+                bool isMetric = false;
 
                 //if the user has saved metric as a preference
                 //update the check boxes in the UI

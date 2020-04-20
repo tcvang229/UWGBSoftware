@@ -44,6 +44,17 @@
           "lib/netstandard2.0/Newtonsoft.Json.dll": {}
         }
       },
+      "PCLExt.FileStorage/1.4.1.1": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/PCLExt.FileStorage.Abstractions.dll": {},
+          "lib/netstandard2.0/PCLExt.FileStorage.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/PCLExt.FileStorage.Abstractions.dll": {},
+          "lib/netstandard2.0/PCLExt.FileStorage.dll": {}
+        }
+      },
       "sqlite-net-pcl/1.6.292": {
         "type": "package",
         "dependencies": {
@@ -357,6 +368,53 @@
         "newtonsoft.json.12.0.3.nupkg.sha512",
         "newtonsoft.json.nuspec",
         "packageIcon.png"
+      ]
+    },
+    "PCLExt.FileStorage/1.4.1.1": {
+      "sha512": "1obyFostdhYsRVTld0Lo/h5c9ZgXPWfe/BRkd2TKn6M33bE+LLJVdLfPcfUxrjUvYElwor4hh8zJ2DkH/l0KYA==",
+      "type": "package",
+      "path": "pclext.filestorage/1.4.1.1",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/MonoAndroid/PCLExt.FileStorage.Abstractions.dll",
+        "lib/MonoAndroid/PCLExt.FileStorage.Abstractions.xml",
+        "lib/MonoAndroid/PCLExt.FileStorage.dll",
+        "lib/MonoAndroid/PCLExt.FileStorage.xml",
+        "lib/Xamarin.Mac20/PCLExt.FileStorage.Abstractions.dll",
+        "lib/Xamarin.Mac20/PCLExt.FileStorage.Abstractions.xml",
+        "lib/Xamarin.Mac20/PCLExt.FileStorage.dll",
+        "lib/Xamarin.Mac20/PCLExt.FileStorage.xml",
+        "lib/Xamarin.iOS/PCLExt.FileStorage.Abstractions.dll",
+        "lib/Xamarin.iOS/PCLExt.FileStorage.Abstractions.xml",
+        "lib/Xamarin.iOS/PCLExt.FileStorage.dll",
+        "lib/Xamarin.iOS/PCLExt.FileStorage.xml",
+        "lib/net45/PCLExt.FileStorage.Abstractions.dll",
+        "lib/net45/PCLExt.FileStorage.Abstractions.xml",
+        "lib/net45/PCLExt.FileStorage.dll",
+        "lib/net45/PCLExt.FileStorage.xml",
+        "lib/netcoreapp2.0/PCLExt.FileStorage.Abstractions.dll",
+        "lib/netcoreapp2.0/PCLExt.FileStorage.Abstractions.xml",
+        "lib/netcoreapp2.0/PCLExt.FileStorage.dll",
+        "lib/netcoreapp2.0/PCLExt.FileStorage.xml",
+        "lib/netstandard2.0/PCLExt.FileStorage.Abstractions.dll",
+        "lib/netstandard2.0/PCLExt.FileStorage.Abstractions.xml",
+        "lib/netstandard2.0/PCLExt.FileStorage.dll",
+        "lib/netstandard2.0/PCLExt.FileStorage.xml",
+        "lib/portable-net45+win8+wpa81+wp8/PCLExt.FileStorage.Abstractions.dll",
+        "lib/portable-net45+win8+wpa81+wp8/PCLExt.FileStorage.Abstractions.xml",
+        "lib/portable-net45+win8+wpa81+wp8/PCLExt.FileStorage.dll",
+        "lib/portable-net45+win8+wpa81+wp8/PCLExt.FileStorage.xml",
+        "lib/portable-net45+win8+wpa81/PCLExt.FileStorage.Abstractions.dll",
+        "lib/portable-net45+win8+wpa81/PCLExt.FileStorage.Abstractions.xml",
+        "lib/portable-net45+win8+wpa81/PCLExt.FileStorage.dll",
+        "lib/portable-net45+win8+wpa81/PCLExt.FileStorage.xml",
+        "lib/uap10.0/PCLExt.FileStorage.Abstractions.dll",
+        "lib/uap10.0/PCLExt.FileStorage.Abstractions.xml",
+        "lib/uap10.0/PCLExt.FileStorage.dll",
+        "lib/uap10.0/PCLExt.FileStorage.xml",
+        "pclext.filestorage.1.4.1.1.nupkg.sha512",
+        "pclext.filestorage.nuspec"
       ]
     },
     "sqlite-net-pcl/1.6.292": {
@@ -831,31 +889,32 @@
       "MathParser.org-mXparser >= 4.4.2",
       "NETStandard.Library >= 2.0.3",
       "Newtonsoft.Json >= 12.0.3",
+      "PCLExt.FileStorage >= 1.4.1.1",
       "Xamarin.Essentials >= 1.5.1",
       "Xamarin.Forms >= 4.5.0.356",
       "sqlite-net-pcl >= 1.6.292"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Zeus\\.nuget\\packages\\": {},
-    "C:\\Microsoft\\Xamarin\\NuGet\\": {},
+    "C:\\Users\\User\\.nuget\\packages\\": {},
+    "D:\\Microsoft\\Xamarin\\NuGet\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Zeus\\Desktop\\Project\\M.OBD.2\\M.OBD.2\\M.OBD.2.csproj",
+      "projectUniqueName": "C:\\Users\\User\\source\\repos\\tcvang229\\UWGBSoftware\\tcvang229\\UWGBSoftware\\M.OBD.2\\M.OBD.2\\M.OBD.2.csproj",
       "projectName": "M.OBD.2",
-      "projectPath": "C:\\Users\\Zeus\\Desktop\\Project\\M.OBD.2\\M.OBD.2\\M.OBD.2.csproj",
-      "packagesPath": "C:\\Users\\Zeus\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Zeus\\Desktop\\Project\\M.OBD.2\\M.OBD.2\\obj\\",
+      "projectPath": "C:\\Users\\User\\source\\repos\\tcvang229\\UWGBSoftware\\tcvang229\\UWGBSoftware\\M.OBD.2\\M.OBD.2\\M.OBD.2.csproj",
+      "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\User\\source\\repos\\tcvang229\\UWGBSoftware\\tcvang229\\UWGBSoftware\\M.OBD.2\\M.OBD.2\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Microsoft\\Xamarin\\NuGet\\",
+        "D:\\Microsoft\\Xamarin\\NuGet\\",
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\Zeus\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
@@ -894,6 +953,10 @@
             "target": "Package",
             "version": "[12.0.3, )"
           },
+          "PCLExt.FileStorage": {
+            "target": "Package",
+            "version": "[1.4.1.1, )"
+          },
           "Xamarin.Essentials": {
             "target": "Package",
             "version": "[1.5.1, )"
@@ -917,7 +980,7 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.200\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
       }
     }
   }

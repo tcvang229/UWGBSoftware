@@ -13,6 +13,7 @@
   <ItemGroup>
     <PackageReference Include="MathParser.org-mXparser" Version="4.4.2" />
     <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="PCLExt.FileStorage" Version="1.4.1.1" />
     <PackageReference Include="Xamarin.Forms" Version="4.5.0.356" />  
     <PackageReference Include="Xamarin.Essentials" Version="1.5.1" />
     <PackageReference Include="sqlite-net-pcl" Version="1.6.292" />
@@ -25,7 +26,7 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Mono.Android">
-      <HintPath>..\..\..\..\..\..\Program Files (x86)\Microsoft Visual Studio\2019\Community\Common7\IDE\ReferenceAssemblies\Microsoft\Framework\MonoAndroid\v9.0\Mono.Android.dll</HintPath>
+      <HintPath>D:\Programming\vstudio 2019\Common7\IDE\ReferenceAssemblies\Microsoft\Framework\MonoAndroid\v9.0\Mono.Android.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

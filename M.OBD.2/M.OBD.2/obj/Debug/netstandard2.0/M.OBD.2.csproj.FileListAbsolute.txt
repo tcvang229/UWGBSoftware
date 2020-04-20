@@ -69,7 +69,6 @@ C:\Users\User\source\repos\tcvang229\UWGBSoftware\tcvang229\UWGBSoftware\M.OBD.2
 C:\Users\User\source\repos\tcvang229\UWGBSoftware\tcvang229\UWGBSoftware\M.OBD.2\M.OBD.2\obj\Debug\netstandard2.0\ResultsPage.xaml.g.cs
 C:\Users\User\source\repos\tcvang229\UWGBSoftware\tcvang229\UWGBSoftware\M.OBD.2\M.OBD.2\obj\Debug\netstandard2.0\M.OBD.2.AssemblyInfoInputs.cache
 C:\Users\User\source\repos\tcvang229\UWGBSoftware\tcvang229\UWGBSoftware\M.OBD.2\M.OBD.2\obj\Debug\netstandard2.0\M.OBD.2.AssemblyInfo.cs
-C:\Users\User\source\repos\tcvang229\UWGBSoftware\tcvang229\UWGBSoftware\M.OBD.2\M.OBD.2\obj\Debug\netstandard2.0\XamlC.stamp
 C:\Users\User\source\repos\tcvang229\UWGBSoftware\tcvang229\UWGBSoftware\M.OBD.2\M.OBD.2\obj\Debug\netstandard2.0\M.OBD.2.csproj.CopyComplete
 C:\Users\User\source\repos\tcvang229\UWGBSoftware\tcvang229\UWGBSoftware\M.OBD.2\M.OBD.2\obj\Debug\netstandard2.0\M.OBD.2.dll
 C:\Users\User\source\repos\tcvang229\UWGBSoftware\tcvang229\UWGBSoftware\M.OBD.2\M.OBD.2\obj\Debug\netstandard2.0\ref\M.OBD.2.dll
@@ -99,3 +98,4 @@ C:\Users\Zeus\Desktop\Project\M.OBD.2\M.OBD.2\obj\Debug\netstandard2.0\M.OBD.2.c
 C:\Users\Zeus\Desktop\Project\M.OBD.2\M.OBD.2\obj\Debug\netstandard2.0\M.OBD.2.dll
 C:\Users\Zeus\Desktop\Project\M.OBD.2\M.OBD.2\obj\Debug\netstandard2.0\ref\M.OBD.2.dll
 C:\Users\Zeus\Desktop\Project\M.OBD.2\M.OBD.2\obj\Debug\netstandard2.0\M.OBD.2.pdb
+C:\Users\User\source\repos\tcvang229\UWGBSoftware\tcvang229\UWGBSoftware\M.OBD.2\M.OBD.2\obj\Debug\netstandard2.0\XamlC.stamp
