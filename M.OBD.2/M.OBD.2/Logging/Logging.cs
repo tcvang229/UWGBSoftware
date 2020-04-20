@@ -21,19 +21,28 @@ namespace M.OBD2
         private IFolder LogFolder;
         private IFile LogFile;
         private BlueToothCmds oBlueToothCmds;
+        private readonly string ProcessHeader;
 
         private const int LOG_RATE = 1000;
         private const string LOG_DELIMIT = "\t";
         private const string LOG_FOLDER = "MOBD2_LOGS";
+
+
+        public Logging(BlueToothCmds blueToothCmds)
+        {
+            oBlueToothCmds = blueToothCmds ?? throw new Exception("Invalid Command List");
+            ProcessHeader = GetProcessHeader(blueToothCmds);
+        }
 
         public bool GetLogging_Run()
         {
             return isLoggingActive;
         }
 
-        public async void InitLogFile(BlueToothCmds blueToothCmds)
+        public async void InitLogFile()
         {
-            oBlueToothCmds = blueToothCmds ?? throw new Exception("Invalid Command List");
+            if (oBlueToothCmds == null || ProcessHeader == null)
+                throw new Exception("Failed to initialize logging");
 
             if (!await CheckDocumentsFolder())
                 throw new Exception("Could not acces document folder");
@@ -58,30 +67,39 @@ namespace M.OBD2
                 sbLogMessage.Append("Logging Started:" + LOG_DELIMIT + LogStartTime.ToShortTimeString() + Environment.NewLine);
                 sbLogMessage.Append("Rate(ms):" + LOG_DELIMIT + LOG_RATE + LOG_DELIMIT);
                 sbLogMessage.Append(Environment.NewLine);
-                //sbLogMessage.Clear();
-                sbLogMessage.Append("Time" + LOG_DELIMIT);
 
-                // Iterate and add processes
-                oBlueToothCmds.ForEach(x =>
-                {
-                    if (x.Selection_Type == BlueToothCmds.SELECTION_TYPE.USER
-                        || x.Selection_Type == BlueToothCmds.SELECTION_TYPE.USER_PROCESS)
-                        sbLogMessage.Append(x.Name + LOG_DELIMIT);
-                });
+                // Add process header
+                sbLogMessage.Append(ProcessHeader);
 
                 if (!CreateFile(LogFileName, sbLogMessage.ToString()))
                     throw new Exception("Could not create log file");
             }
             catch (Exception ex) // ToDo: Exception handling
-            {
+            { }
+        }
 
-            }
+        private static string GetProcessHeader(BlueToothCmds bthcmds)
+        {
+            StringBuilder sb = new StringBuilder();
+
+            sb.Append("Time" + LOG_DELIMIT);
+
+            bthcmds.ForEach(x =>
+            {
+                if (!string.IsNullOrEmpty(x.Name) 
+                    && (x.Selection_Type == BlueToothCmds.SELECTION_TYPE.USER
+                    || x.Selection_Type == BlueToothCmds.SELECTION_TYPE.USER_PROCESS))
+                    sb.Append(x.Name + LOG_DELIMIT);
+            });
+
+            return sb.ToString();
         }
 
         private async Task<bool> CheckDocumentsFolder()
         {
             try
             {
+                // ToDo: change path?
                 LogFolder = null;
                 DocumentsRootFolder rootFolder = new DocumentsRootFolder();
                 LogFolder = await rootFolder.CreateFolderAsync("MOBD2_LOGS", CreationCollisionOption.OpenIfExists);

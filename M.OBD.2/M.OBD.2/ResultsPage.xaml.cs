@@ -17,6 +17,7 @@ namespace M.OBD
         #region Declarations
 
         private readonly Bluetooth oBluetooth;
+        private Logging oLogging;
         private static ProcessItems ProcessItems;
         private BlueToothCmds oBlueToothCmds;
         private BlueToothCmds oBlueToothCmds_Picker;
@@ -55,6 +56,7 @@ namespace M.OBD
         {
             btnConnect.Clicked += btnConnect_Clicked;
             btnDisconnect.Clicked += btnDisconnect_Clicked;
+            btnLog.Clicked += btnLog_Clicked;
             btnSelect.Clicked += btnSelect_Clicked;
             Appearing += Page_Appearing;
             pkrProcess.SelectedIndexChanged += pkrProcess_SelectedIndexChanged;
@@ -74,6 +76,7 @@ namespace M.OBD
             btnConnect.IsEnabled = Bluetooth.isBluetoothDisconnected();
             btnDisconnect.IsEnabled = !Bluetooth.isBluetoothDisconnected();
             btnSelect.IsEnabled = Bluetooth.isBluetoothDisconnected();
+            btnLog.IsEnabled = !Bluetooth.isBluetoothDisconnected() && oUserSetting.GetLoggingEnabled();
         }
 
         public void UpdateUserSettings()
@@ -116,8 +119,11 @@ namespace M.OBD
             isTimerRun = true;
 
             // ToDo: remove after testing
-            Logging oLogging = new Logging();
-            oLogging.InitLogFile(oBlueToothCmds);
+            if (oUserSetting.GetLoggingEnabled())
+            {
+                oLogging = null;
+                oLogging = new Logging(oBlueToothCmds);
+            }
 
             DateTime dtCurrent = DateTime.UtcNow;
 
@@ -183,6 +189,16 @@ namespace M.OBD
 
             //Debug.WriteLine("Process: {0} Rx: {1} RxValue: {2} Value: {3}", bcmd.Name,
             //    bcmd.Response, (bcmd.isRxBytes) ? bcmd.rxvalue : -1, bcmd.value);
+        }
+
+        #endregion
+
+        #region Logging
+
+        private void btnLog_Clicked(object sender, EventArgs e)
+        {
+            if (!isTimerRun || !oUserSetting.GetLoggingEnabled()) 
+                return;
         }
 
         #endregion

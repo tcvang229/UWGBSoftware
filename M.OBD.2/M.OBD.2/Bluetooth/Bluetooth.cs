@@ -18,7 +18,7 @@ namespace M.OBD2
 
         // Objects
         private BluetoothConnection oBluetoothConnection;
-        private readonly Logging oLogging;
+        //private readonly Logging oLogging;
         private readonly Dtc oDtc;
         private static Random oRandom;
 
@@ -55,7 +55,6 @@ namespace M.OBD2
             isDebug = _isDebug;
             isTest = _isTest;
             Bluetooth_State = BLUETOOTH_STATE.DISCONNECTED;
-            oLogging = new Logging();
             oDtc = new Dtc();
 
             InitCommands = new List<string>

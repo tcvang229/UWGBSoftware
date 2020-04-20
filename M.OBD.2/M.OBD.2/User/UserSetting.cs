@@ -40,8 +40,10 @@
             isMetric = false;
             Device_Name = "OBDII";
             Device_Address = "00:1D:A5:05:4F:05";
-            isLoggingEnabled = false;
+            isLoggingEnabled = true;
             isLoggingAuto = false;
+
+            // ToDo: Make OS path fixed or add user option ex. internal/external storage?
             LoggingPath = (string.IsNullOrEmpty(LoggingPath)) ? DEFAULT_LOG_PATH : LoggingPath;
 
             UpdateUserUnits();
