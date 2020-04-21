@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using PCLExt.FileStorage;
 using PCLExt.FileStorage.Extensions;
 using PCLExt.FileStorage.Folders;
+using Xamarin.Forms;
 
 namespace M.OBD2
 {
@@ -21,22 +23,40 @@ namespace M.OBD2
         private IFolder LogFolder;
         private IFile LogFile;
         private BlueToothCmds oBlueToothCmds;
-        private readonly string ProcessHeader;
+        private string ProcessHeader;
 
-        private const int LOG_RATE = 1000;
         private const string LOG_DELIMIT = "\t";
         private const string LOG_FOLDER = "MOBD2_LOGS";
+        private static bool isLogging;
+        private const int TIMER_UPDATE = 250;       // Update timer iteration delay in ms
+        private const int LOG_UPDATE = 1000;
+        private static string status_message;
+        private static bool isError;
 
+        #region Initialization
 
-        public Logging(BlueToothCmds blueToothCmds)
+        public Logging()
         {
-            oBlueToothCmds = blueToothCmds ?? throw new Exception("Invalid Command List");
-            ProcessHeader = GetProcessHeader(blueToothCmds);
         }
 
-        public bool GetLogging_Run()
+        public bool InitLogging(BlueToothCmds blueToothCmds)
         {
-            return isLoggingActive;
+            isError = false;
+            try
+            {
+                oBlueToothCmds = blueToothCmds ?? throw new Exception("Invalid Command List");
+                ProcessHeader = GetProcessHeader(blueToothCmds);
+
+                InitLogFile();
+                
+                return true;
+            }
+            catch (Exception e)
+            {
+                isError = true;
+                status_message = e.Message;
+                return false;
+            }
         }
 
         public async void InitLogFile()
@@ -45,7 +65,7 @@ namespace M.OBD2
                 throw new Exception("Failed to initialize logging");
 
             if (!await CheckDocumentsFolder())
-                throw new Exception("Could not acces document folder");
+                throw new Exception("Could not access document folder");
 
             StringBuilder sbLogFileName = new StringBuilder();
 
@@ -57,25 +77,20 @@ namespace M.OBD2
             LogEntryCount = 0;
             LogStartTime = DateTime.UtcNow;
 
-            try
-            {
-                // Build log file name
-                sbLogFileName.Append(LogStartTime);
-                sbLogFileName.Replace("/", "-");
-                sbLogFileName.Replace(":", "-");
-                LogFileName = sbLogFileName.ToString();
-                sbLogMessage.Append("Logging Started:" + LOG_DELIMIT + LogStartTime.ToShortTimeString() + Environment.NewLine);
-                sbLogMessage.Append("Rate(ms):" + LOG_DELIMIT + LOG_RATE + LOG_DELIMIT);
-                sbLogMessage.Append(Environment.NewLine);
+            // Build log file name
+            sbLogFileName.Append(LogStartTime);
+            sbLogFileName.Replace("/", "-");
+            sbLogFileName.Replace(":", "-");
+            LogFileName = sbLogFileName.ToString();
+            sbLogMessage.Append("Logging Started:" + LOG_DELIMIT + LogStartTime.ToShortTimeString() + Environment.NewLine);
+            sbLogMessage.Append("Rate(ms):" + LOG_DELIMIT + TIMER_UPDATE + LOG_DELIMIT);
+            sbLogMessage.Append(Environment.NewLine);
 
-                // Add process header
-                sbLogMessage.Append(ProcessHeader);
+            // Add process header
+            sbLogMessage.Append(ProcessHeader);
 
-                if (!CreateFile(LogFileName, sbLogMessage.ToString()))
-                    throw new Exception("Could not create log file");
-            }
-            catch (Exception ex) // ToDo: Exception handling
-            { }
+            if (!CreateFile(LogFileName, sbLogMessage.ToString()))
+                throw new Exception("Could not create log file");
         }
 
         private static string GetProcessHeader(BlueToothCmds bthcmds)
@@ -128,5 +143,64 @@ namespace M.OBD2
                 return false;
             }
         }
+
+        #endregion
+
+        #region Main Process
+
+        public void RunLogging()
+        {
+            isLogging = true;
+
+            DateTime dtCurrent = DateTime.UtcNow;
+            DateTime dtNext = DateTime.UtcNow;
+
+            Device.StartTimer
+            (
+                TimeSpan.FromMilliseconds(TIMER_UPDATE), () =>
+                {
+                    dtCurrent = DateTime.UtcNow;
+                    
+                    try
+                    {
+                        if (dtCurrent >= dtNext)
+                        {
+                            dtNext = dtCurrent.AddMilliseconds(LOG_UPDATE);
+                            Debug.WriteLine("Log entry at: " + dtCurrent);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        isError = true;
+                        status_message = e.Message;
+                        return false;
+                    }
+                    return isLogging;
+                }
+            );
+        }
+
+        public static bool GetIsLogging()
+        {
+            return isLogging;
+        }
+
+        public static void StartLogging()
+        {
+            isLogging = true;
+        }
+
+        public static void StopLogging()
+        {
+            isLogging = false;
+        }
+
+        public static bool CheckError()
+        {
+            return isError;
+        }
+
+        #endregion
+
     }
 }

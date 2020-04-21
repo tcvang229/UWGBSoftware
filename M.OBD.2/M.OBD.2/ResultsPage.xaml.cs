@@ -28,6 +28,7 @@ namespace M.OBD
         private const int TIMER_UPDATE = 25;       // Update timer iteration delay in ms
         private bool isPickerActive;
         private bool isSelected;
+        private bool isLogging;
 
         #endregion
 
@@ -56,7 +57,8 @@ namespace M.OBD
         {
             btnConnect.Clicked += btnConnect_Clicked;
             btnDisconnect.Clicked += btnDisconnect_Clicked;
-            btnLog.Clicked += btnLog_Clicked;
+            btnLogOn.Clicked += btnLogOn_Clicked;
+            btnLogOff.Clicked += btnLogOff_Clicked;
             btnSelect.Clicked += btnSelect_Clicked;
             Appearing += Page_Appearing;
             pkrProcess.SelectedIndexChanged += pkrProcess_SelectedIndexChanged;
@@ -76,7 +78,8 @@ namespace M.OBD
             btnConnect.IsEnabled = Bluetooth.isBluetoothDisconnected();
             btnDisconnect.IsEnabled = !Bluetooth.isBluetoothDisconnected();
             btnSelect.IsEnabled = Bluetooth.isBluetoothDisconnected();
-            btnLog.IsEnabled = !Bluetooth.isBluetoothDisconnected() && oUserSetting.GetLoggingEnabled();
+            btnLogOn.IsEnabled = !Bluetooth.isBluetoothDisconnected() && !Logging.GetIsLogging();
+            btnLogOff.IsEnabled = !Bluetooth.isBluetoothDisconnected() && Logging.GetIsLogging();
         }
 
         public void UpdateUserSettings()
@@ -94,6 +97,9 @@ namespace M.OBD
                 return;
 
             isTimerRun = false;
+
+            if (Logging.GetIsLogging())
+                StopLogging();
 
             Bluetooth.SetBluetoothState(Bluetooth.BLUETOOTH_STATE.DISCONNECTED);
             UpdateControls();
@@ -118,11 +124,9 @@ namespace M.OBD
         {
             isTimerRun = true;
 
-            // ToDo: remove after testing
-            if (oUserSetting.GetLoggingEnabled())
+            if (oUserSetting.GetLoggingAuto())
             {
-                oLogging = null;
-                oLogging = new Logging(oBlueToothCmds);
+                StartLogging();
             }
 
             DateTime dtCurrent = DateTime.UtcNow;
@@ -195,10 +199,52 @@ namespace M.OBD
 
         #region Logging
 
-        private void btnLog_Clicked(object sender, EventArgs e)
+        private void btnLogOn_Clicked(object sender, EventArgs e)
         {
-            if (!isTimerRun || !oUserSetting.GetLoggingEnabled()) 
+            if (!isTimerRun || Logging.GetIsLogging() || Logging.CheckError()) 
                 return;
+
+            StartLogging();
+        }
+
+        private void btnLogOff_Clicked(object sender, EventArgs e)
+        {
+            if (!isTimerRun || !Logging.GetIsLogging())
+                return;
+
+            StopLogging();
+        }
+
+        private void StartLogging()
+        {
+            if (oLogging == null)
+                oLogging = new Logging();
+
+            if (oLogging.InitLogging(oBlueToothCmds))
+            {
+                oLogging.RunLogging();
+                SetLoggingButtons();
+            }
+        }
+
+        private void SetLoggingButtons()
+        {
+            if (Logging.GetIsLogging())
+            {
+                btnLogOff.IsEnabled = true;
+                btnLogOn.IsEnabled = false;
+            }
+            else
+            {
+                btnLogOff.IsEnabled = false;
+                btnLogOn.IsEnabled = true;
+            }
+        }
+
+        private void StopLogging()
+        {
+            Logging.StopLogging();
+            SetLoggingButtons();
         }
 
         #endregion
