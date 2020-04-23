@@ -17,7 +17,7 @@ namespace M.OBD2
         private bool isLoggingActive;
         private StringBuilder sbLogMessage;
         private DateTime LogStartTime;    // Log start time
-        private string LogFileName;        // Log full file name
+        private static string LogFileName;        // Log full file name
         private const string LOG_FORMAT = "#######.###";    // Log value format specifier
         private long LogEntryCount;
         private IFolder LogFolder;
@@ -33,10 +33,14 @@ namespace M.OBD2
         private static string status_message;
         private static bool isError;
 
+        private const string LOG_NAME_HEADER = "Log File: ";
+        private const string LOG_NAME_NONE = "None";
+
         #region Initialization
 
         public Logging()
         {
+            ClearLogFileName();
         }
 
         public bool InitLogging(BlueToothCmds blueToothCmds)
@@ -200,7 +204,20 @@ namespace M.OBD2
             return isError;
         }
 
-        #endregion
+        public static string GetLogFileName()
+        {
+            return LOG_NAME_HEADER +  (string.IsNullOrEmpty(LogFileName) ? LOG_NAME_NONE : LogFileName);
+        }
 
+        private static void ClearLogFileName()
+        {
+            LogFileName = "None";
+        }
+
+        private static void SetLogFileName(string name)
+        {
+            LogFileName = string.IsNullOrEmpty(name) ? LOG_NAME_NONE : name;
+        }
+        #endregion
     }
 }

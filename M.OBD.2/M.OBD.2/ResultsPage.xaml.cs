@@ -26,8 +26,9 @@ namespace M.OBD
 
         private bool isTimerRun;
         private const int TIMER_UPDATE = 25;       // Update timer iteration delay in ms
-        private bool isPickerActive;
-        private bool isSelected;
+        private bool isPickerProcessActive;
+        private bool isPickerProcessSelected;
+        private bool isPickerLogListActive;
         private bool isLogging;
 
         #endregion
@@ -59,11 +60,12 @@ namespace M.OBD
             btnDisconnect.Clicked += btnDisconnect_Clicked;
             btnLogOn.Clicked += btnLogOn_Clicked;
             btnLogOff.Clicked += btnLogOff_Clicked;
+            btnLogList.Clicked += btnLogList_Clicked;
             btnSelect.Clicked += btnSelect_Clicked;
             Appearing += Page_Appearing;
             pkrProcess.SelectedIndexChanged += pkrProcess_SelectedIndexChanged;
             pkrProcess.Unfocused += pkrProcess_Unfocused;
-
+            lblLogFile.Text = Logging.GetLogFileName();
             InitListView();
         }
 
@@ -80,6 +82,7 @@ namespace M.OBD
             btnSelect.IsEnabled = Bluetooth.isBluetoothDisconnected();
             btnLogOn.IsEnabled = !Bluetooth.isBluetoothDisconnected() && !Logging.GetIsLogging();
             btnLogOff.IsEnabled = !Bluetooth.isBluetoothDisconnected() && Logging.GetIsLogging();
+            //btnLogList.IsEnabled = !Logging.GetIsLogging();
         }
 
         public void UpdateUserSettings()
@@ -215,6 +218,14 @@ namespace M.OBD
             StopLogging();
         }
 
+        private void btnLogList_Clicked(object sender, EventArgs e)
+        {
+            if (!isTimerRun || Logging.GetIsLogging() || Logging.CheckError())
+                return;
+
+            // ToDo: open picker containing a list of log files
+        }
+
         private void StartLogging()
         {
             if (oLogging == null)
@@ -307,7 +318,7 @@ namespace M.OBD
 
         private void btnSelect_Clicked(object sender, EventArgs e)
         {
-            if (isTimerRun || isPickerActive)
+            if (isTimerRun || isPickerProcessActive)
                 return;
 
             LoadPicker();
@@ -320,7 +331,7 @@ namespace M.OBD
 
         private void LoadPicker()
         {
-            isPickerActive = true;
+            isPickerProcessActive = true;
 
             if (oBlueToothCmds_Picker == null)
                 oBlueToothCmds_Picker = new BlueToothCmds();
@@ -342,13 +353,13 @@ namespace M.OBD
             catch (Exception ex)
             {
                 DisplayMessage(ex.Message);
-                isPickerActive = false;
+                isPickerProcessActive = false;
             }
         }
 
         private void pkrProcess_Unfocused(object sender, FocusEventArgs e)
         {
-            isPickerActive = false;
+            isPickerProcessActive = false;
             pkrProcess.IsEnabled = false;
             pkrProcess.IsVisible = false;
         }
@@ -359,7 +370,7 @@ namespace M.OBD
             {
                 if (CheckPickerSelection()) return;
                 SetPickerSelection(((Picker)sender).SelectedIndex);
-                isSelected = true;
+                isPickerProcessSelected = true;
             }
             catch (Exception ex)
             {
@@ -375,8 +386,8 @@ namespace M.OBD
 
         private bool CheckPickerSelection()
         {
-            isSelected = !isSelected;
-            return !isSelected;
+            isPickerProcessSelected = !isPickerProcessSelected;
+            return !isPickerProcessSelected;
         }
 
         #endregion
