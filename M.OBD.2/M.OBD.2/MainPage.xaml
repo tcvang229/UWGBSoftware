@@ -20,9 +20,6 @@
     <local:DtcPage Title="DTC"
                        Icon="Dtc.png"/>
 
-    <local:LoggingPage Title="Log"
-                       Icon="logging.png"/>
-
     <local:ProfilePage Title="Profile"
-                           Icon="profile.png"/>
+                       Icon="profile.png"/>
 </TabbedPage>
