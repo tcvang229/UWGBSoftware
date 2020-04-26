@@ -3,9 +3,11 @@
 using M.OBD._2;
 using M.OBD2;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using PCLExt.FileStorage;
 using Xamarin.Forms;
 
 #endregion
@@ -28,7 +30,7 @@ namespace M.OBD
         private const int TIMER_UPDATE = 25;       // Update timer iteration delay in ms
         private bool isPickerProcessActive;
         private bool isPickerProcessSelected;
-        private bool isPickerLogListActive;
+        private bool isPickerLogsActive;
         private bool isLogging;
 
         #endregion
@@ -65,8 +67,13 @@ namespace M.OBD
             Appearing += Page_Appearing;
             pkrProcess.SelectedIndexChanged += pkrProcess_SelectedIndexChanged;
             pkrProcess.Unfocused += pkrProcess_Unfocused;
-            lblLogFile.Text = Logging.GetLogFileName();
+            pkrLogs.Unfocused += pkrLogs_Unfocused;
             InitListView();
+        }
+
+        private void PkrLogs_Unfocused(object sender, FocusEventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         public void Page_Appearing(object sender, EventArgs e)
@@ -220,16 +227,42 @@ namespace M.OBD
 
         private void btnLogList_Clicked(object sender, EventArgs e)
         {
-            if (!isTimerRun || Logging.GetIsLogging() || Logging.CheckError())
+            if (isPickerLogsActive)
                 return;
 
-            // ToDo: open picker containing a list of log files
+            LoadLogPicker();
+        }
+
+        private void LoadLogPicker()
+        {
+            List<string> files = new List<string>();
+            
+            isPickerLogsActive = true;
+            pkrLogs.IsEnabled = true;
+            pkrLogs.IsVisible = true;
+            pkrLogs.SelectedItem = null;
+            pkrLogs.Focus();
+
+            // ToDo: Picker does not display list on first try due to asynchronous/UI threading discrepancy 
+            Task.Run(async () =>
+            {
+                files = await Logging.GetLogFiles();
+            }).Wait(1000);
+
+            pkrLogs.ItemsSource = files;
+        }
+
+        private void pkrLogs_Unfocused(object sender, FocusEventArgs e)
+        {
+            isPickerLogsActive = false;
+            pkrLogs.IsEnabled = false;
+            pkrLogs.IsVisible = false;
         }
 
         private void StartLogging()
         {
             if (oLogging == null)
-                oLogging = new Logging();
+                oLogging = new Logging(lblLogFile);
 
             if (oLogging.InitLogging(oBlueToothCmds))
             {

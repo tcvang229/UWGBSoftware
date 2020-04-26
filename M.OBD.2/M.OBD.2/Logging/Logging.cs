@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Org.Apache.Http.Conn;
 using PCLExt.FileStorage;
 using PCLExt.FileStorage.Extensions;
 using PCLExt.FileStorage.Folders;
@@ -19,8 +21,9 @@ namespace M.OBD2
         private DateTime LogStartTime;    // Log start time
         private static string LogFileName;        // Log full file name
         private const string LOG_FORMAT = "#######.###";    // Log value format specifier
+        private const string LOG_FILTER = "*"; // File search filter
         private long LogEntryCount;
-        private IFolder LogFolder;
+        private static IFolder LogFolder;
         private IFile LogFile;
         private BlueToothCmds oBlueToothCmds;
         private string ProcessHeader;
@@ -32,14 +35,15 @@ namespace M.OBD2
         private const int LOG_UPDATE = 1000;
         private static string status_message;
         private static bool isError;
-
         private const string LOG_NAME_HEADER = "Log File: ";
         private const string LOG_NAME_NONE = "None";
+        private readonly Label lblLogFile;
 
         #region Initialization
 
-        public Logging()
+        public Logging(Label lblLogFile)
         {
+            this.lblLogFile = lblLogFile;
             ClearLogFileName();
         }
 
@@ -65,6 +69,8 @@ namespace M.OBD2
 
         public async void InitLogFile()
         {
+            ClearLogFileName();
+
             if (oBlueToothCmds == null || ProcessHeader == null)
                 throw new Exception("Failed to initialize logging");
 
@@ -94,7 +100,11 @@ namespace M.OBD2
             sbLogMessage.Append(ProcessHeader);
 
             if (!CreateFile(LogFileName, sbLogMessage.ToString()))
+            {
                 throw new Exception("Could not create log file");
+            }
+
+            SetLogFileName(LogFileName);
         }
 
         private static string GetProcessHeader(BlueToothCmds bthcmds)
@@ -114,14 +124,14 @@ namespace M.OBD2
             return sb.ToString();
         }
 
-        private async Task<bool> CheckDocumentsFolder()
+        private static async Task<bool> CheckDocumentsFolder()
         {
             try
             {
                 // ToDo: change path?
                 LogFolder = null;
                 DocumentsRootFolder rootFolder = new DocumentsRootFolder();
-                LogFolder = await rootFolder.CreateFolderAsync("MOBD2_LOGS", CreationCollisionOption.OpenIfExists);
+                LogFolder = await rootFolder.CreateFolderAsync(LOG_FOLDER, CreationCollisionOption.OpenIfExists);
                 return true;
             }
             catch
@@ -156,7 +166,7 @@ namespace M.OBD2
         {
             isLogging = true;
 
-            DateTime dtCurrent = DateTime.UtcNow;
+            DateTime dtCurrent;
             DateTime dtNext = DateTime.UtcNow;
 
             Device.StartTimer
@@ -189,11 +199,6 @@ namespace M.OBD2
             return isLogging;
         }
 
-        public static void StartLogging()
-        {
-            isLogging = true;
-        }
-
         public static void StopLogging()
         {
             isLogging = false;
@@ -204,20 +209,46 @@ namespace M.OBD2
             return isError;
         }
 
-        public static string GetLogFileName()
+        private void ClearLogFileName()
         {
-            return LOG_NAME_HEADER +  (string.IsNullOrEmpty(LogFileName) ? LOG_NAME_NONE : LogFileName);
+            SetLogFileName(string.Empty);
         }
 
-        private static void ClearLogFileName()
+        private void SetLogFileName(string name)
         {
-            LogFileName = "None";
+            LogFileName = LOG_NAME_HEADER + (string.IsNullOrEmpty(LogFileName) ? string.Empty : LogFileName);
+            lblLogFile.Text = LogFileName;
+        }
+        #endregion
+
+        #region File List Retrieval
+
+        public static async Task<List<string>> GetLogFiles()
+        {
+            List<string> files = new List<string>();
+
+            try
+            {
+                if (LogFolder == null && !await CheckDocumentsFolder())
+                {
+                    files.Add("Could not open log folder.");
+                    return files;
+                }
+
+                IList<IFile> ifiles = await LogFolder.GetFilesAsync("*", FolderSearchOption.AllFolders);
+
+                if (ifiles == null || ifiles.Count == 0)
+                    files.Add("No log files found.");
+                else
+                    files.AddRange(ifiles.Select(f => f.Name));
+            }
+            catch
+            {
+                files.Add("Error opening log folder.");
+            }
+            return files;
         }
 
-        private static void SetLogFileName(string name)
-        {
-            LogFileName = string.IsNullOrEmpty(name) ? LOG_NAME_NONE : name;
-        }
         #endregion
     }
 }

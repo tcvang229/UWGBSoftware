@@ -26,7 +26,7 @@
                 <Button Grid.Row="3" Grid.Column="2" Text="Log List" x:Name ="btnLogList" Clicked="btnLogList_Clicked" IsEnabled="True"/>
                 <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" x:Name ="lblLogFile"/>
                 <Picker Grid.Row="5" Grid.Column="0" x:Name="pkrProcess" Title =""  ItemDisplayBinding="{Binding Name}" HorizontalOptions="Fill" SelectedIndexChanged = "pkrProcess_SelectedIndexChanged" IsEnabled="False" IsVisible="False"/>
-                <Picker Grid.Row="5" Grid.Column="1" x:Name="pkrLogs" Title =""  ItemDisplayBinding="{Binding Name}" HorizontalOptions="Fill" IsEnabled="False" IsVisible="False"/>
+                <Picker Grid.Row="5" Grid.Column="1" x:Name="pkrLogs" Title =""  HorizontalOptions="Fill" IsEnabled="False" IsVisible="False"/>
             </Grid>
         </StackLayout>
     </ContentPage.Content>
