@@ -1518,24 +1518,24 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\User\\.nuget\\packages\\": {},
-    "D:\\Microsoft\\Xamarin\\NuGet\\": {}
+    "C:\\Users\\tnkpad\\.nuget\\packages\\": {},
+    "C:\\Microsoft\\Xamarin\\NuGet\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\User\\source\\repos\\tcvang229\\UWGBSoftware\\tcvang229\\UWGBSoftware\\M.OBD.2\\M.OBD.2.iOS\\M.OBD.2.iOS.csproj",
+      "projectUniqueName": "D:\\Documents\\test\\UWGBSoftware\\M.OBD.2\\M.OBD.2.iOS\\M.OBD.2.iOS.csproj",
       "projectName": "M.OBD.2.iOS",
-      "projectPath": "C:\\Users\\User\\source\\repos\\tcvang229\\UWGBSoftware\\tcvang229\\UWGBSoftware\\M.OBD.2\\M.OBD.2.iOS\\M.OBD.2.iOS.csproj",
-      "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\User\\source\\repos\\tcvang229\\UWGBSoftware\\tcvang229\\UWGBSoftware\\M.OBD.2\\M.OBD.2.iOS\\obj\\",
+      "projectPath": "D:\\Documents\\test\\UWGBSoftware\\M.OBD.2\\M.OBD.2.iOS\\M.OBD.2.iOS.csproj",
+      "packagesPath": "C:\\Users\\tnkpad\\.nuget\\packages\\",
+      "outputPath": "D:\\Documents\\test\\UWGBSoftware\\M.OBD.2\\M.OBD.2.iOS\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "fallbackFolders": [
-        "D:\\Microsoft\\Xamarin\\NuGet\\"
+        "C:\\Microsoft\\Xamarin\\NuGet\\"
       ],
       "configFilePaths": [
-        "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\tnkpad\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
@@ -1549,8 +1549,8 @@
       "frameworks": {
         "xamarinios10": {
           "projectReferences": {
-            "C:\\Users\\User\\source\\repos\\tcvang229\\UWGBSoftware\\tcvang229\\UWGBSoftware\\M.OBD.2\\M.OBD.2\\M.OBD.2.csproj": {
-              "projectPath": "C:\\Users\\User\\source\\repos\\tcvang229\\UWGBSoftware\\tcvang229\\UWGBSoftware\\M.OBD.2\\M.OBD.2\\M.OBD.2.csproj"
+            "D:\\Documents\\test\\UWGBSoftware\\M.OBD.2\\M.OBD.2\\M.OBD.2.csproj": {
+              "projectPath": "D:\\Documents\\test\\UWGBSoftware\\M.OBD.2\\M.OBD.2\\M.OBD.2.csproj"
             }
           }
         }

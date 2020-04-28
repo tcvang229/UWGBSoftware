@@ -12,3 +12,17 @@ D:\Documents\UWGBSoftware\M.OBD.2\M.OBD.2.Test\obj\Debug\M.OBD.2.Test.csproj.Cor
 D:\Documents\UWGBSoftware\M.OBD.2\M.OBD.2.Test\obj\Debug\M.OBD.2.Test.csproj.CopyComplete
 D:\Documents\UWGBSoftware\M.OBD.2\M.OBD.2.Test\obj\Debug\M.OBD.2.Test.dll
 D:\Documents\UWGBSoftware\M.OBD.2\M.OBD.2.Test\obj\Debug\M.OBD.2.Test.pdb
+D:\Documents\test\UWGBSoftware\M.OBD.2\M.OBD.2.Test\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
+D:\Documents\test\UWGBSoftware\M.OBD.2\M.OBD.2.Test\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
+D:\Documents\test\UWGBSoftware\M.OBD.2\M.OBD.2.Test\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
+D:\Documents\test\UWGBSoftware\M.OBD.2\M.OBD.2.Test\bin\Debug\M.OBD.2.Test.dll
+D:\Documents\test\UWGBSoftware\M.OBD.2\M.OBD.2.Test\bin\Debug\M.OBD.2.Test.pdb
+D:\Documents\test\UWGBSoftware\M.OBD.2\M.OBD.2.Test\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.dll
+D:\Documents\test\UWGBSoftware\M.OBD.2\M.OBD.2.Test\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll
+D:\Documents\test\UWGBSoftware\M.OBD.2\M.OBD.2.Test\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.xml
+D:\Documents\test\UWGBSoftware\M.OBD.2\M.OBD.2.Test\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.xml
+D:\Documents\test\UWGBSoftware\M.OBD.2\M.OBD.2.Test\obj\Debug\M.OBD.2.Test.csprojAssemblyReference.cache
+D:\Documents\test\UWGBSoftware\M.OBD.2\M.OBD.2.Test\obj\Debug\M.OBD.2.Test.csproj.CoreCompileInputs.cache
+D:\Documents\test\UWGBSoftware\M.OBD.2\M.OBD.2.Test\obj\Debug\M.OBD.2.Test.csproj.CopyComplete
+D:\Documents\test\UWGBSoftware\M.OBD.2\M.OBD.2.Test\obj\Debug\M.OBD.2.Test.dll
+D:\Documents\test\UWGBSoftware\M.OBD.2\M.OBD.2.Test\obj\Debug\M.OBD.2.Test.pdb
