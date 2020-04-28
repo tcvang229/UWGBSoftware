@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "pi2u6z6LBHHioZyPBc6tXy0m+bYsdeIQWD3wxXgiFkhc0WbZ5+4GgwXw/nkSn1F0szeYDSac+g9KJ474a/IFPQ==",
+  "dgSpecHash": "Fh7y8nc5BwdF8MdX9Yaid+Nhm7fkrU2UemPhSy6ypBPppayuY+lhhrsXWsICwtQ6xtQw3Ee2c6rwhJeexracLw==",
   "success": true,
   "projectFilePath": "C:\\Users\\Zeus\\Desktop\\Project\\M.OBD.2\\M.OBD.2\\M.OBD.2.csproj",
   "expectedPackageFiles": [
@@ -8,6 +8,7 @@
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512",
     "C:\\Users\\Zeus\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512",
+    "C:\\Users\\Zeus\\.nuget\\packages\\pclext.filestorage\\1.4.1.1\\pclext.filestorage.1.4.1.1.nupkg.sha512",
     "C:\\Users\\Zeus\\.nuget\\packages\\sqlite-net-pcl\\1.6.292\\sqlite-net-pcl.1.6.292.nupkg.sha512",
     "C:\\Users\\Zeus\\.nuget\\packages\\sqlitepclraw.bundle_green\\1.1.13\\sqlitepclraw.bundle_green.1.1.13.nupkg.sha512",
     "C:\\Users\\Zeus\\.nuget\\packages\\sqlitepclraw.core\\1.1.13\\sqlitepclraw.core.1.1.13.nupkg.sha512",

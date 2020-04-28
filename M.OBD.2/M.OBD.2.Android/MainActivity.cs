@@ -10,7 +10,7 @@ using System.IO;
 
 namespace M.OBD._2.Droid
 {
-    [Activity(Label = "M.OBD._2", Icon = "@mipmap/ic_launcher_copy", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    [Activity(Label = "M.OBD._2", Icon = "@mipmap/ic_launcher_copy", Theme = "@style/MainTheme", ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)
@@ -40,6 +40,7 @@ namespace M.OBD._2.Droid
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+
         }
     }
 }

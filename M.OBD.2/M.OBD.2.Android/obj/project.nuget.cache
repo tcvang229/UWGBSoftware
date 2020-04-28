@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "FYDNOfsSvW3Vml+e4egHliYAIpWDJyqs+xHuN9XqdJ8O91tvdeCUsFm8LfrB6olIjCzMtBipAbEpsTbc40n5Mw==",
+  "dgSpecHash": "iiCRR3iZsNhIzQ+cLiYFhOLL0KzHQdFcfMaDbBQqS+BiVqmUoKDVqDsRzBQWp1zfa2pAn9rSGkoTpgqkiN3RiA==",
   "success": true,
   "projectFilePath": "C:\\Users\\Zeus\\Desktop\\Project\\M.OBD.2\\M.OBD.2.Android\\M.OBD.2.Android.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Zeus\\.nuget\\packages\\mathparser.org-mxparser\\4.4.2\\mathparser.org-mxparser.4.4.2.nupkg.sha512",
     "C:\\Users\\Zeus\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512",
+    "C:\\Users\\Zeus\\.nuget\\packages\\pclext.filestorage\\1.4.1.1\\pclext.filestorage.1.4.1.1.nupkg.sha512",
     "C:\\Users\\Zeus\\.nuget\\packages\\sqlite-net-pcl\\1.6.292\\sqlite-net-pcl.1.6.292.nupkg.sha512",
     "C:\\Users\\Zeus\\.nuget\\packages\\sqlitepclraw.bundle_green\\1.1.13\\sqlitepclraw.bundle_green.1.1.13.nupkg.sha512",
     "C:\\Users\\Zeus\\.nuget\\packages\\sqlitepclraw.core\\1.1.13\\sqlitepclraw.core.1.1.13.nupkg.sha512",
