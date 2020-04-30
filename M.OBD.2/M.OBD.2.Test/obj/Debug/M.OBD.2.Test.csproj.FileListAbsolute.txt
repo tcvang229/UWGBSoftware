@@ -12,3 +12,16 @@ D:\Documents\UWGBSoftware\M.OBD.2\M.OBD.2.Test\obj\Debug\M.OBD.2.Test.csproj.Cor
 D:\Documents\UWGBSoftware\M.OBD.2\M.OBD.2.Test\obj\Debug\M.OBD.2.Test.csproj.CopyComplete
 D:\Documents\UWGBSoftware\M.OBD.2\M.OBD.2.Test\obj\Debug\M.OBD.2.Test.dll
 D:\Documents\UWGBSoftware\M.OBD.2\M.OBD.2.Test\obj\Debug\M.OBD.2.Test.pdb
+C:\Users\Zeus\Desktop\Project\M.OBD.2\M.OBD.2.Test\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTest.TestAdapter.dll
+C:\Users\Zeus\Desktop\Project\M.OBD.2\M.OBD.2.Test\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.Interface.dll
+C:\Users\Zeus\Desktop\Project\M.OBD.2\M.OBD.2.Test\bin\Debug\Microsoft.VisualStudio.TestPlatform.MSTestAdapter.PlatformServices.dll
+C:\Users\Zeus\Desktop\Project\M.OBD.2\M.OBD.2.Test\bin\Debug\M.OBD.2.Test.dll
+C:\Users\Zeus\Desktop\Project\M.OBD.2\M.OBD.2.Test\bin\Debug\M.OBD.2.Test.pdb
+C:\Users\Zeus\Desktop\Project\M.OBD.2\M.OBD.2.Test\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.dll
+C:\Users\Zeus\Desktop\Project\M.OBD.2\M.OBD.2.Test\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.dll
+C:\Users\Zeus\Desktop\Project\M.OBD.2\M.OBD.2.Test\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.xml
+C:\Users\Zeus\Desktop\Project\M.OBD.2\M.OBD.2.Test\bin\Debug\Microsoft.VisualStudio.TestPlatform.TestFramework.Extensions.xml
+C:\Users\Zeus\Desktop\Project\M.OBD.2\M.OBD.2.Test\obj\Debug\M.OBD.2.Test.csproj.CoreCompileInputs.cache
+C:\Users\Zeus\Desktop\Project\M.OBD.2\M.OBD.2.Test\obj\Debug\M.OBD.2.Test.csproj.CopyComplete
+C:\Users\Zeus\Desktop\Project\M.OBD.2\M.OBD.2.Test\obj\Debug\M.OBD.2.Test.dll
+C:\Users\Zeus\Desktop\Project\M.OBD.2\M.OBD.2.Test\obj\Debug\M.OBD.2.Test.pdb
