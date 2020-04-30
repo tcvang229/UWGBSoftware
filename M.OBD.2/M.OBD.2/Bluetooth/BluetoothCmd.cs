@@ -57,6 +57,8 @@ namespace M.OBD2
         // Command type enum array in Json encoded format ex: "{2}" or  "{2,3,4}" ...
         public string sCommand_Types { get; set; }
 
+        public string sSelection_Types { get; set; }
+
         // If the user has selected this process
         public bool isSelected { get; set; }
 
@@ -69,13 +71,16 @@ namespace M.OBD2
         // Non DB Values /////
 
         // Pre generated command bytes for faster iteration
+        [Ignore]
         public byte[] CmdBytes { get; set; }
 
         // Associated Command_Type - multiple indicates multi values used in a given Expression string 
         // Ex: Expression = "(a*b*1740.572)/(3600*c/100)", Command_Types = { COMMAND_TYPE.MPG, COMMAND_TYPE.VSS, COMMAND_TYPE.MAF }
+        [Ignore]
         public BlueToothCmds.COMMAND_TYPE[] Command_Types { get; set; }
 
         // Command selection state Ex. User, Process ...
+        [Ignore]
         public BlueToothCmds.SELECTION_TYPE Selection_Type { get; set; }
     }
 
@@ -118,6 +123,9 @@ namespace M.OBD2
 
         #region Initialization
 
+        // see if these methods are needed or not
+        // MARKER 4
+
         public void InitExpressions(UserSetting.UNIT_TYPE Unit_Type)
         {
             foreach (BluetoothCmd b in this) // Init expressions
@@ -143,9 +151,27 @@ namespace M.OBD2
 
         #region DB
 
-        public BlueToothCmds() // ToDo: load commands from Db
+        //public BlueToothCmds(UserSetting user_setting)
+        public BlueToothCmds()
         {
-            //ToDo: //integrate with a User class to get their preferences??
+            using (SQLiteConnection connection = new SQLiteConnection(App.Database))
+            {
+                // create the new database table here
+                // MARKER 5
+                //connection.CreateTable<BluetoothCmd>();
+
+                try
+                {
+                    int rows = connection.Table<BluetoothModel>().Count();
+                    //int rows = connection.Table<BluetoothCmd>().Count();
+                    System.Diagnostics.Debug.WriteLine("----ROWS----");
+                }
+                catch (SQLite.SQLiteException e)
+                {
+                    System.Diagnostics.Debug.WriteLine("----ROWS EXCEPTION----");
+                    BluetoothCommandsInitializer.Initialize();
+                }
+            }
         }
 
         //method to create a bluetooth command and insert it into the DB
@@ -176,9 +202,9 @@ namespace M.OBD2
         {
             using (SQLiteConnection connection = new SQLiteConnection(App.Database))
             {
-
                 //get the entire table
                 var bluetoothCmd = connection.Table<BluetoothCmd>();
+
 
                 //example linq query 
                 //use a linq query to get the commands from the bluetooth commands table
@@ -227,12 +253,39 @@ namespace M.OBD2
         #endregion
 
         #region Test Related
+        public void RetrieveCommands(UserSetting.UNIT_TYPE Unit_Type, bool isInitialize)
+        {
+            using (SQLiteConnection connection = new SQLiteConnection(App.Database))
+            {
+                var commands = connection.Table<BluetoothModel>();
+                System.Diagnostics.Debug.WriteLine(commands.Count().ToString());
 
-        public void CreateTestCommands(UserSetting.UNIT_TYPE Unit_Type, bool isInitialize)
+                foreach (var command in commands)
+                {
+                    System.Diagnostics.Debug.WriteLine("Id: " + command.Id.ToString());
+                }
+
+                /*foreach (var command in commands)
+                {
+                    // need to do some conversion
+                    // before adding RECORD -> LIST
+                    Add(command);
+                    System.Diagnostics.Debug.WriteLine(command.Id.ToString());
+                }*/
+
+                if (isInitialize)
+                {
+                    InitCommandBytes();
+                    InitExpressions(Unit_Type);
+                }
+            }
+        }
+
+        /*public void CreateTestCommands(UserSetting.UNIT_TYPE Unit_Type, bool isInitialize)
         {
             // Format 01##01
             // 01 = Service
-            // https://en.wikipedia.org/wiki/OBD-II_PIDs#Service_05
+            // https://en.wikipedia.org/wiki/OBD-II_PIDs#Service_01
 
             Add(new BluetoothCmd()
             {
@@ -339,7 +392,7 @@ namespace M.OBD2
                 isRxBytes = true,
                 Bytes = 1,
                 isSelected = false,
-                Command_Types = new[] { COMMAND_TYPE.DEFAULT}
+                Command_Types = new[] { COMMAND_TYPE.DEFAULT }
             });
 
             Add(new BluetoothCmd()
@@ -366,7 +419,7 @@ namespace M.OBD2
                 InitCommandBytes();
                 InitExpressions(Unit_Type);
             }
-        }
+        }*/
 
         #endregion
     }

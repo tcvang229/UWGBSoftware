@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "TiTNbCUYcqYEzwSGNtCv/02LN63+XsUMT3cmP7RJYDSNGtUgs5v2eSRV190cbGC0eTYXWeWiBRJGfn20mNuPeQ==",
+  "dgSpecHash": "plGIdY/NfwOQzdsFFdr9g6PjPr/+Tw8z9d4US5aNNlrjX4fZ4qVkGd5p9gu06pnGRzGzcq2ANNhQm3dVU5lbWQ==",
   "success": true,
-  "projectFilePath": "D:\\Documents\\test\\UWGBSoftware\\M.OBD.2\\M.OBD.2.Android\\M.OBD.2.Android.csproj",
+  "projectFilePath": "D:\\documents\\UWGBSoftware\\M.OBD.2\\M.OBD.2.Android\\M.OBD.2.Android.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\tnkpad\\.nuget\\packages\\mathparser.org-mxparser\\4.4.2\\mathparser.org-mxparser.4.4.2.nupkg.sha512",
     "C:\\Users\\tnkpad\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512",

@@ -902,11 +902,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Documents\\test\\UWGBSoftware\\M.OBD.2\\M.OBD.2\\M.OBD.2.csproj",
+      "projectUniqueName": "D:\\Documents\\UWGBSoftware\\M.OBD.2\\M.OBD.2\\M.OBD.2.csproj",
       "projectName": "M.OBD.2",
-      "projectPath": "D:\\Documents\\test\\UWGBSoftware\\M.OBD.2\\M.OBD.2\\M.OBD.2.csproj",
+      "projectPath": "D:\\Documents\\UWGBSoftware\\M.OBD.2\\M.OBD.2\\M.OBD.2.csproj",
       "packagesPath": "C:\\Users\\tnkpad\\.nuget\\packages\\",
-      "outputPath": "D:\\Documents\\test\\UWGBSoftware\\M.OBD.2\\M.OBD.2\\obj\\",
+      "outputPath": "D:\\Documents\\UWGBSoftware\\M.OBD.2\\M.OBD.2\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Microsoft\\Xamarin\\NuGet\\"

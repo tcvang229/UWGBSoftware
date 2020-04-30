@@ -1524,11 +1524,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Documents\\test\\UWGBSoftware\\M.OBD.2\\M.OBD.2.iOS\\M.OBD.2.iOS.csproj",
+      "projectUniqueName": "D:\\documents\\UWGBSoftware\\M.OBD.2\\M.OBD.2.iOS\\M.OBD.2.iOS.csproj",
       "projectName": "M.OBD.2.iOS",
-      "projectPath": "D:\\Documents\\test\\UWGBSoftware\\M.OBD.2\\M.OBD.2.iOS\\M.OBD.2.iOS.csproj",
+      "projectPath": "D:\\documents\\UWGBSoftware\\M.OBD.2\\M.OBD.2.iOS\\M.OBD.2.iOS.csproj",
       "packagesPath": "C:\\Users\\tnkpad\\.nuget\\packages\\",
-      "outputPath": "D:\\Documents\\test\\UWGBSoftware\\M.OBD.2\\M.OBD.2.iOS\\obj\\",
+      "outputPath": "D:\\documents\\UWGBSoftware\\M.OBD.2\\M.OBD.2.iOS\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "fallbackFolders": [
@@ -1549,8 +1549,8 @@
       "frameworks": {
         "xamarinios10": {
           "projectReferences": {
-            "D:\\Documents\\test\\UWGBSoftware\\M.OBD.2\\M.OBD.2\\M.OBD.2.csproj": {
-              "projectPath": "D:\\Documents\\test\\UWGBSoftware\\M.OBD.2\\M.OBD.2\\M.OBD.2.csproj"
+            "D:\\documents\\UWGBSoftware\\M.OBD.2\\M.OBD.2\\M.OBD.2.csproj": {
+              "projectPath": "D:\\documents\\UWGBSoftware\\M.OBD.2\\M.OBD.2\\M.OBD.2.csproj"
             }
           }
         }

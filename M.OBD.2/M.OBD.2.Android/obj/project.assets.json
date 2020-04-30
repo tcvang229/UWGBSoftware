@@ -2247,11 +2247,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\Documents\\test\\UWGBSoftware\\M.OBD.2\\M.OBD.2.Android\\M.OBD.2.Android.csproj",
+      "projectUniqueName": "D:\\documents\\UWGBSoftware\\M.OBD.2\\M.OBD.2.Android\\M.OBD.2.Android.csproj",
       "projectName": "M.OBD.2.Android",
-      "projectPath": "D:\\Documents\\test\\UWGBSoftware\\M.OBD.2\\M.OBD.2.Android\\M.OBD.2.Android.csproj",
+      "projectPath": "D:\\documents\\UWGBSoftware\\M.OBD.2\\M.OBD.2.Android\\M.OBD.2.Android.csproj",
       "packagesPath": "C:\\Users\\tnkpad\\.nuget\\packages\\",
-      "outputPath": "D:\\Documents\\test\\UWGBSoftware\\M.OBD.2\\M.OBD.2.Android\\obj\\",
+      "outputPath": "D:\\documents\\UWGBSoftware\\M.OBD.2\\M.OBD.2.Android\\obj\\",
       "projectStyle": "PackageReference",
       "skipContentFileWrite": true,
       "fallbackFolders": [
@@ -2272,8 +2272,8 @@
       "frameworks": {
         "monoandroid90": {
           "projectReferences": {
-            "D:\\Documents\\test\\UWGBSoftware\\M.OBD.2\\M.OBD.2\\M.OBD.2.csproj": {
-              "projectPath": "D:\\Documents\\test\\UWGBSoftware\\M.OBD.2\\M.OBD.2\\M.OBD.2.csproj"
+            "D:\\documents\\UWGBSoftware\\M.OBD.2\\M.OBD.2\\M.OBD.2.csproj": {
+              "projectPath": "D:\\documents\\UWGBSoftware\\M.OBD.2\\M.OBD.2\\M.OBD.2.csproj"
             }
           }
         }

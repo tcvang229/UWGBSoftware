@@ -92,6 +92,7 @@ namespace M.OBD
             //btnLogList.IsEnabled = !Logging.GetIsLogging();
         }
 
+        // MARKER2
         public void UpdateUserSettings()
         {
             // ToDo: Load DB values
@@ -373,9 +374,10 @@ namespace M.OBD
             
             try
             {
+                // MARKER3
                 // ToDo: Load from db
 
-                oBlueToothCmds_Picker.CreateTestCommands(oUserSetting.GetUserUnits(), false);
+                oBlueToothCmds_Picker.RetrieveCommands(oUserSetting.GetUserUnits(), false);
                 oBlueToothCmds_Picker.RemoveAll(x => x.isSelected);
                 pkrProcess.ItemsSource = oBlueToothCmds_Picker;
                 pkrProcess.IsEnabled = true;
@@ -485,10 +487,11 @@ namespace M.OBD
             // Load some test commands and run processing loop
 
             oBlueToothCmds = null;
+            // MARKER1 
             oBlueToothCmds = new BlueToothCmds();
 
             // ToDo: replace with db values
-            oBlueToothCmds.CreateTestCommands(oUserSetting.GetUserUnits(), true);
+            oBlueToothCmds.RetrieveCommands(oUserSetting.GetUserUnits(), true);
 
             InitListViewItems(oBlueToothCmds);
             RunProcesses();

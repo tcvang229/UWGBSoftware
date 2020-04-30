@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "81z/9rahsU+bwi+JtZbxWAjOn+di7l6DFiApT8K7dpWQnLhekkFQCDsrhjDBreV8lo0Hjl3T/pgmNW198SkUrw==",
+  "dgSpecHash": "jlZM4of42GXKrM/jszy3heKSBYnz+hLayda8WNP4wT11111x64jLK5PT3Z6uDZkW4E2b3W1bjCxpHO3vZbR0ig==",
   "success": true,
-  "projectFilePath": "D:\\Documents\\test\\UWGBSoftware\\M.OBD.2\\M.OBD.2\\M.OBD.2.csproj",
+  "projectFilePath": "D:\\documents\\UWGBSoftware\\M.OBD.2\\M.OBD.2\\M.OBD.2.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\tnkpad\\.nuget\\packages\\mathparser.org-mxparser\\4.4.2\\mathparser.org-mxparser.4.4.2.nupkg.sha512",
     "C:\\Users\\tnkpad\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",

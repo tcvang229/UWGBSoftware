@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "tYZ3UBd41nwrVi97vdW0Z1dr7gV+bnhLZu0iXGFLzdWrGyCJfjxxU4sj3GEOgOOTUrKlya1KYPgdJlbudy/DeA==",
+  "dgSpecHash": "YCLbf4wWBx+zMO2Fl37aTPSv6fBMOFjR2/serrCR0bAvaofoGLxJujMrKRFpqbW9KZUReYkYREWy9xBgSAE3aw==",
   "success": true,
-  "projectFilePath": "D:\\Documents\\test\\UWGBSoftware\\M.OBD.2\\M.OBD.2.iOS\\M.OBD.2.iOS.csproj",
+  "projectFilePath": "D:\\documents\\UWGBSoftware\\M.OBD.2\\M.OBD.2.iOS\\M.OBD.2.iOS.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\tnkpad\\.nuget\\packages\\mathparser.org-mxparser\\4.4.2\\mathparser.org-mxparser.4.4.2.nupkg.sha512",
     "C:\\Users\\tnkpad\\.nuget\\packages\\newtonsoft.json\\12.0.3\\newtonsoft.json.12.0.3.nupkg.sha512",

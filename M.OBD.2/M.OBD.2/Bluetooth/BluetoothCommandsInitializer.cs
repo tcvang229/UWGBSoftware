@@ -8,221 +8,252 @@ namespace M.OBD2
 {
     public static class BluetoothCommandsInitializer
     {
-        public static void InitializeTable()
+        public static void Initialize()
+        {
+            System.Diagnostics.Debug.WriteLine("---Creating Table---");
+            CreateTable();
+            System.Diagnostics.Debug.WriteLine("---Done---");
+        }
+
+        public static void CreateTable()
         {
             using (SQLiteConnection connection = new SQLiteConnection(App.Database))
             {
-                /*BluetoothCmd ign = new BluetoothCmd()
-                {
-                    Id = 0,
-                    Name = "IGN",
-                    Units_Imperial = "",
-                    Units_Metric = "",
-                    Cmd = "ATIGN",
-                    Rate = 1000,
-                    Expression_Imperial = "",
-                    Units_Imperial = "",
-                    isRxBytes = false,
-                    isSelected = false,
-                    Command_Types = new[] { BlueToothCmds.COMMAND_TYPE.DEFAULT }
-                };*/
+                connection.CreateTable<BluetoothModel>();
+                List<BluetoothModel> commands_list = CreateList();
 
-                BluetoothCmd coolant_temp = new BluetoothCmd()
+                foreach (BluetoothModel command in commands_list)
                 {
-                    Id = 1,
-                    Name = "coolant temp",
-                    Expression_Imperial = "((a-40)*9/5+32)",
-                    Units_Imperial = "F",
-                    Expression_Metric = "(a - 40)",
-                    Units_Metric = "C",
-                    Cmd = "01051",
-                    Rate = 3000,
-                    Decimals = 0,
-                    Value_Min = -40,
-                    Value_Max = 215,
-                    isRxBytes = true,
-                    Bytes = 4,
-                    isSelected = false,
-                    Command_Types = new[] { BlueToothCmds.COMMAND_TYPE.DEFAULT }
-                };
-
-                BluetoothCmd vss = new BluetoothCmd()
-                {
-                    Id = 2,
-                    Name = "VSS",
-                    Expression_Imperial = "(a / 1.609)",
-                    Units_Imperial = "MPH",
-                    Expression_Metric = "",
-                    Units_Metric = "KPH",
-                    Cmd = "010D1",
-                    Rate = 1000,
-                    Decimals = 1,
-                    Value_Min = 0,
-                    Value_Max = 255,
-                    isRxBytes = true,
-                    Bytes = 4,
-                    isSelected = false,
-                    Command_Types = new[] { BlueToothCmds.COMMAND_TYPE.VSS }
-                };
-
-                BluetoothCmd iat = new BluetoothCmd()
-                {
-                    Id = 2,
-                    Name = "IAT",
-                    Expression_Imperial = "((a-40)*9/5+32)",
-                    Units_Imperial = "F",
-                    Expression_Metric = "(a - 40)",
-                    Units_Metric = "C",
-                    Cmd = "010F1",
-                    Rate = 1000,
-                    Decimals = 1,
-                    Value_Min = -40,
-                    Value_Max = 215,
-                    isRxBytes = true,
-                    Bytes = 4,
-                    isSelected = false,
-                    Command_Types = new[] { BlueToothCmds.COMMAND_TYPE.VSS }
-                };
-
-                BluetoothCmd map = new BluetoothCmd()
-                {
-                    Id = 3,
-                    Name = "MAP",
-                    Expression_Imperial = "(a*0.145)",
-                    Units_Imperial = "PSI",
-                    Expression_Metric = "(a)",
-                    Units_Metric = "KPA",
-                    Cmd = "010B1",
-                    Rate = 1000,
-                    Decimals = 1,
-                    Value_Min = 0,
-                    Value_Max = 255,
-                    isRxBytes = true,
-                    Bytes = 4,
-                    isSelected = false,
-                    Command_Types = new[] { BlueToothCmds.COMMAND_TYPE.VSS }
-                };
-
-                BluetoothCmd tps = new BluetoothCmd()
-                {
-                    Id = 3,
-                    Name = "TPS",
-                    Expression_Imperial = "(a * 100 / 255)",
-                    Units_Imperial = "%",
-                    Expression_Metric = "(a * 100 / 255)",
-                    Units_Metric = "%",
-                    Cmd = "01111",
-                    Rate = 500,
-                    Decimals = 0,
-                    Value_Min = 0,
-                    Value_Max = 100,
-                    isRxBytes = true,
-                    Bytes = 1,
-                    isSelected = false,
-                    Command_Types = new[] { BlueToothCmds.COMMAND_TYPE.TPS }
-                };
-
-                BluetoothCmd maf = new BluetoothCmd()
-                {
-                    Id = 4,
-                    Name = "MAF",
-                    Expression_Imperial = "(a * 1)",
-                    Units_Imperial = "G/S",
-                    Expression_Metric = "(a * 1)",
-                    Units_Metric = "G/S",
-                    Cmd = "010D1",
-                    Rate = 1000,
-                    Decimals = 1,
-                    Value_Min = 0,
-                    Value_Max = 10000,
-                    isRxBytes = true,
-                    Bytes = 1,
-                    isSelected = false,
-                    Command_Types = new[] { BlueToothCmds.COMMAND_TYPE.MAF }
-                };
-
-                BluetoothCmd rpm = new BluetoothCmd()
-                {
-                    Id = 5,
-                    Name = "RPM",
-                    Expression_Imperial = "(a * 1)",
-                    Units_Imperial = "x1000",
-                    Expression_Metric = "(a * 1)",
-                    Units_Metric = "x1000",
-                    Cmd = "010C1",
-                    Rate = 500,
-                    Decimals = 0,
-                    Value_Min = 0,
-                    Value_Max = 10000,
-                    isRxBytes = true,
-                    Bytes = 1,
-                    isSelected = false,
-                    Command_Types = new[] { BlueToothCmds.COMMAND_TYPE.DEFAULT }
-                };
-
-                BluetoothCmd mpg = new BluetoothCmd()
-                {
-                    Id = 6,
-                    Name = "Mileage",
-                    Expression_Imperial = "(14.7*b*1740.572)/(3600*c/100)",
-                    Units_Imperial = "MPG",
-                    Expression_Metric = "(14.7*b*1740.572)/(3600*c/100)",
-                    Units_Metric = "KPG",
-                    Cmd = "",
-                    Rate = 2000,
-                    Decimals = 1,
-                    Value_Min = 0,
-                    Value_Max = 100,
-                    isRxBytes = false,
-                    Bytes = 0,
-                    isSelected = false,
-                    Command_Types = new[] { BlueToothCmds.COMMAND_TYPE.MPG, BlueToothCmds.COMMAND_TYPE.VSS, BlueToothCmds.COMMAND_TYPE.MAF }
-                };
-
-                BluetoothCmd fuel_system_status = new BluetoothCmd()
-                {
-                    Id = 7,
-                    Name = "fuel system status",
-                    Cmd = "01031",
-                    Value_Max = 300,
-                    isRxBytes = true,
-                    Bytes = 1,
-                    isSelected = false,
-                    Command_Types = new[] { BlueToothCmds.COMMAND_TYPE.DEFAULT }
-                };
-
-                BluetoothCmd fuel_pressure = new BluetoothCmd()
-                {
-                    Id = 8,
-                    Name = "fuel pressure",
-                    Expression_Imperial = "(100/128 * a - 100)",
-                    Cmd = "010A1",
-                    Rate = 500,
-                    Decimals = 0,
-                    Value_Min = 0,
-                    Value_Max = 765,
-                    isRxBytes = true,
-                    Bytes = 1,
-                    isSelected = true,
-                    Command_Types = new[] { BlueToothCmds.COMMAND_TYPE.DEFAULT }
-                };
-
-                connection.CreateTable<BluetoothCmd>();
-                int rows = connection.Table<BluetoothCmd>().Count();
-
-                if (rows <= 0)
-                {
-                    //connection.Insert(ign);
-                    connection.Insert(coolant_temp);
-                    connection.Insert(vss);
-                    connection.Insert(tps);
-                    connection.Insert(maf);
-                    connection.Insert(rpm);
-                    connection.Insert(mpg);
-                    connection.Insert(fuel_system_status);
-                    connection.Insert(fuel_pressure);
+                    connection.Insert(command);
                 }
             }
+        }
+
+        public static List<BluetoothModel> CreateList()
+        {
+            BluetoothModel coolant_temp = new BluetoothModel()
+            {
+                Id = 1,
+                Name = "coolant temp",
+                Units_Imperial = "F",
+                Units_Metric = "C",
+                Cmd = "01051",
+                Rate = 3000,
+                Decimals = 0,
+                Expression_Imperial = "((a-40)*9/5+32)",
+                Expression_Metric = "(a - 40)",
+                Bytes = 4,
+                isRxBytes = true,
+                isSelected = false,
+                Value_Min = -40,
+                Value_Max = 215,
+            };
+
+            BluetoothModel vss = new BluetoothModel()
+            {
+                Id = 2,
+                Name = "VSS",
+                Units_Imperial = "MPH",
+                Units_Metric = "KPH",
+                Cmd = "010D1",
+                Rate = 1000,
+                Decimals = 1,
+                Expression_Imperial = "(a / 1.609)",
+                Expression_Metric = "",
+                Bytes = 4,
+                isRxBytes = true,
+                sCommand_Types = "2",
+                isSelected = true,
+                Value_Min = 0,
+                Value_Max = 255,
+            };
+
+            BluetoothModel iat = new BluetoothModel()
+            {
+                Id = 3,
+                Name = "IAT",
+                Units_Imperial = "F",
+                Units_Metric = "C",
+                Cmd = "010F1",
+                Rate = 1000,
+                Decimals = 1,
+                Expression_Imperial = "((a-40)*9/5+32)",
+                Expression_Metric = "(a - 40)",
+                Bytes = 4,
+                isRxBytes = true,
+                sCommand_Types = "2",
+                isSelected = false,
+                Value_Min = -40,
+                Value_Max = 215,
+            };
+
+            BluetoothModel map = new BluetoothModel()
+            {
+                Id = 4,
+                Name = "MAP",
+                Units_Imperial = "PSI",
+                Units_Metric = "KPA",
+                Cmd = "010B1",
+                Rate = 1000,
+                Decimals = 1,
+                Expression_Imperial = "(a*0.145)",
+                Expression_Metric = "(a)",
+                Bytes = 4,
+                isRxBytes = true,
+                sCommand_Types = "2",
+                isSelected = false,
+                Value_Min = 0,
+                Value_Max = 255,
+            };
+
+            BluetoothModel tps = new BluetoothModel()
+            {
+                Id = 5,
+                Name = "TPS",
+                Units_Imperial = "%",
+                Units_Metric = "%",
+                Cmd = "01111",
+                Rate = 500,
+                Decimals = 0,
+                Expression_Imperial = "(a * 100 / 255)",
+                Expression_Metric = "(a * 100 / 255)",
+                Bytes = 1,
+                isRxBytes = true,
+                sCommand_Types = "0",
+                isSelected = false,
+                Value_Min = 0,
+                Value_Max = 100,
+            };
+
+            BluetoothModel maf = new BluetoothModel()
+            {
+                Id = 6,
+                Name = "MAF",
+                Units_Imperial = "G/S",
+                Units_Metric = "G/S",
+                Cmd = "010D1",
+                Rate = 1000,
+                Decimals = 1,
+                Expression_Imperial = "(a * 1)",
+                Expression_Metric = "(a * 1)",
+                Bytes = 1,
+                isRxBytes = true,
+                sCommand_Types = "3",
+                isSelected = false,
+                Value_Min = 0,
+                Value_Max = 10000,
+            };
+
+            BluetoothModel rpm = new BluetoothModel()
+            {
+                Id = 7,
+                Name = "RPM",
+                Units_Imperial = "x1000",
+                Units_Metric = "x1000",
+                Cmd = "010C1",
+                Rate = 500,
+                Decimals = 0,
+                Expression_Imperial = "(a * 1)",
+                Expression_Metric = "(a * 1)",
+                Bytes = 1,
+                isRxBytes = true,
+                sCommand_Types = "0",
+                isSelected = false,
+                Value_Min = 0,
+                Value_Max = 10000,
+            };
+
+            BluetoothModel mpg = new BluetoothModel()
+            {
+                Id = 8,
+                Name = "miles per gallon",
+                Units_Imperial = "MPG",
+                Units_Metric = "KPG",
+                Cmd = "",
+                Rate = 2000,
+                Decimals = 1,
+                Expression_Imperial = "(14.7*b*1740.572)/(3600*c/100)",
+                Expression_Metric = "(14.7*b*1740.572)/(3600*c/100)",
+                Bytes = 0,
+                isRxBytes = false,
+                sCommand_Types = "0",
+                isSelected = false,
+                Value_Min = 0,
+                Value_Max = 100,
+            };
+
+            BluetoothModel fuel_system_status = new BluetoothModel()
+            {
+                Id = 9,
+                Name = "fuel system status",
+                Units_Imperial = "",
+                Units_Metric = "",
+                Cmd = "01031",
+                Rate = 5000,
+                Decimals = 0,
+                Expression_Imperial = "",
+                Expression_Metric = "",
+                Bytes = 4,
+                isRxBytes = false,
+                sCommand_Types = "0",
+                isSelected = false,
+                Value_Max = 0,
+                Value_Min = 0,
+            };
+
+            BluetoothModel fuel_pressure = new BluetoothModel()
+            {
+                Id = 10,
+                Name = "fuel pressure",
+                Units_Imperial = "",
+                Units_Metric = "",
+                Cmd = "010A1",
+                Rate = 500,
+                Decimals = 0,
+                Expression_Imperial = "(100/128 * a - 100)",
+                Expression_Metric = "",
+                Bytes = 4,
+                isRxBytes = true,
+                sCommand_Types = "0",
+                isSelected = false,
+                Value_Min = 0,
+                Value_Max = 765,
+            };
+
+            BluetoothModel ign = new BluetoothModel()
+            {
+                Id = 11,
+                Name = "IGN",
+                Units_Imperial = "",
+                Units_Metric = "",
+                Cmd = "ATIGN",
+                Rate = 500,
+                Decimals = 0,
+                Expression_Imperial = "",
+                Expression_Metric = "",
+                Bytes = 1,
+                isRxBytes = false,
+                sCommand_Types = "0",
+                isSelected = true,
+                Value_Min = 0,
+                Value_Max = 0,
+
+            };
+
+            List<BluetoothModel> commands_list = new List<BluetoothModel>();
+            commands_list.Add(coolant_temp);
+            commands_list.Add(vss);
+            commands_list.Add(iat);
+            commands_list.Add(map);
+            commands_list.Add(tps);
+            commands_list.Add(maf);
+            commands_list.Add(rpm);
+            commands_list.Add(mpg);
+            commands_list.Add(fuel_system_status);
+            commands_list.Add(fuel_pressure);
+            commands_list.Add(ign);
+
+            return commands_list;
         }
     }
 }
