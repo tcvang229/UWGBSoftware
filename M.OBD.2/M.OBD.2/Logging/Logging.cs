@@ -1,43 +1,47 @@
-﻿using System;
+﻿#region Using Statements
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Org.Apache.Http.Conn;
 using PCLExt.FileStorage;
 using PCLExt.FileStorage.Extensions;
 using PCLExt.FileStorage.Folders;
 using Xamarin.Forms;
+#endregion
 
 namespace M.OBD2
 {
     public class Logging
     {
-        // Current logging status
-        private bool isLoggingActive;
+        #region Declarations
+
+        private BlueToothCmds oBlueToothCmds;
         private StringBuilder sbLogMessage;
-        private DateTime LogStartTime;    // Log start time
-        private static string LogFileName;        // Log full file name
-        private const string LOG_FORMAT = "#######.###";    // Log value format specifier
-        private const string LOG_FILTER = "*"; // File search filter
-        private long LogEntryCount;
         private static IFolder LogFolder;
         private IFile LogFile;
-        private BlueToothCmds oBlueToothCmds;
-        private string ProcessHeader;
-
+        private DateTime LogStartTime;    // Log start time
+        
+        private const string LOG_FILTER = "*.txt"; // File search filter
         private const string LOG_DELIMIT = "\t";
         private const string LOG_FOLDER = "MOBD2_LOGS";
-        private static bool isLogging;
+        private const string LOG_FILE_EXT = ".txt";
+        private const string LOG_NAME_HEADER = "Log File: ";
+        private const string LOG_TITLE = "*** MOBD2 Generate Log ***";
         private const int TIMER_UPDATE = 250;       // Update timer iteration delay in ms
         private const int LOG_UPDATE = 1000;
+        
+        private static string LogFileName;        // Log full file name
         private static string status_message;
-        private static bool isError;
-        private const string LOG_NAME_HEADER = "Log File: ";
-        private const string LOG_NAME_NONE = "None";
+        private string ProcessHeader;
         private readonly Label lblLogFile;
+        private long LogEntryCount;
+        private static bool isLogging;
+        private static bool isError;
+
+        #endregion
 
         #region Initialization
 
@@ -83,7 +87,6 @@ namespace M.OBD2
                 sbLogMessage = new StringBuilder();
 
             sbLogMessage.Clear();
-
             LogEntryCount = 0;
             LogStartTime = DateTime.UtcNow;
 
@@ -91,18 +94,18 @@ namespace M.OBD2
             sbLogFileName.Append(LogStartTime);
             sbLogFileName.Replace("/", "-");
             sbLogFileName.Replace(":", "-");
+            sbLogFileName.Append(LOG_FILE_EXT);
             LogFileName = sbLogFileName.ToString();
+
+            // Build log message
+            sbLogMessage.Append(LOG_TITLE + Environment.NewLine);
             sbLogMessage.Append("Logging Started:" + LOG_DELIMIT + LogStartTime.ToShortTimeString() + Environment.NewLine);
             sbLogMessage.Append("Rate(ms):" + LOG_DELIMIT + TIMER_UPDATE + LOG_DELIMIT);
             sbLogMessage.Append(Environment.NewLine);
-
-            // Add process header
             sbLogMessage.Append(ProcessHeader);
 
             if (!CreateFile(LogFileName, sbLogMessage.ToString()))
-            {
                 throw new Exception("Could not create log file");
-            }
 
             SetLogFileName(LogFileName);
         }
@@ -110,7 +113,6 @@ namespace M.OBD2
         private static string GetProcessHeader(BlueToothCmds bthcmds)
         {
             StringBuilder sb = new StringBuilder();
-
             sb.Append("Time" + LOG_DELIMIT);
 
             bthcmds.ForEach(x =>
@@ -221,34 +223,36 @@ namespace M.OBD2
         }
         #endregion
 
-        #region File List Retrieval
+        #region File List Retrieval and Viewing
 
         public static async Task<List<string>> GetLogFiles()
         {
+            if (LogFolder == null && !await CheckDocumentsFolder())
+                throw new Exception("Could not open log folder.");
+
+            if (LogFolder == null)
+                return null;
+
+            IList<IFile> ifiles = await LogFolder.GetFilesAsync(LOG_FILTER, FolderSearchOption.AllFolders);
+
+            if (ifiles == null || ifiles.Count == 0)
+                throw  new Exception("No files found");
+
             List<string> files = new List<string>();
+            files.AddRange(ifiles.Select(f => f.Name));
 
-            try
-            {
-                if (LogFolder == null && !await CheckDocumentsFolder())
-                {
-                    files.Add("Could not open log folder.");
-                    return files;
-                }
-
-                IList<IFile> ifiles = await LogFolder.GetFilesAsync("*", FolderSearchOption.AllFolders);
-
-                if (ifiles == null || ifiles.Count == 0)
-                    files.Add("No log files found.");
-                else
-                    files.AddRange(ifiles.Select(f => f.Name));
-            }
-            catch
-            {
-                files.Add("Error opening log folder.");
-            }
             return files;
         }
 
+        public static string GetLogFilePath(string fname)
+        {
+            if (LogFolder == null)
+                throw new Exception("Invalid Log Folder");
+
+            return Path.Combine(LogFolder.Path, fname);
+        }
+
         #endregion
+
     }
 }

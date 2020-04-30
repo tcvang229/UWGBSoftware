@@ -5,9 +5,11 @@ using M.OBD2;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using PCLExt.FileStorage;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 #endregion
@@ -31,6 +33,7 @@ namespace M.OBD
         private bool isPickerProcessActive;
         private bool isPickerProcessSelected;
         private bool isPickerLogsActive;
+        private bool isPickerLogsSelected;
         private bool isLogging;
 
         #endregion
@@ -67,13 +70,9 @@ namespace M.OBD
             Appearing += Page_Appearing;
             pkrProcess.SelectedIndexChanged += pkrProcess_SelectedIndexChanged;
             pkrProcess.Unfocused += pkrProcess_Unfocused;
+            pkrLogs.SelectedIndexChanged += pkrLogs_SelectedIndexChanged;
             pkrLogs.Unfocused += pkrLogs_Unfocused;
             InitListView();
-        }
-
-        private void PkrLogs_Unfocused(object sender, FocusEventArgs e)
-        {
-            throw new NotImplementedException();
         }
 
         public void Page_Appearing(object sender, EventArgs e)
@@ -246,10 +245,72 @@ namespace M.OBD
             // ToDo: Picker does not display list on first try due to asynchronous/UI threading discrepancy 
             Task.Run(async () =>
             {
-                files = await Logging.GetLogFiles();
-            }).Wait(1000);
+                try
+                {
+                    files = await Logging.GetLogFiles();
+                }
+                catch (Exception e)
+                {
+                    Debug.WriteLine("Could not load files:" + e.Message);
+                }
+                
+            }).Wait(2000);
 
-            pkrLogs.ItemsSource = files;
+            if (files != null && files.Count != 0)
+                pkrLogs.ItemsSource = files;
+        }
+
+        private void pkrLogs_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                if (CheckPickerLogsSelection()) return;
+                SetPickerLogsSelection(((Picker)sender).SelectedIndex);
+                isPickerProcessSelected = true;
+            }
+            catch (Exception ex)
+            {
+                DisplayMessage(ex.Message);
+            }
+        }
+
+        private void SetPickerLogsSelection(int index)
+        {
+            if (index == -1 || pkrLogs.Items.Count == 0)
+                return;
+
+            ViewLogFile(index);
+        }
+
+        private async void ViewLogFile(int index)
+        {
+            try
+            {
+                string fname = pkrLogs.Items[index];
+
+                if (string.IsNullOrEmpty(fname))
+                    throw new Exception("Invalid Selection");
+
+                string filepathname = Logging.GetLogFilePath(fname);
+
+                if (string.IsNullOrEmpty(filepathname))
+                    throw new Exception("Invalid file path");
+
+                await Launcher.OpenAsync(new OpenFileRequest
+                {
+                    File = new ReadOnlyFile(filepathname)
+                });
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("Could not view file:" + e.Message);
+            }
+        }
+
+        private bool CheckPickerLogsSelection()
+        {
+            isPickerLogsSelected = !isPickerLogsSelected;
+            return !isPickerLogsSelected;
         }
 
         private void pkrLogs_Unfocused(object sender, FocusEventArgs e)
@@ -347,14 +408,14 @@ namespace M.OBD
 
         #endregion
 
-        #region Picker Related
+        #region Process Picker Related
 
         private void btnSelect_Clicked(object sender, EventArgs e)
         {
             if (isTimerRun || isPickerProcessActive)
                 return;
 
-            LoadPicker();
+            LoadProcessPicker();
         }
 
         private void SetPickerSelection()
@@ -362,7 +423,7 @@ namespace M.OBD
             bool isUserDevice = oUserSetting.isUserDevice();
         }
 
-        private void LoadPicker()
+        private void LoadProcessPicker()
         {
             isPickerProcessActive = true;
 
@@ -401,8 +462,8 @@ namespace M.OBD
         {
             try
             {
-                if (CheckPickerSelection()) return;
-                SetPickerSelection(((Picker)sender).SelectedIndex);
+                if (CheckProcessPickerSelection()) return;
+                SetProcessPickerSelection(((Picker)sender).SelectedIndex);
                 isPickerProcessSelected = true;
             }
             catch (Exception ex)
@@ -411,13 +472,13 @@ namespace M.OBD
             }
         }
 
-        private void SetPickerSelection(int index)
+        private void SetProcessPickerSelection(int index)
         {
             if (index == -1 || pkrProcess.Items.Count == 0)
                 return;
         }
 
-        private bool CheckPickerSelection()
+        private bool CheckProcessPickerSelection()
         {
             isPickerProcessSelected = !isPickerProcessSelected;
             return !isPickerProcessSelected;
