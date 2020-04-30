@@ -120,9 +120,10 @@ namespace M.OBD2
 
         public void InitExpressions(UserSetting.UNIT_TYPE Unit_Type)
         {
+            StringBuilder sb = new StringBuilder();
             foreach (BluetoothCmd b in this) // Init expressions
             {
-                b.InitExpression(b, Unit_Type);
+                b.InitExpression(b, Unit_Type, sb);
             }
         }
 

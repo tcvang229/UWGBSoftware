@@ -32,6 +32,8 @@ namespace M.OBD2
         private double max;
         private int decimals;
         private string formatter;
+        private const int MAX_DECIMALS = 4;
+        private const string VALUE_FORMATTER = "#";
 
         #endregion
 
@@ -48,7 +50,7 @@ namespace M.OBD2
         /// <param name="bthcmd"></param>
         /// <param name="Unit_Type"></param>
 
-        public void InitExpression(BluetoothCmd bthcmd, UserSetting.UNIT_TYPE Unit_Type)
+        public void InitExpression(BluetoothCmd bthcmd, UserSetting.UNIT_TYPE Unit_Type, StringBuilder sb)
         {
             if (bthcmd.Command_Types == null || bthcmd.Command_Types.Length == 0)
                 return;
@@ -76,6 +78,25 @@ namespace M.OBD2
             min = bthcmd.Value_Min;
             max = bthcmd.Value_Max;
             decimals = bthcmd.Decimals;
+
+            if (decimals < 0)
+                decimals = 0;
+            else if (decimals > MAX_DECIMALS)
+                decimals = MAX_DECIMALS;
+
+            if (decimals == 0)
+                formatter = VALUE_FORMATTER;
+            else
+            {
+                sb.Clear();
+                sb.Append(VALUE_FORMATTER);
+                sb.Append(".");
+
+                for (int i = 0; i < decimals; i++)
+                    sb.Append(VALUE_FORMATTER);
+
+                formatter = sb.ToString();
+            }
         }
 
         #endregion

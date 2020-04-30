@@ -5,7 +5,6 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using PCLExt.FileStorage;
 using PCLExt.FileStorage.Extensions;
@@ -32,15 +31,14 @@ namespace M.OBD2
         private const string LOG_FILE_EXT = ".txt";
         private const string LOG_NAME_HEADER = "Log File: ";
         private const string LOG_TITLE = "*** MOBD2 Generate Log ***";
+        private const string TIME_FORMATTER = "T";
+        private const int LOG_UPDATE = 1000;        // Log write time in ms
         private const int TIMER_UPDATE = 250;       // Update timer iteration delay in ms
-        private const int LOG_UPDATE = 1000;
-        private const string VALUE_FORMATTER = "#";
-        
+
         private static string LogFileName;        // Log full file name
         private static string status_message;
         private string ProcessHeader;
         private readonly Label lblLogFile;
-        private long LogEntryCount;
         private static bool isLogging;
         private static bool isError;
 
@@ -51,7 +49,7 @@ namespace M.OBD2
         public Logging(Label lblLogFile)
         {
             this.lblLogFile = lblLogFile;
-            ClearLogFileName();
+            SetLogFileName();
         }
 
         public bool InitLogging(BlueToothCmds blueToothCmds)
@@ -123,7 +121,6 @@ namespace M.OBD2
                     throw new Exception("Invalid log directory or file");
 
                 LogFile.AppendTextAsync(GetProcessValues(dtCurrent, lBluetoothCmds, sbLogMessage));
-                LogEntryCount++;
             }
             catch (Exception e)
             {
@@ -140,7 +137,7 @@ namespace M.OBD2
                 sb = new StringBuilder();
             sb.Clear();
 
-            sb.Append(DateTime.Now.ToShortTimeString());
+            sb.Append(dtCurrent.ToString(TIME_FORMATTER));
             sb.Append(LOG_DELIMIT);
 
             lbthcmds.ForEach(x =>
@@ -159,7 +156,7 @@ namespace M.OBD2
 
         private async void CreateLogFile()
         {
-            ClearLogFileName();
+            SetLogFileName();
 
             if (oBlueToothCmds == null || ProcessHeader == null)
                 throw new Exception("Failed to initialize logging");
@@ -173,7 +170,6 @@ namespace M.OBD2
                 sbLogMessage = new StringBuilder();
 
             sbLogMessage.Clear();
-            LogEntryCount = 0;
             LogStartTime = DateTime.UtcNow;
 
             // Build log file name
@@ -193,13 +189,12 @@ namespace M.OBD2
             if (!CreateFile(LogFileName, sbLogMessage.ToString()))
                 throw new Exception("Could not create log file");
 
-            SetLogFileName(LogFileName);
+            SetLogFileName();
         }
 
-        private static string GetProcessHeader(BlueToothCmds bthcmds, List<BluetoothCmd> lbthcmds)
+        private static string GetProcessHeader(BlueToothCmds bthcmds, ICollection<BluetoothCmd> lbthcmds)
         {
             StringBuilder sb = new StringBuilder();
-            StringBuilder sbf = new StringBuilder();
             sb.Append("Time" + LOG_DELIMIT);
 
             lbthcmds.Clear();
@@ -213,27 +208,9 @@ namespace M.OBD2
                 {
                     sb.Append(x.Name + LOG_DELIMIT);
                     lbthcmds.Add(x);
-
-                    if (string.IsNullOrEmpty(x.GetFormatter()))
-                        x.SetFormatter(GetValueFormatter(sbf, x.Decimals));
                 }
             });
             sb.Append(Environment.NewLine);
-
-            return sb.ToString();
-        }
-
-        private static string GetValueFormatter(StringBuilder sb, int decimals)
-        {
-            if (decimals <= 0)
-                return VALUE_FORMATTER;
-
-            sb.Clear();
-            sb.Append(VALUE_FORMATTER);
-            sb.Append(".");
-
-            for (int i = 0; i < decimals; i++)
-                sb.Append(VALUE_FORMATTER);
 
             return sb.ToString();
         }
@@ -272,12 +249,7 @@ namespace M.OBD2
             }
         }
 
-        private void ClearLogFileName()
-        {
-            SetLogFileName(string.Empty);
-        }
-
-        private void SetLogFileName(string name)
+        private void SetLogFileName()
         {
             LogFileName = LOG_NAME_HEADER + (string.IsNullOrEmpty(LogFileName) ? string.Empty : LogFileName);
             lblLogFile.Text = LogFileName;
