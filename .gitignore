@@ -5,5 +5,9 @@
 /M.OBD.2/.vs/M.OBD.2/v16/Server/sqlite3/db.lock
 M.OBD.2/M.OBD.2/obj/*
 M.OBD.2/M.OBD.2/bin/*
+M.OBD.2/M.OBD.2.Android/obj
 M.OBD.2/M.OBD.2.Android/obj/*
+M.OBD.2/M.OBD.2.Android/bin
 M.OBD.2/M.OBD.2.Android/bin/*
+M.OBD.2/M.OBD.2/obj/Debug/*
+
