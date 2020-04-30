@@ -5,10 +5,8 @@ using M.OBD2;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using PCLExt.FileStorage;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 

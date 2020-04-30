@@ -240,10 +240,12 @@ namespace M.OBD2
                 Name = "IGN",
                 Expression_Imperial = "",
                 Units_Imperial = "",
+                Decimals = 0,
                 Cmd = "ATIGN",
                 Rate = 1000,
                 isRxBytes = false,
                 isSelected = true,
+                Selection_Type = SELECTION_TYPE.USER,
                 Command_Types = new[] { COMMAND_TYPE.DEFAULT }
             });
 
@@ -257,12 +259,13 @@ namespace M.OBD2
                 Units_Metric = "C",
                 Cmd = "01051",
                 Rate = 2000,
-                Decimals = 0,
+                Decimals = 2,
                 Value_Min = -60,
                 Value_Max = 300,
                 isRxBytes = true,
                 Bytes = 1,
                 isSelected = true,
+                Selection_Type = SELECTION_TYPE.USER,
                 Command_Types = new[] { COMMAND_TYPE.DEFAULT }
             });
 
@@ -276,12 +279,13 @@ namespace M.OBD2
                 Units_Metric = "KPH",
                 Cmd = "010D1",
                 Rate = 1000,
-                Decimals = 1,
+                Decimals = 2,
                 Value_Min = 0,
                 Value_Max = 300,
                 isRxBytes = true,
                 Bytes = 1,
                 isSelected = true,
+                Selection_Type = SELECTION_TYPE.USER,
                 Command_Types = new[] { COMMAND_TYPE.VSS }
             });
 
@@ -301,6 +305,7 @@ namespace M.OBD2
                 isRxBytes = true,
                 Bytes = 1,
                 isSelected = false,
+                Selection_Type = SELECTION_TYPE.USER,
                 Command_Types = new[] { COMMAND_TYPE.TPS }
             });
 
@@ -314,12 +319,13 @@ namespace M.OBD2
                 Units_Metric = "G/S",
                 Cmd = "010D1",
                 Rate = 1000,
-                Decimals = 1,
+                Decimals = 2,
                 Value_Min = 0,
                 Value_Max = 10000,
                 isRxBytes = true,
                 Bytes = 1,
                 isSelected = false,
+                Selection_Type = SELECTION_TYPE.USER,
                 Command_Types = new[] { COMMAND_TYPE.MAF }
             });
 

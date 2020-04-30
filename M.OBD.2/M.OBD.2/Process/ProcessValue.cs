@@ -31,6 +31,7 @@ namespace M.OBD2
         private double min;
         private double max;
         private int decimals;
+        private string formatter;
 
         #endregion
 
@@ -130,6 +131,16 @@ namespace M.OBD2
         public void SetExpression(string svalue)
         {
             sExpression = svalue;
+        }
+
+        public void SetFormatter(string svalue)
+        {
+            formatter = svalue;
+        }
+
+        public string GetFormatter()
+        {
+            return formatter;
         }
 
         #endregion

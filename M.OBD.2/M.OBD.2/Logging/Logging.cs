@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using PCLExt.FileStorage;
 using PCLExt.FileStorage.Extensions;
@@ -19,6 +20,7 @@ namespace M.OBD2
         #region Declarations
 
         private BlueToothCmds oBlueToothCmds;
+        private List<BluetoothCmd> lBluetoothCmds;
         private StringBuilder sbLogMessage;
         private static IFolder LogFolder;
         private IFile LogFile;
@@ -32,6 +34,7 @@ namespace M.OBD2
         private const string LOG_TITLE = "*** MOBD2 Generate Log ***";
         private const int TIMER_UPDATE = 250;       // Update timer iteration delay in ms
         private const int LOG_UPDATE = 1000;
+        private const string VALUE_FORMATTER = "#";
         
         private static string LogFileName;        // Log full file name
         private static string status_message;
@@ -56,10 +59,11 @@ namespace M.OBD2
             isError = false;
             try
             {
+                lBluetoothCmds = new List<BluetoothCmd>();
                 oBlueToothCmds = blueToothCmds ?? throw new Exception("Invalid Command List");
-                ProcessHeader = GetProcessHeader(blueToothCmds);
+                ProcessHeader = GetProcessHeader(blueToothCmds, lBluetoothCmds);
 
-                InitLogFile();
+                CreateLogFile();
                 
                 return true;
             }
@@ -71,7 +75,89 @@ namespace M.OBD2
             }
         }
 
-        public async void InitLogFile()
+        #endregion
+
+        #region Main Process
+
+        public void RunLogging()
+        {
+            isLogging = true;
+
+            DateTime dtCurrent;
+            DateTime dtNext = DateTime.UtcNow;
+
+            Device.StartTimer
+            (
+                TimeSpan.FromMilliseconds(TIMER_UPDATE), () =>
+                {
+                    dtCurrent = DateTime.UtcNow;
+                    
+                    try
+                    {
+                        if (dtCurrent >= dtNext)
+                        {
+                            dtNext = dtCurrent.AddMilliseconds(LOG_UPDATE);
+                            WriteFile(dtCurrent);
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        isError = true;
+                        status_message = e.Message;
+                        return false;
+                    }
+                    return isLogging;
+                }
+            );
+        }
+
+        #endregion
+
+        #region Log File Writing
+
+        private void WriteFile(DateTime dtCurrent)
+        {
+            try
+            {
+                if (LogFolder == null || LogFile == null)
+                    throw new Exception("Invalid log directory or file");
+
+                LogFile.AppendTextAsync(GetProcessValues(dtCurrent, lBluetoothCmds, sbLogMessage));
+                LogEntryCount++;
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("Error writing log:" + e.Message);
+            }
+        }
+
+        private static string GetProcessValues(DateTime dtCurrent, List<BluetoothCmd> lbthcmds, StringBuilder sb)
+        {
+            if (lbthcmds == null || lbthcmds.Count == 0)
+                return string.Empty;
+
+            if (sb == null)
+                sb = new StringBuilder();
+            sb.Clear();
+
+            sb.Append(DateTime.Now.ToShortTimeString());
+            sb.Append(LOG_DELIMIT);
+
+            lbthcmds.ForEach(x =>
+            {
+                sb.Append(x.value.ToString(x.GetFormatter()));
+                sb.Append(LOG_DELIMIT);
+            });
+            sb.Append(Environment.NewLine);
+
+            return sb.ToString();
+        }
+
+        #endregion
+
+        #region Log File Creation
+
+        private async void CreateLogFile()
         {
             ClearLogFileName();
 
@@ -110,18 +196,44 @@ namespace M.OBD2
             SetLogFileName(LogFileName);
         }
 
-        private static string GetProcessHeader(BlueToothCmds bthcmds)
+        private static string GetProcessHeader(BlueToothCmds bthcmds, List<BluetoothCmd> lbthcmds)
         {
             StringBuilder sb = new StringBuilder();
+            StringBuilder sbf = new StringBuilder();
             sb.Append("Time" + LOG_DELIMIT);
+
+            lbthcmds.Clear();
 
             bthcmds.ForEach(x =>
             {
-                if (!string.IsNullOrEmpty(x.Name) 
+                // If valid append to string and add to working list
+                if (!string.IsNullOrEmpty(x.Name)
                     && (x.Selection_Type == BlueToothCmds.SELECTION_TYPE.USER
-                    || x.Selection_Type == BlueToothCmds.SELECTION_TYPE.USER_PROCESS))
+                        || x.Selection_Type == BlueToothCmds.SELECTION_TYPE.USER_PROCESS))
+                {
                     sb.Append(x.Name + LOG_DELIMIT);
+                    lbthcmds.Add(x);
+
+                    if (string.IsNullOrEmpty(x.GetFormatter()))
+                        x.SetFormatter(GetValueFormatter(sbf, x.Decimals));
+                }
             });
+            sb.Append(Environment.NewLine);
+
+            return sb.ToString();
+        }
+
+        private static string GetValueFormatter(StringBuilder sb, int decimals)
+        {
+            if (decimals <= 0)
+                return VALUE_FORMATTER;
+
+            sb.Clear();
+            sb.Append(VALUE_FORMATTER);
+            sb.Append(".");
+
+            for (int i = 0; i < decimals; i++)
+                sb.Append(VALUE_FORMATTER);
 
             return sb.ToString();
         }
@@ -142,7 +254,7 @@ namespace M.OBD2
             }
         }
 
-        public bool CreateFile(string fileName, string content)
+        private bool CreateFile(string fileName, string content)
         {
             if (LogFolder == null)
                 return false;
@@ -160,57 +272,6 @@ namespace M.OBD2
             }
         }
 
-        #endregion
-
-        #region Main Process
-
-        public void RunLogging()
-        {
-            isLogging = true;
-
-            DateTime dtCurrent;
-            DateTime dtNext = DateTime.UtcNow;
-
-            Device.StartTimer
-            (
-                TimeSpan.FromMilliseconds(TIMER_UPDATE), () =>
-                {
-                    dtCurrent = DateTime.UtcNow;
-                    
-                    try
-                    {
-                        if (dtCurrent >= dtNext)
-                        {
-                            dtNext = dtCurrent.AddMilliseconds(LOG_UPDATE);
-                            Debug.WriteLine("Log entry at: " + dtCurrent);
-                        }
-                    }
-                    catch (Exception e)
-                    {
-                        isError = true;
-                        status_message = e.Message;
-                        return false;
-                    }
-                    return isLogging;
-                }
-            );
-        }
-
-        public static bool GetIsLogging()
-        {
-            return isLogging;
-        }
-
-        public static void StopLogging()
-        {
-            isLogging = false;
-        }
-
-        public static bool CheckError()
-        {
-            return isError;
-        }
-
         private void ClearLogFileName()
         {
             SetLogFileName(string.Empty);
@@ -221,6 +282,7 @@ namespace M.OBD2
             LogFileName = LOG_NAME_HEADER + (string.IsNullOrEmpty(LogFileName) ? string.Empty : LogFileName);
             lblLogFile.Text = LogFileName;
         }
+
         #endregion
 
         #region File List Retrieval and Viewing
@@ -250,6 +312,25 @@ namespace M.OBD2
                 throw new Exception("Invalid Log Folder");
 
             return Path.Combine(LogFolder.Path, fname);
+        }
+
+        #endregion
+
+        #region Gets/Sets
+
+        public static bool GetIsLogging()
+        {
+            return isLogging;
+        }
+
+        public static void StopLogging()
+        {
+            isLogging = false;
+        }
+
+        public static bool CheckError()
+        {
+            return isError;
         }
 
         #endregion
