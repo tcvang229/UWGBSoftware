@@ -434,7 +434,8 @@ namespace M.OBD
             {
                 // ToDo: Load from db
 
-                oBlueToothCmds_Picker.CreateTestCommands(oUserSetting.GetUserUnits(), false);
+                //oBlueToothCmds_Picker.CreateTestCommands(oUserSetting.GetUserUnits(), false);
+                oBlueToothCmds_Picker.RetrieveCommands(oUserSetting.GetUserUnits(), false);
                 oBlueToothCmds_Picker.RemoveAll(x => x.isSelected);
                 pkrProcess.ItemsSource = oBlueToothCmds_Picker;
                 pkrProcess.IsEnabled = true;
@@ -547,7 +548,8 @@ namespace M.OBD
             oBlueToothCmds = new BlueToothCmds();
 
             // ToDo: replace with db values
-            oBlueToothCmds.CreateTestCommands(oUserSetting.GetUserUnits(), true);
+            //oBlueToothCmds.CreateTestCommands(oUserSetting.GetUserUnits(), true);
+            oBlueToothCmds.RetrieveCommands(oUserSetting.GetUserUnits(), true);
 
             InitListViewItems(oBlueToothCmds);
             RunProcesses();

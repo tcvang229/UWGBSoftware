@@ -1,24 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\User\\source\\repos\\tcvang229\\UWGBSoftware\\tcvang229\\UWGBSoftware\\M.OBD.2\\M.OBD.2.Android\\M.OBD.2.Android.csproj": {}
+    "D:\\Documents\\fresh_pull\\UWGBSoftware\\M.OBD.2\\M.OBD.2.Android\\M.OBD.2.Android.csproj": {}
   },
   "projects": {
-    "C:\\Users\\User\\source\\repos\\tcvang229\\UWGBSoftware\\tcvang229\\UWGBSoftware\\M.OBD.2\\M.OBD.2.Android\\M.OBD.2.Android.csproj": {
+    "D:\\Documents\\fresh_pull\\UWGBSoftware\\M.OBD.2\\M.OBD.2.Android\\M.OBD.2.Android.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\User\\source\\repos\\tcvang229\\UWGBSoftware\\tcvang229\\UWGBSoftware\\M.OBD.2\\M.OBD.2.Android\\M.OBD.2.Android.csproj",
+        "projectUniqueName": "D:\\Documents\\fresh_pull\\UWGBSoftware\\M.OBD.2\\M.OBD.2.Android\\M.OBD.2.Android.csproj",
         "projectName": "M.OBD.2.Android",
-        "projectPath": "C:\\Users\\User\\source\\repos\\tcvang229\\UWGBSoftware\\tcvang229\\UWGBSoftware\\M.OBD.2\\M.OBD.2.Android\\M.OBD.2.Android.csproj",
-        "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\User\\source\\repos\\tcvang229\\UWGBSoftware\\tcvang229\\UWGBSoftware\\M.OBD.2\\M.OBD.2.Android\\obj\\",
+        "projectPath": "D:\\Documents\\fresh_pull\\UWGBSoftware\\M.OBD.2\\M.OBD.2.Android\\M.OBD.2.Android.csproj",
+        "packagesPath": "C:\\Users\\tnkpad\\.nuget\\packages\\",
+        "outputPath": "D:\\Documents\\fresh_pull\\UWGBSoftware\\M.OBD.2\\M.OBD.2.Android\\obj\\",
         "projectStyle": "PackageReference",
         "skipContentFileWrite": true,
         "fallbackFolders": [
-          "D:\\Microsoft\\Xamarin\\NuGet\\"
+          "C:\\Microsoft\\Xamarin\\NuGet\\"
         ],
         "configFilePaths": [
-          "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\tnkpad\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
@@ -32,8 +32,8 @@
         "frameworks": {
           "monoandroid90": {
             "projectReferences": {
-              "C:\\Users\\User\\source\\repos\\tcvang229\\UWGBSoftware\\tcvang229\\UWGBSoftware\\M.OBD.2\\M.OBD.2\\M.OBD.2.csproj": {
-                "projectPath": "C:\\Users\\User\\source\\repos\\tcvang229\\UWGBSoftware\\tcvang229\\UWGBSoftware\\M.OBD.2\\M.OBD.2\\M.OBD.2.csproj"
+              "D:\\Documents\\fresh_pull\\UWGBSoftware\\M.OBD.2\\M.OBD.2\\M.OBD.2.csproj": {
+                "projectPath": "D:\\Documents\\fresh_pull\\UWGBSoftware\\M.OBD.2\\M.OBD.2\\M.OBD.2.csproj"
               }
             }
           }
@@ -54,21 +54,20 @@
         }
       }
     },
-    "C:\\Users\\User\\source\\repos\\tcvang229\\UWGBSoftware\\tcvang229\\UWGBSoftware\\M.OBD.2\\M.OBD.2\\M.OBD.2.csproj": {
+    "D:\\Documents\\fresh_pull\\UWGBSoftware\\M.OBD.2\\M.OBD.2\\M.OBD.2.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\User\\source\\repos\\tcvang229\\UWGBSoftware\\tcvang229\\UWGBSoftware\\M.OBD.2\\M.OBD.2\\M.OBD.2.csproj",
+        "projectUniqueName": "D:\\Documents\\fresh_pull\\UWGBSoftware\\M.OBD.2\\M.OBD.2\\M.OBD.2.csproj",
         "projectName": "M.OBD.2",
-        "projectPath": "C:\\Users\\User\\source\\repos\\tcvang229\\UWGBSoftware\\tcvang229\\UWGBSoftware\\M.OBD.2\\M.OBD.2\\M.OBD.2.csproj",
-        "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\User\\source\\repos\\tcvang229\\UWGBSoftware\\tcvang229\\UWGBSoftware\\M.OBD.2\\M.OBD.2\\obj\\",
+        "projectPath": "D:\\Documents\\fresh_pull\\UWGBSoftware\\M.OBD.2\\M.OBD.2\\M.OBD.2.csproj",
+        "packagesPath": "C:\\Users\\tnkpad\\.nuget\\packages\\",
+        "outputPath": "D:\\Documents\\fresh_pull\\UWGBSoftware\\M.OBD.2\\M.OBD.2\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
-          "D:\\Microsoft\\Xamarin\\NuGet\\",
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+          "C:\\Microsoft\\Xamarin\\NuGet\\"
         ],
         "configFilePaths": [
-          "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\tnkpad\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
@@ -134,7 +133,7 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
         }
       }
     }
