@@ -534,6 +534,13 @@ D:\Documents\test\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\stamp\_Conve
 D:\Documents\test\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\stamp\_GenerateJavaStubs.stamp
 D:\Documents\test\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\stamp\_GeneratePackageManagerJava.stamp
 D:\Documents\test\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\stamp\_ResolveLibraryProjectImports.stamp
+D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\android\assets\System.pdb
+D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\android\assets\Xamarin.Android.Support.Annotations.dll
+D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\android\assets\Xamarin.Android.Support.CustomView.dll
+D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\android\assets\Xamarin.Android.Support.LocalBroadcastManager.dll
+D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\android\assets\Xamarin.Android.Support.Print.dll
+D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\android\assets\Xamarin.Android.Support.Vector.Drawable.dll
+D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\android\bin\packaged_resources
 D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\bin\Debug\M.OBD._2.Android.dll
 D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\bin\Debug\M.OBD._2.Android.pdb
 D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\bin\Debug\uwgb.dylanhoffman.m_obd_2.apk
@@ -683,7 +690,6 @@ D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\android\assets\Sy
 D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\android\assets\System.Numerics.pdb
 D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\android\assets\System.Numerics.Vectors.dll
 D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\android\assets\System.Numerics.Vectors.pdb
-D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\android\assets\System.pdb
 D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\android\assets\System.Reflection.dll
 D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\android\assets\System.Reflection.Extensions.dll
 D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\android\assets\System.Runtime.dll
@@ -710,7 +716,6 @@ D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\android\assets\Xa
 D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\android\assets\Xamarin.Android.Arch.Lifecycle.Runtime.dll
 D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\android\assets\Xamarin.Android.Arch.Lifecycle.ViewModel.dll
 D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\android\assets\Xamarin.Android.Support.Animated.Vector.Drawable.dll
-D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\android\assets\Xamarin.Android.Support.Annotations.dll
 D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\android\assets\Xamarin.Android.Support.AsyncLayoutInflater.dll
 D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\android\assets\Xamarin.Android.Support.Collections.dll
 D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\android\assets\Xamarin.Android.Support.Compat.dll
@@ -719,16 +724,13 @@ D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\android\assets\Xa
 D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\android\assets\Xamarin.Android.Support.Core.Utils.dll
 D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\android\assets\Xamarin.Android.Support.CursorAdapter.dll
 D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\android\assets\Xamarin.Android.Support.CustomTabs.dll
-D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\android\assets\Xamarin.Android.Support.CustomView.dll
 D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\android\assets\Xamarin.Android.Support.Design.dll
 D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\android\assets\Xamarin.Android.Support.DocumentFile.dll
 D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\android\assets\Xamarin.Android.Support.DrawerLayout.dll
 D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\android\assets\Xamarin.Android.Support.Fragment.dll
 D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\android\assets\Xamarin.Android.Support.Interpolator.dll
 D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\android\assets\Xamarin.Android.Support.Loader.dll
-D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\android\assets\Xamarin.Android.Support.LocalBroadcastManager.dll
 D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\android\assets\Xamarin.Android.Support.Media.Compat.dll
-D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\android\assets\Xamarin.Android.Support.Print.dll
 D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\android\assets\Xamarin.Android.Support.SlidingPaneLayout.dll
 D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\android\assets\Xamarin.Android.Support.SwipeRefreshLayout.dll
 D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\android\assets\Xamarin.Android.Support.Transition.dll
@@ -736,7 +738,6 @@ D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\android\assets\Xa
 D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\android\assets\Xamarin.Android.Support.v7.AppCompat.dll
 D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\android\assets\Xamarin.Android.Support.v7.CardView.dll
 D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\android\assets\Xamarin.Android.Support.v7.RecyclerView.dll
-D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\android\assets\Xamarin.Android.Support.Vector.Drawable.dll
 D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\android\assets\Xamarin.Android.Support.VersionedParcelable.dll
 D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\android\assets\Xamarin.Android.Support.ViewPager.dll
 D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\android\assets\Xamarin.Essentials.dll
@@ -1043,7 +1044,6 @@ D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\android\src\mono\
 D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\android\src\mono\android\support\v7\widget\ViewStubCompat_OnInflateListenerImplementor.java
 D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\android\src\mono\MonoPackageManager_Resources.java
 D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\android\src\xamarin\essentials\fileProvider.java
-D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\android\bin\packaged_resources
 D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\android\src\uwgb\dylanhoffman\m_obd_2\R.java
 D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\android\typemap.jm.arm64-v8a.o
 D:\documents\UWGBSoftware\M.OBD.2\M.OBD.2.Android\obj\Debug\90\android\typemap.mj.arm64-v8a.o

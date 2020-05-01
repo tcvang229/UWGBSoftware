@@ -19,19 +19,19 @@ namespace M.OBD2
         {
             using (SQLiteConnection connection = new SQLiteConnection(App.Database))
             {
-                connection.CreateTable<BluetoothModel>();
-                List<BluetoothModel> commands_list = CreateList();
+                connection.CreateTable<BluetoothCmd>();
+                List<BluetoothCmd> commands_list = CreateList();
 
-                foreach (BluetoothModel command in commands_list)
+                foreach (BluetoothCmd command in commands_list)
                 {
                     connection.Insert(command);
                 }
             }
         }
 
-        public static List<BluetoothModel> CreateList()
+        public static List<BluetoothCmd> CreateList()
         {
-            BluetoothModel coolant_temp = new BluetoothModel()
+            BluetoothCmd coolant_temp = new BluetoothCmd()
             {
                 Id = 1,
                 Name = "coolant temp",
@@ -49,7 +49,7 @@ namespace M.OBD2
                 Value_Max = 215,
             };
 
-            BluetoothModel vss = new BluetoothModel()
+            BluetoothCmd vss = new BluetoothCmd()
             {
                 Id = 2,
                 Name = "VSS",
@@ -68,7 +68,7 @@ namespace M.OBD2
                 Value_Max = 255,
             };
 
-            BluetoothModel iat = new BluetoothModel()
+            BluetoothCmd iat = new BluetoothCmd()
             {
                 Id = 3,
                 Name = "IAT",
@@ -87,7 +87,7 @@ namespace M.OBD2
                 Value_Max = 215,
             };
 
-            BluetoothModel map = new BluetoothModel()
+            BluetoothCmd map = new BluetoothCmd()
             {
                 Id = 4,
                 Name = "MAP",
@@ -106,7 +106,7 @@ namespace M.OBD2
                 Value_Max = 255,
             };
 
-            BluetoothModel tps = new BluetoothModel()
+            BluetoothCmd tps = new BluetoothCmd()
             {
                 Id = 5,
                 Name = "TPS",
@@ -125,7 +125,7 @@ namespace M.OBD2
                 Value_Max = 100,
             };
 
-            BluetoothModel maf = new BluetoothModel()
+            BluetoothCmd maf = new BluetoothCmd()
             {
                 Id = 6,
                 Name = "MAF",
@@ -144,7 +144,7 @@ namespace M.OBD2
                 Value_Max = 10000,
             };
 
-            BluetoothModel rpm = new BluetoothModel()
+            BluetoothCmd rpm = new BluetoothCmd()
             {
                 Id = 7,
                 Name = "RPM",
@@ -163,7 +163,7 @@ namespace M.OBD2
                 Value_Max = 10000,
             };
 
-            BluetoothModel mpg = new BluetoothModel()
+            BluetoothCmd mpg = new BluetoothCmd()
             {
                 Id = 8,
                 Name = "miles per gallon",
@@ -182,7 +182,7 @@ namespace M.OBD2
                 Value_Max = 100,
             };
 
-            BluetoothModel fuel_system_status = new BluetoothModel()
+            BluetoothCmd fuel_system_status = new BluetoothCmd()
             {
                 Id = 9,
                 Name = "fuel system status",
@@ -201,7 +201,7 @@ namespace M.OBD2
                 Value_Min = 0,
             };
 
-            BluetoothModel fuel_pressure = new BluetoothModel()
+            BluetoothCmd fuel_pressure = new BluetoothCmd()
             {
                 Id = 10,
                 Name = "fuel pressure",
@@ -220,27 +220,7 @@ namespace M.OBD2
                 Value_Max = 765,
             };
 
-            BluetoothModel ign = new BluetoothModel()
-            {
-                Id = 11,
-                Name = "IGN",
-                Units_Imperial = "",
-                Units_Metric = "",
-                Cmd = "ATIGN",
-                Rate = 500,
-                Decimals = 0,
-                Expression_Imperial = "",
-                Expression_Metric = "",
-                Bytes = 1,
-                isRxBytes = false,
-                sCommand_Types = "0",
-                isSelected = true,
-                Value_Min = 0,
-                Value_Max = 0,
-
-            };
-
-            List<BluetoothModel> commands_list = new List<BluetoothModel>();
+            List<BluetoothCmd> commands_list = new List<BluetoothCmd>();
             commands_list.Add(coolant_temp);
             commands_list.Add(vss);
             commands_list.Add(iat);

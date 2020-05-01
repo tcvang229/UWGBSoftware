@@ -162,8 +162,7 @@ namespace M.OBD2
 
                 try
                 {
-                    int rows = connection.Table<BluetoothModel>().Count();
-                    //int rows = connection.Table<BluetoothCmd>().Count();
+                    int rows = connection.Table<BluetoothCmd>().Count();
                     System.Diagnostics.Debug.WriteLine("----ROWS----");
                 }
                 catch (SQLite.SQLiteException e)
@@ -257,7 +256,9 @@ namespace M.OBD2
         {
             using (SQLiteConnection connection = new SQLiteConnection(App.Database))
             {
-                var commands = connection.Table<BluetoothModel>();
+                // TO DO:
+                // need to convert RECORD -> BluetoothCmd
+                var commands = connection.Table<BluetoothCmd>();
                 System.Diagnostics.Debug.WriteLine(commands.Count().ToString());
 
                 foreach (var command in commands)
