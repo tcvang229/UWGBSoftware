@@ -35,6 +35,7 @@ namespace M.OBD
         private bool isPickerProcessAdd;
         private bool isPickerLogsActive;
         private bool isPickerLogsSelected;
+        private UserSetting.UNIT_TYPE UnitType_Last;
 
         private Color SELECTED_COLOR = Color.Green;
         private Color UNSELECTED_COLOR = Color.White;
@@ -60,6 +61,7 @@ namespace M.OBD
         public void InitUserSettings(out UserSetting usersetting)
         {
             usersetting = App.GetUserSetting();
+            UnitType_Last = UserSetting.UNIT_TYPE.NONE;
         }
 
         public void InitControls()
@@ -83,6 +85,13 @@ namespace M.OBD
         {
             UpdateControls();
             UpdateUserSettings();
+
+            // Call listview generation only if units have changed
+            if (oUserSetting.GetUserUnits() != UnitType_Last)
+            {
+                UnitType_Last = oUserSetting.GetUserUnits();
+                UpdateListViewItems();
+            }
         }
 
         public void UpdateControls()
@@ -240,6 +249,7 @@ namespace M.OBD
         private async void LoadLogPicker()
         {
             isPickerLogsActive = true;
+            pkrLogs.Title = "View Log";
 
             try
             {
@@ -367,12 +377,29 @@ namespace M.OBD
             CellTemplate = new DataTemplate(typeof(ProcessCell));
             lvwResults.ItemTemplate = CellTemplate;
             lvwResults.ItemsSource = ProcessItems;
-            //lvwResults.Header = "Results";
+        }
+
+        private void UpdateListViewItems()
+        {
+            try
+            {
+                oBlueToothCmds = null;
+                oBlueToothCmds = new BlueToothCmds();
+                oBlueToothCmds.RetrieveCommands(oUserSetting.GetUserUnits(), false);
+                InitListViewItems(oBlueToothCmds);
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("Error updating listview:" + e.Message);
+            }
         }
 
         private static void InitListViewItems(BlueToothCmds oBthCmds)
         {
             ProcessItems.Clear();
+
+            if (oBthCmds == null)
+                return;
 
             foreach (BluetoothCmd bthCmd in oBthCmds)
             {
@@ -384,20 +411,6 @@ namespace M.OBD
                 {
                     AddListViewItem(bthCmd);
                 }
-            }
-
-            UpdateListViewItems();
-        }
-
-        private static void UpdateListViewItems()
-        {
-            if (ProcessItems == null || ProcessItems.Count == 0)
-                return;
-
-            // ToDo: any item ui changes here
-            foreach (ProcessItem pi in ProcessItems)
-            {
-                //pi.ImageSource = "Tools_icon";
             }
         }
 
@@ -504,6 +517,8 @@ namespace M.OBD
 
             if (!BlueToothCmds.updateRecord(bthCmd))
                 throw  new Exception("Failed to update command");
+
+            UpdateListViewItems();
 
             if (!bthCmd.isSelected)
             {

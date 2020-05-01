@@ -27,6 +27,7 @@
 
         public enum UNIT_TYPE
         {
+            NONE,
             IMPERIAL,
             METRIC
         }
