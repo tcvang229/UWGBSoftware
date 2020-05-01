@@ -4,9 +4,11 @@ using M.OBD._2;
 using M.OBD2;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Android.Content;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -30,8 +32,12 @@ namespace M.OBD
         private const int TIMER_UPDATE = 25;       // Update timer iteration delay in ms
         private bool isPickerProcessActive;
         private bool isPickerProcessSelected;
+        private bool isPickerProcessAdd;
         private bool isPickerLogsActive;
         private bool isPickerLogsSelected;
+
+        private Color SELECTED_COLOR = Color.Green;
+        private Color UNSELECTED_COLOR = Color.White;
 
         #endregion
 
@@ -63,7 +69,8 @@ namespace M.OBD
             btnLogOn.Clicked += btnLogOn_Clicked;
             btnLogOff.Clicked += btnLogOff_Clicked;
             btnLogList.Clicked += btnLogList_Clicked;
-            btnSelect.Clicked += btnSelect_Clicked;
+            btnAdd.Clicked += btnAdd_Clicked;
+            btnDel.Clicked += btnDel_Clicked;
             Appearing += Page_Appearing;
             pkrProcess.SelectedIndexChanged += pkrProcess_SelectedIndexChanged;
             pkrProcess.Unfocused += pkrProcess_Unfocused;
@@ -82,7 +89,8 @@ namespace M.OBD
         {
             btnConnect.IsEnabled = Bluetooth.isBluetoothDisconnected();
             btnDisconnect.IsEnabled = !Bluetooth.isBluetoothDisconnected();
-            btnSelect.IsEnabled = Bluetooth.isBluetoothDisconnected();
+            btnAdd.IsEnabled = Bluetooth.isBluetoothDisconnected();
+            btnDel.IsEnabled = Bluetooth.isBluetoothDisconnected();
             btnLogOn.IsEnabled = !Bluetooth.isBluetoothDisconnected() && !Logging.GetIsLogging();
             btnLogOff.IsEnabled = !Bluetooth.isBluetoothDisconnected() && Logging.GetIsLogging();
             btnLogList.IsEnabled = Bluetooth.isBluetoothDisconnected();
@@ -239,6 +247,7 @@ namespace M.OBD
 
                 if (files != null)
                 {
+                    pkrLogs.ItemsSource = null;
                     pkrLogs.ItemsSource = files;
                     pkrLogs.IsEnabled = true;
                     pkrLogs.IsVisible = true;
@@ -249,6 +258,9 @@ namespace M.OBD
             catch (Exception e)
             {
                 Debug.WriteLine("Could not load files:" + e.Message);
+                isPickerLogsActive = false;
+                pkrLogs.IsEnabled = false;
+                pkrLogs.IsVisible = false;
             }
         }
 
@@ -263,6 +275,7 @@ namespace M.OBD
             catch (Exception ex)
             {
                 DisplayMessage(ex.Message);
+                isPickerLogsActive = false;
             }
         }
 
@@ -363,7 +376,14 @@ namespace M.OBD
 
             foreach (BluetoothCmd bthCmd in oBthCmds)
             {
-                AddListViewItem(bthCmd);
+                if (bthCmd.isSelected && bthCmd.Selection_Type == BlueToothCmds.SELECTION_TYPE.NONE)
+                    bthCmd.Selection_Type = BlueToothCmds.SELECTION_TYPE.USER;
+
+                if (bthCmd.Selection_Type == BlueToothCmds.SELECTION_TYPE.USER ||
+                    bthCmd.Selection_Type == BlueToothCmds.SELECTION_TYPE.USER_PROCESS)
+                {
+                    AddListViewItem(bthCmd);
+                }
             }
 
             UpdateListViewItems();
@@ -402,22 +422,28 @@ namespace M.OBD
 
         #region Process Picker Related
 
-        private void btnSelect_Clicked(object sender, EventArgs e)
+        private void btnAdd_Clicked(object sender, EventArgs e)
+        {
+            if (isTimerRun || isPickerProcessActive)
+                return;
+            
+            LoadProcessPicker(true);
+        }
+
+        private void btnDel_Clicked(object sender, EventArgs e)
         {
             if (isTimerRun || isPickerProcessActive)
                 return;
 
-            LoadProcessPicker();
+            LoadProcessPicker(false);
         }
 
-        private void SetPickerSelection()
-        {
-            bool isUserDevice = oUserSetting.isUserDevice();
-        }
-
-        private void LoadProcessPicker()
+        private void LoadProcessPicker(bool isAdd)
         {
             isPickerProcessActive = true;
+            isPickerProcessAdd = isAdd;
+
+            pkrProcess.Title = (isAdd) ? "Add a Process" : "Delete a Process";
 
             if (oBlueToothCmds_Picker == null)
                 oBlueToothCmds_Picker = new BlueToothCmds();
@@ -426,11 +452,10 @@ namespace M.OBD
             
             try
             {
-                // ToDo: Load from db
-
                 //oBlueToothCmds_Picker.CreateTestCommands(oUserSetting.GetUserUnits(), false);
                 oBlueToothCmds_Picker.RetrieveCommands(oUserSetting.GetUserUnits(), false);
-                oBlueToothCmds_Picker.RemoveAll(x => x.isSelected);
+                oBlueToothCmds_Picker.RemoveAll(x => (isPickerProcessAdd) ? x.isSelected : !x.isSelected);
+                pkrProcess.ItemsSource = null;
                 pkrProcess.ItemsSource = oBlueToothCmds_Picker;
                 pkrProcess.IsEnabled = true;
                 pkrProcess.IsVisible = true;
@@ -469,6 +494,29 @@ namespace M.OBD
         {
             if (index == -1 || pkrProcess.Items.Count == 0)
                 return;
+
+            BluetoothCmd bthCmd = (BluetoothCmd) pkrProcess.SelectedItem;
+
+            if (bthCmd == null)
+                throw new Exception("Selection Error Occurred");
+
+            bthCmd.isSelected = isPickerProcessAdd;
+
+            if (!BlueToothCmds.updateRecord(bthCmd))
+                throw  new Exception("Failed to update command");
+
+            if (!bthCmd.isSelected)
+            {
+                bthCmd.Selection_Type = (bthCmd.Selection_Type == BlueToothCmds.SELECTION_TYPE.USER_PROCESS)
+                    ? BlueToothCmds.SELECTION_TYPE.PROCESS
+                    : BlueToothCmds.SELECTION_TYPE.NONE;
+            }
+            else
+            {
+                bthCmd.Selection_Type = (bthCmd.Selection_Type == BlueToothCmds.SELECTION_TYPE.PROCESS)
+                    ? BlueToothCmds.SELECTION_TYPE.USER_PROCESS
+                    : BlueToothCmds.SELECTION_TYPE.USER;
+            }
         }
 
         private bool CheckProcessPickerSelection()
@@ -536,7 +584,7 @@ namespace M.OBD
                 }
             }
 
-            // Load some test commands and run processing loop
+            // Load commands and run processing loop
 
             oBlueToothCmds = null;
             oBlueToothCmds = new BlueToothCmds();
@@ -544,7 +592,6 @@ namespace M.OBD
             // ToDo: replace with db values
             //oBlueToothCmds.CreateTestCommands(oUserSetting.GetUserUnits(), true);
             oBlueToothCmds.RetrieveCommands(oUserSetting.GetUserUnits(), true);
-
             InitListViewItems(oBlueToothCmds);
             RunProcesses();
         }

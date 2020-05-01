@@ -9,6 +9,7 @@
                     <ColumnDefinition Width ="*"/>
                     <ColumnDefinition Width ="*"/>
                     <ColumnDefinition Width ="*"/>
+                    <ColumnDefinition Width ="*"/>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="5"/>
@@ -20,13 +21,14 @@
                 </Grid.RowDefinitions>
                 <Button Grid.Row="1" Grid.Column="0" Text="Run" x:Name ="btnConnect" Clicked="btnConnect_Clicked" IsEnabled="False"/>
                 <Button Grid.Row="1" Grid.Column="1" Text="Stop" x:Name ="btnDisconnect" Clicked="btnDisconnect_Clicked" IsEnabled="False"/>
-                <Button Grid.Row="1" Grid.Column="2" Text="Select" x:Name ="btnSelect" Clicked="btnSelect_Clicked" IsEnabled="False"/>
-                <Button Grid.Row="3" Grid.Column="0" Text="Log On" x:Name ="btnLogOn" Clicked="btnLogOn_Clicked" IsEnabled="False"/>
-                <Button Grid.Row="3" Grid.Column="1" Text="Log Off" x:Name ="btnLogOff" Clicked="btnLogOff_Clicked" IsEnabled="False"/>
-                <Button Grid.Row="3" Grid.Column="2" Text="Log List" x:Name ="btnLogList" Clicked="btnLogList_Clicked" IsEnabled="True"/>
+                <Button Grid.Row="1" Grid.Column="2" Text="Add" x:Name ="btnAdd" Clicked="btnAdd_Clicked" IsEnabled="False"/>
+                <Button Grid.Row="1" Grid.Column="3" Text="Del" x:Name ="btnDel" Clicked="btnDel_Clicked" IsEnabled="False"/>
+                <Button Grid.Row="3" Grid.Column="1" Text="Log On" x:Name ="btnLogOn" Clicked="btnLogOn_Clicked" IsEnabled="False"/>
+                <Button Grid.Row="3" Grid.Column="2" Text="Log Off" x:Name ="btnLogOff" Clicked="btnLogOff_Clicked" IsEnabled="False"/>
+                <Button Grid.Row="3" Grid.Column="3" Text="Log List" x:Name ="btnLogList" Clicked="btnLogList_Clicked" IsEnabled="True"/>
                 <Label Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" x:Name ="lblLogFile"/>
-                <Picker Grid.Row="5" Grid.Column="0" x:Name="pkrProcess" Title =""  ItemDisplayBinding="{Binding Name}" HorizontalOptions="Fill" SelectedIndexChanged = "pkrProcess_SelectedIndexChanged" IsEnabled="False" IsVisible="False"/>
-                <Picker Grid.Row="5" Grid.Column="1" x:Name="pkrLogs" Title =""  HorizontalOptions="Fill" IsEnabled="False" IsVisible="False"/>
+                <Picker Grid.Row="5" Grid.Column="0" x:Name="pkrProcess" Title =""  ItemDisplayBinding="{Binding Name}"  SelectedItem="{Binding Id}" HorizontalOptions="Fill" SelectedIndexChanged = "pkrProcess_SelectedIndexChanged" IsEnabled="False" IsVisible="False"/>
+                <Picker Grid.Row="5" Grid.Column="1" x:Name="pkrLogs" Title ="Delete"  HorizontalOptions="Fill" IsEnabled="False" IsVisible="False"/>
             </Grid>
         </StackLayout>
     </ContentPage.Content>

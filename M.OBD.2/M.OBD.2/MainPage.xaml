@@ -17,8 +17,8 @@
     <local:ResultsPage Title="Results"
                            Icon="results.png"/>
 
-    <local:DtcPage Title="DTC"
-                       Icon="Dtc.png"/>
+    <!--<local:DtcPage Title="DTC"
+                       Icon="Dtc.png"/>-->
 
     <local:ProfilePage Title="Profile"
                        Icon="profile.png"/>

@@ -216,6 +216,20 @@ namespace M.OBD2
             }
         }
 
+        public static bool updateRecord(BluetoothCmd cmd)
+        {
+            if (cmd == null || cmd.Id <0)
+                throw new Exception("Failed to update value");
+
+            // Update a bluetooth command table instance
+            using (SQLiteConnection connection = new SQLiteConnection(App.Database))
+            {
+                connection.Update(cmd);
+            }
+
+            return true;
+        }
+
         #endregion
 
         #region Command Type Related
@@ -262,18 +276,22 @@ namespace M.OBD2
                 var commands = connection.Table<BluetoothCmd>();
                 System.Diagnostics.Debug.WriteLine(commands.Count().ToString());
 
+                if (!commands.Any())
+                    throw new Exception("Could not load command list");
+
                 foreach (var command in commands)
                 {
-                    System.Diagnostics.Debug.WriteLine("Id: " + command.Id.ToString());
+                    Add(command);
+                    System.Diagnostics.Debug.WriteLine("Id: " + command.Id + " isSelected:" + command.isSelected);
                 }
 
-                /*foreach (var command in commands)
-                {
-                    // need to do some conversion
-                    // before adding RECORD -> LIST
-                    Add(command);
-                    System.Diagnostics.Debug.WriteLine(command.Id.ToString());
-                }*/
+                //foreach (var command in commands)
+                //{
+                //    // need to do some conversion
+                //    // before adding RECORD -> LIST
+                //    Add(command);
+                //    System.Diagnostics.Debug.WriteLine(command.Id.ToString());
+                //}
 
                 if (isInitialize)
                 {
