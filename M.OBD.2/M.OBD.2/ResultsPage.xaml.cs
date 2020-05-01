@@ -32,7 +32,6 @@ namespace M.OBD
         private bool isPickerProcessSelected;
         private bool isPickerLogsActive;
         private bool isPickerLogsSelected;
-        private bool isLogging;
 
         #endregion
 
@@ -86,7 +85,7 @@ namespace M.OBD
             btnSelect.IsEnabled = Bluetooth.isBluetoothDisconnected();
             btnLogOn.IsEnabled = !Bluetooth.isBluetoothDisconnected() && !Logging.GetIsLogging();
             btnLogOff.IsEnabled = !Bluetooth.isBluetoothDisconnected() && Logging.GetIsLogging();
-            //btnLogList.IsEnabled = !Logging.GetIsLogging();
+            btnLogList.IsEnabled = Bluetooth.isBluetoothDisconnected();
         }
 
         public void UpdateUserSettings()
@@ -230,32 +229,27 @@ namespace M.OBD
             LoadLogPicker();
         }
 
-        private void LoadLogPicker()
+        private async void LoadLogPicker()
         {
-            List<string> files = new List<string>();
-            
             isPickerLogsActive = true;
-            pkrLogs.IsEnabled = true;
-            pkrLogs.IsVisible = true;
-            pkrLogs.SelectedItem = null;
-            pkrLogs.Focus();
 
-            // ToDo: Picker does not display list on first try due to asynchronous/UI threading discrepancy 
-            Task.Run(async () =>
+            try
             {
-                try
-                {
-                    files = await Logging.GetLogFiles();
-                }
-                catch (Exception e)
-                {
-                    Debug.WriteLine("Could not load files:" + e.Message);
-                }
-                
-            }).Wait(2000);
+                List<string>  files = await Logging.GetLogFiles();
 
-            if (files != null && files.Count != 0)
-                pkrLogs.ItemsSource = files;
+                if (files != null)
+                {
+                    pkrLogs.ItemsSource = files;
+                    pkrLogs.IsEnabled = true;
+                    pkrLogs.IsVisible = true;
+                    pkrLogs.SelectedItem = null;
+                    pkrLogs.Focus();
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.WriteLine("Could not load files:" + e.Message);
+            }
         }
 
         private void pkrLogs_SelectedIndexChanged(object sender, EventArgs e)

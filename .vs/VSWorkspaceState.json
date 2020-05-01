@@ -1,16 +1,13 @@
 {
   "ExpandedNodes": [
+    "",
     "\\M.OBD.2",
     "\\M.OBD.2\\M.OBD.2",
-    "\\M.OBD.2\\M.OBD.2.Android\\bin",
-    "\\M.OBD.2\\M.OBD.2.Android\\obj",
-    "\\M.OBD.2\\M.OBD.2.Android\\obj\\Debug",
-    "\\M.OBD.2\\M.OBD.2.Android\\obj\\Debug\\90",
     "\\M.OBD.2\\M.OBD.2\\bin",
-    "\\M.OBD.2\\M.OBD.2\\bin\\Release",
     "\\M.OBD.2\\M.OBD.2\\Bluetooth",
     "\\M.OBD.2\\M.OBD.2\\obj",
     "\\M.OBD.2\\M.OBD.2\\Process"
   ],
+  "SelectedNode": "\\M.OBD.2\\M.OBD.2.sln",
   "PreviewInSolutionExplorer": false
 }
