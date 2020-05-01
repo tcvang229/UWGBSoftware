@@ -1,8 +1,10 @@
-﻿using M.OBD._2;
+﻿#region Using Statements
+using M.OBD._2;
 using M.OBD2;
 using SQLite;
 using System;
 using Xamarin.Forms;
+#endregion
 
 namespace M.OBD
 {
@@ -11,7 +13,7 @@ namespace M.OBD
         #region Declarations
 
         private readonly Bluetooth oBluetooth;
-        private readonly UserSetting oUserSetting;
+        private readonly UserSettings oUserSettings;
 
         private bool isChanged;
 
@@ -25,39 +27,8 @@ namespace M.OBD
             getCurrentMetricSetting();
 
             InitBluetooth(out oBluetooth);
-            InitUserSettings(out oUserSetting);
+            InitUserSettings(out oUserSettings);
             InitControls();
-        }
-
-        //get the current metric setting from the DB
-        //then set the value in the UI
-        public void getCurrentMetricSetting()
-        {
-            //connect to the DB
-            using (SQLiteConnection connection = new SQLiteConnection(App.Database))
-            {
-
-                //get the entire table
-                var userSettings = connection.Table<UserSetting>();
-
-                // ToDo: temporary bypass
-                //get the first entry in the table
-                //bool isMetric = userSettings.FirstOrDefault().GetMetricUnits();
-                bool isMetric = false;
-
-                //if the user has saved metric as a preference
-                //update the check boxes in the UI
-                if (isMetric)
-                {
-                    chkMetric.IsChecked = true;
-                    chkImperial.IsChecked = false;
-                } else
-                {
-                    chkMetric.IsChecked = false;
-                    chkImperial.IsChecked = true;
-                }
-            }
-
         }
 
         public void InitBluetooth(out Bluetooth bluetooth)
@@ -65,9 +36,9 @@ namespace M.OBD
             bluetooth = App.GetBluetooth();
         }
 
-        public void InitUserSettings(out UserSetting usersetting)
+        public void InitUserSettings(out UserSettings usersettings)
         {
-            usersetting = App.GetUserSetting();
+            usersettings = App.GetUserSettings();
         }
 
         public void InitControls()
@@ -79,9 +50,71 @@ namespace M.OBD
             chkMetric.CheckedChanged += chkMetric_CheckedChanged;
             chkLoggingEnabled.CheckedChanged += chkLoggingEnabled_CheckedChanged;
             chkLoggingAuto.CheckedChanged += chkLoggingAuto_CheckedChanged;
+            chkTestMode.CheckedChanged += chkTestMode_CheckedChanged;
             btnSave.Clicked += btnSave_Clicked;
             btnCancel.Clicked += btnCancel_Clicked;
             UpdateChangedState(false);
+        }
+
+        public void Page_Appearing(object sender, EventArgs e)
+        {
+            UpdateControls();
+            UpdateUserSettings();
+        }
+
+        public void UpdateControls()
+        {
+            IsEnabled = Bluetooth.isBluetoothDisconnected();
+
+            UpdateUnitCheckBoxes();
+        }
+
+        public void UpdateUserSettings()
+        {
+        }
+
+        #endregion
+
+        #region DB
+
+        //get the current metric setting from the DB
+        //then set the value in the UI
+        public void getCurrentMetricSetting()
+        {
+            //connect to the DB
+            using (SQLiteConnection connection = new SQLiteConnection(App.Database))
+            {
+                //get the entire table
+                var userSettings = connection.Table<UserSetting>();
+
+                // ToDo: temporary bypass
+                //get the first entry in the table
+                //bool isMetric = userSettings.FirstOrDefault().GetMetricUnits();
+                //bool isMetric = false;
+
+                //if the user has saved metric as a preference
+                //update the check boxes in the UI
+                //if (isMetric)
+                //{
+                //    chkMetric.IsChecked = true;
+                //    chkImperial.IsChecked = false;
+                //}
+                //else
+                //{
+                //    chkMetric.IsChecked = false;
+                //    chkImperial.IsChecked = true;
+                //}
+            }
+        }
+
+        #endregion
+
+        #region Check Boxes
+
+        private void UpdateUnitCheckBoxes()
+        {
+            chkImperial.IsChecked = !oUserSettings.GetIsMetric();
+            chkMetric.IsChecked = oUserSettings.GetIsMetric();
         }
 
         private void chkLoggingAuto_CheckedChanged(object sender, CheckedChangedEventArgs e)
@@ -110,32 +143,9 @@ namespace M.OBD
             UpdateChangedState(true);
         }
 
-        public void Page_Appearing(object sender, EventArgs e)
+        private void chkTestMode_CheckedChanged(object sender, CheckedChangedEventArgs e)
         {
-            UpdateControls();
-            UpdateUserSettings();
-        }
-
-        public void UpdateControls()
-        {
-            IsEnabled = Bluetooth.isBluetoothDisconnected();
-
-            UpdateUnitCheckBoxes();
-        }
-
-        public void UpdateUserSettings()
-        {
-
-        }
-
-        #endregion
-
-        #region Check Boxes
-
-        private void UpdateUnitCheckBoxes()
-        {
-            chkImperial.IsChecked = oUserSetting.GetImperialUnits();
-            chkMetric.IsChecked = !oUserSetting.GetImperialUnits();
+            UpdateChangedState(true);
         }
 
         #endregion

@@ -50,7 +50,7 @@ namespace M.OBD2
         /// <param name="bthcmd"></param>
         /// <param name="Unit_Type"></param>
 
-        public void InitExpression(BluetoothCmd bthcmd, UserSetting.UNIT_TYPE Unit_Type, StringBuilder sb)
+        public void InitExpression(BluetoothCmd bthcmd, UserSettings.UNIT_TYPE Unit_Type, StringBuilder sb)
         {
             if (bthcmd.Command_Types == null || bthcmd.Command_Types.Length == 0)
                 return;

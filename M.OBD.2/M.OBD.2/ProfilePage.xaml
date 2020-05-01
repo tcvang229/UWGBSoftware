@@ -13,15 +13,20 @@
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="25"/>
-                    <RowDefinition Height="25"/>
                     <RowDefinition Height="auto"/>
-                    <RowDefinition Height="25"/>
-                    <RowDefinition Height="25"/>
                     <RowDefinition Height="auto"/>
 
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
 
                     <RowDefinition Height="25"/>
                     <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+
+                    <RowDefinition Height="25"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="25"/>
                 </Grid.RowDefinitions>
 
                 <!-- Units -->
@@ -34,15 +39,18 @@
                 <!-- Logging -->
                 <Label Grid.Row="4" Grid.Column="1" Text="Enabled" VerticalTextAlignment="Center"/>
                 <Label Grid.Row="4" Grid.Column="2" Text="Auto" VerticalTextAlignment="Center"/>
-                <Label Grid.Row="4" Grid.Column="3" Text="Path" VerticalTextAlignment="Center"/>
                 <Label Grid.Row="5" Grid.Column="0"  Text= "Logging:" VerticalTextAlignment="Center"/>
                 <CheckBox Grid.Row="5" Grid.Column="1"  x:Name="chkLoggingEnabled" CheckedChanged="chkLoggingEnabled_CheckedChanged" />
                 <CheckBox Grid.Row="5" Grid.Column="2"  x:Name="chkLoggingAuto" CheckedChanged="chkLoggingAuto_CheckedChanged" />
-                <Entry Grid.Row="5" Grid.Column="3"  x:Name="txtLogPath"/>
+
+                <!-- Test Mode -->
+                <Label Grid.Row="7" Grid.Column="1" Text="Enabled" VerticalTextAlignment="Center"/>
+                <Label Grid.Row="8" Grid.Column="0" Text="Test Mode" VerticalTextAlignment="Center"/>
+                <CheckBox Grid.Row="8" Grid.Column="1"  x:Name="chkTestMode" CheckedChanged="chkImperial_CheckedChanged" />
 
                 <!-- Save/Cancel -->
-                <Button Grid.Row="7" Grid.Column="0" Grid.ColumnSpan="2" Text="Save" x:Name ="btnSave" Clicked="btnSave_Clicked" IsEnabled="False"/>
-                <Button Grid.Row="7" Grid.Column="2" Grid.ColumnSpan="3" Text="Cancel" x:Name ="btnCancel" Clicked="btnCancel_Clicked" IsEnabled="False"/>
+                <Button Grid.Row="10" Grid.Column="0" Grid.ColumnSpan="2" Text="Save" x:Name ="btnSave" Clicked="btnSave_Clicked" IsEnabled="False"/>
+                <Button Grid.Row="10" Grid.Column="2" Grid.ColumnSpan="2" Text="Cancel" x:Name ="btnCancel" Clicked="btnCancel_Clicked" IsEnabled="False"/>
             </Grid>
         </StackLayout>
     </ContentPage.Content>

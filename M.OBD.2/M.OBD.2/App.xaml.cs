@@ -14,7 +14,7 @@ namespace M.OBD._2
 
         // Singleton instances
         private static Bluetooth oBluetooth;
-        private static UserSetting oUserSetting;
+        private static UserSettings oUserSettings;
 
         public App()
         {
@@ -30,7 +30,7 @@ namespace M.OBD._2
             InitializeComponent();
 
             oBluetooth = new Bluetooth(true, true);
-            oUserSetting = new UserSetting();
+            //oUserSettings = new UserSettings();
 
             MainPage = new NavigationPage(new MainPage());
 
@@ -49,9 +49,17 @@ namespace M.OBD._2
         {
         }
 
-        public static UserSetting GetUserSetting()
+        public static void SetUserSetting(UserSettings _oUserSettings)
         {
-            return oUserSetting ?? throw new Exception("User Setting Initialization Error!");
+            oUserSettings = _oUserSettings;
+        }
+
+        public static UserSettings GetUserSettings()
+        {
+            if (oUserSettings == null)
+                oUserSettings = new UserSettings();
+
+            return oUserSettings ?? throw new Exception("User Setting Initialization Error!");
         }
 
         public static Bluetooth GetBluetooth()

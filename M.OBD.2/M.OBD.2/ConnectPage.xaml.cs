@@ -12,7 +12,7 @@ namespace M.OBD
         #region Declarations
 
         private readonly Bluetooth oBluetooth;
-        private readonly UserSetting oUserSetting;
+        private readonly UserSettings oUserSettings;
         private bool isPickerActive;
         private bool isSelected;
 
@@ -32,7 +32,7 @@ namespace M.OBD
             InitializeComponent();
 
             InitBluetooth(out oBluetooth);
-            InitUserSettings(out oUserSetting);
+            InitUserSettings(out oUserSettings);
             InitControls();
         }
 
@@ -41,9 +41,12 @@ namespace M.OBD
             bluetooth = App.GetBluetooth();
         }
 
-        public void InitUserSettings(out UserSetting usersetting)
+        public void InitUserSettings(out UserSettings usersettings)
         {
-            usersetting = App.GetUserSetting();
+            //usersetting = new UserSetting();
+            //App.SetUserSetting(usersetting);
+
+            usersettings = App.GetUserSettings();
         }
 
         public void InitControls()
@@ -109,7 +112,7 @@ namespace M.OBD
         private void SetPickerSelection()
         {
             // ToDo: set current user device selection
-            bool isUserDevice = oUserSetting.isUserDevice();
+            bool isUserDevice = oUserSettings.isUserDevice();
         }
 
         private void LoadPicker()

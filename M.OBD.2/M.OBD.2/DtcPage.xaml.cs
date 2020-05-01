@@ -11,7 +11,7 @@ namespace M.OBD
         #region Declarations
 
         private readonly Bluetooth oBluetooth;
-        private readonly UserSetting oUserSetting;
+        private readonly UserSettings oUserSettings;
 
         private bool isErrors;
 
@@ -24,7 +24,7 @@ namespace M.OBD
             InitializeComponent();
 
             InitBluetooth(out oBluetooth);
-            InitUserSettings(out oUserSetting);
+            InitUserSettings(out oUserSettings);
             InitControls();
         }
 
@@ -33,9 +33,9 @@ namespace M.OBD
             bluetooth = App.GetBluetooth();
         }
 
-        public void InitUserSettings(out UserSetting usersetting)
+        public void InitUserSettings(out UserSettings usersettings)
         {
-            usersetting = App.GetUserSetting();
+            usersettings = App.GetUserSettings();
         }
 
         public void InitControls()

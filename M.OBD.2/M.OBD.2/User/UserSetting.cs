@@ -1,29 +1,50 @@
-﻿namespace M.OBD2
+﻿#region Using Statements
+
+using M.OBD._2;
+using SQLite;
+
+#endregion
+
+namespace M.OBD2
 {
     public class UserSetting
     {
         // Db
+        [PrimaryKey, AutoIncrement]
+        public long Id { get; set; }
+
         // If user selected calculation/units is imperial or metric: default as imperial
-        private readonly bool isMetric;
+        public bool isMetric { get; set; }
 
         // Bluetooth device name
-        private readonly string Device_Name;
+        [MaxLength(100)]
+        public string Device_Name { get; set; }
 
         // Bluetooth device address
-        private readonly string Device_Address;
-
-        // If logging is user enabled/disabled
-        private bool isLoggingEnabled;
+        [MaxLength(100)]
+        public string Device_Address { get; set; }
 
         // If logging starts automatically
-        private bool isLoggingAuto;
+        public bool isLoggingAuto { get; set; }
 
         // Log file path
-        private string LoggingPath;
+        [MaxLength(100)]
+        public string LoggingPath { get; set; }
+
+        // Test Mode
+        public bool isTestMode { get; set; }
 
         // Non Db
-        private UNIT_TYPE Unit_Type;
-        private string DEFAULT_LOG_PATH = ""; // ToDo: add a default file path
+        [Ignore]
+        public UserSettings.UNIT_TYPE Unit_Type { get; set; }
+
+        [Ignore]
+        public string DEFAULT_LOG_PATH { get; set; }
+    }
+
+    public class UserSettings
+    {
+        private readonly UserSetting oUserSetting;
 
         public enum UNIT_TYPE
         {
@@ -32,88 +53,85 @@
             METRIC
         }
 
-        public UserSetting() // ToDo: Populate from Db
+        public UserSettings()
         {
-            // Db loading here
+            oUserSetting = new UserSetting();
 
+            // ToDo: Table insert completes successfully however does not load on restart
+            using (SQLiteConnection connection = new SQLiteConnection(App.Database))
+            {
+                try
+                {
+                    int rows = connection.Table<UserSetting>().Count();
+                    System.Diagnostics.Debug.WriteLine("----ROWS----");
+                }
+                catch (SQLiteException e)
+                {
+                    System.Diagnostics.Debug.WriteLine("----ROWS EXCEPTION----");
+                    UserSettingInitializer.Initialize();
+                }
+            }
 
-            // ToDo: Remove hardcoded values after db is implemented
-            isMetric = false;
-            Device_Name = "OBDII";
-            Device_Address = "00:1D:A5:05:4F:05";
-            isLoggingEnabled = true;
-            isLoggingAuto = false;
+            //// ToDo: Remove hardcoded values after db is implemented
+            //isMetric = false;
+            //Device_Name = "OBDII";
+            //Device_Address = "00:1D:A5:05:4F:05";
+            //isLoggingAuto = false;
 
-            // ToDo: Make OS path fixed or add user option ex. internal/external storage?
-            LoggingPath = (string.IsNullOrEmpty(LoggingPath)) ? DEFAULT_LOG_PATH : LoggingPath;
+            //// ToDo: Make OS path fixed or add user option ex. internal/external storage?
+            //LoggingPath = (string.IsNullOrEmpty(LoggingPath)) ? DEFAULT_LOG_PATH : LoggingPath;
 
             UpdateUserUnits();
         }
 
-        public string GetDeviceAddress()
+        public bool GetIsMetric()
         {
-            return Device_Address;
+            return oUserSetting.isMetric;
         }
 
-        public string GetDeviceName()
+        public void SetIsMetric(bool value)
         {
-            return Device_Name;
+            oUserSetting.isMetric = value;
         }
 
         public bool isUserDevice()
         {
-            return !string.IsNullOrEmpty(Device_Name) && !string.IsNullOrEmpty(Device_Address);
+            return !string.IsNullOrEmpty(oUserSetting.Device_Name) && !string.IsNullOrEmpty(oUserSetting.Device_Address);
         }
 
         public bool GetMetricUnits()
         {
-            return isMetric;
+            return oUserSetting.isMetric;
         }
 
         public bool GetImperialUnits()
         {
-            return isMetric;
+            return oUserSetting.isMetric;
         }
 
-        public UNIT_TYPE GetUserUnits()
+        public UserSettings.UNIT_TYPE GetUserUnits()
         {
-            return Unit_Type;
+            return oUserSetting.Unit_Type;
+        }
+
+        public string GetDeviceAddress()
+        {
+            return oUserSetting.Device_Address;
+        }
+
+        public string GetDeviceName()
+        {
+            return oUserSetting.Device_Name;
         }
 
         public void UpdateUserUnits()
         {
-            Unit_Type = (isMetric) ? UNIT_TYPE.METRIC : UNIT_TYPE.IMPERIAL;
-        }
-
-        public bool GetLoggingEnabled()
-        {
-            return isLoggingEnabled;
-        }
-
-        public void SetLoggingEnabled(bool value)
-        {
-            isLoggingEnabled = value;
+            oUserSetting.Unit_Type = (oUserSetting.isMetric) ? UNIT_TYPE.METRIC : UNIT_TYPE.IMPERIAL;
         }
 
         public bool GetLoggingAuto()
         {
-            return isLoggingAuto;
-        }
-
-        public void SetLoggingAuto(bool value)
-        {
-            isLoggingAuto = value;
-        }
-
-        public string GetLoggingPath()
-        {
-            return LoggingPath;
-        }
-
-        public void SetLoggingPath(string value)
-        {
-            if (!string.IsNullOrEmpty(value))
-                LoggingPath = value;
+            return oUserSetting.isLoggingAuto;
         }
     }
 }

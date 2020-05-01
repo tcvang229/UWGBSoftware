@@ -126,7 +126,7 @@ namespace M.OBD2
         // see if these methods are needed or not
         // MARKER 4
 
-        public void InitExpressions(UserSetting.UNIT_TYPE Unit_Type)
+        public void InitExpressions(UserSettings.UNIT_TYPE Unit_Type)
         {
             StringBuilder sb = new StringBuilder();
             foreach (BluetoothCmd b in this) // Init expressions
@@ -267,7 +267,7 @@ namespace M.OBD2
         #endregion
 
         #region Test Related
-        public void RetrieveCommands(UserSetting.UNIT_TYPE Unit_Type, bool isInitialize)
+        public void RetrieveCommands(UserSettings.UNIT_TYPE Unit_Type, bool isInitialize)
         {
             using (SQLiteConnection connection = new SQLiteConnection(App.Database))
             {
@@ -301,7 +301,7 @@ namespace M.OBD2
             }
         }
 
-        public void CreateTestCommands(UserSetting.UNIT_TYPE Unit_Type, bool isInitialize)
+        public void CreateTestCommands(UserSettings.UNIT_TYPE Unit_Type, bool isInitialize)
         {
             // Format 01##01
             // 01 = Service

@@ -6,9 +6,9 @@ namespace M.OBD2
         private static readonly UnitsMetric unitsMetric = new UnitsMetric();
         private static readonly UnitsImperial unitsImperial = new UnitsImperial();
 
-        public static void InitUnitType(BluetoothCmd bthcmd, UserSetting.UNIT_TYPE Unit_Type)
+        public static void InitUnitType(BluetoothCmd bthcmd, UserSettings.UNIT_TYPE Unit_Type)
         {
-            if (Unit_Type == UserSetting.UNIT_TYPE.IMPERIAL)
+            if (Unit_Type == UserSettings.UNIT_TYPE.IMPERIAL)
                 unitsImperial.InitType(bthcmd);
             else
                 unitsMetric.InitType(bthcmd);

@@ -26,7 +26,7 @@ namespace M.OBD
         private BlueToothCmds oBlueToothCmds;
         private BlueToothCmds oBlueToothCmds_Picker;
         private DataTemplate CellTemplate;
-        private readonly UserSetting oUserSetting;
+        private readonly UserSettings oUserSettings;
 
         private bool isTimerRun;
         private const int TIMER_UPDATE = 25;       // Update timer iteration delay in ms
@@ -35,7 +35,7 @@ namespace M.OBD
         private bool isPickerProcessAdd;
         private bool isPickerLogsActive;
         private bool isPickerLogsSelected;
-        private UserSetting.UNIT_TYPE UnitType_Last;
+        private UserSettings.UNIT_TYPE UnitType_Last;
 
         private Color SELECTED_COLOR = Color.Green;
         private Color UNSELECTED_COLOR = Color.White;
@@ -49,7 +49,7 @@ namespace M.OBD
             InitializeComponent();
 
             InitBluetooth(out oBluetooth);
-            InitUserSettings(out oUserSetting);
+            InitUserSettings(out oUserSettings);
             InitControls();
         }
 
@@ -58,10 +58,10 @@ namespace M.OBD
             bluetooth = App.GetBluetooth();
         }
 
-        public void InitUserSettings(out UserSetting usersetting)
+        public void InitUserSettings(out UserSettings usersettings)
         {
-            usersetting = App.GetUserSetting();
-            UnitType_Last = UserSetting.UNIT_TYPE.NONE;
+            usersettings = App.GetUserSettings();
+            UnitType_Last = UserSettings.UNIT_TYPE.NONE;
         }
 
         public void InitControls()
@@ -87,9 +87,9 @@ namespace M.OBD
             UpdateUserSettings();
 
             // Call listview generation only if units have changed
-            if (oUserSetting.GetUserUnits() != UnitType_Last)
+            if (oUserSettings.GetUserUnits() != UnitType_Last)
             {
-                UnitType_Last = oUserSetting.GetUserUnits();
+                UnitType_Last = oUserSettings.GetUserUnits();
                 UpdateListViewItems();
             }
         }
@@ -147,7 +147,7 @@ namespace M.OBD
         {
             isTimerRun = true;
 
-            if (oUserSetting.GetLoggingAuto())
+            if (oUserSettings.GetLoggingAuto())
             {
                 StartLogging();
             }
@@ -385,7 +385,7 @@ namespace M.OBD
             {
                 oBlueToothCmds = null;
                 oBlueToothCmds = new BlueToothCmds();
-                oBlueToothCmds.RetrieveCommands(oUserSetting.GetUserUnits(), false);
+                oBlueToothCmds.RetrieveCommands(oUserSettings.GetUserUnits(), false);
                 InitListViewItems(oBlueToothCmds);
             }
             catch (Exception e)
@@ -466,7 +466,7 @@ namespace M.OBD
             try
             {
                 //oBlueToothCmds_Picker.CreateTestCommands(oUserSetting.GetUserUnits(), false);
-                oBlueToothCmds_Picker.RetrieveCommands(oUserSetting.GetUserUnits(), false);
+                oBlueToothCmds_Picker.RetrieveCommands(oUserSettings.GetUserUnits(), false);
                 oBlueToothCmds_Picker.RemoveAll(x => (isPickerProcessAdd) ? x.isSelected : !x.isSelected);
                 pkrProcess.ItemsSource = null;
                 pkrProcess.ItemsSource = oBlueToothCmds_Picker;
@@ -606,7 +606,7 @@ namespace M.OBD
 
             // ToDo: replace with db values
             //oBlueToothCmds.CreateTestCommands(oUserSetting.GetUserUnits(), true);
-            oBlueToothCmds.RetrieveCommands(oUserSetting.GetUserUnits(), true);
+            oBlueToothCmds.RetrieveCommands(oUserSettings.GetUserUnits(), true);
             InitListViewItems(oBlueToothCmds);
             RunProcesses();
         }

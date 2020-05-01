@@ -11,7 +11,7 @@ namespace M.OBD
     {
         // Contructor Methods
         void InitControls();
-        void InitUserSettings(out UserSetting usersetting);
+        void InitUserSettings(out UserSettings usersettings);
         void InitBluetooth(out Bluetooth bluetooth);
 
         // Page refresh/update on appear methods
