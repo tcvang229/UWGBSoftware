@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using SQLite;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -275,8 +276,6 @@ namespace M.OBD2
         {
             using (SQLiteConnection connection = new SQLiteConnection(App.Database))
             {
-                // TO DO:
-                // need to convert RECORD -> BluetoothCmd
                 var commands = connection.Table<BluetoothCmd>();
                 System.Diagnostics.Debug.WriteLine(commands.Count().ToString());
 
@@ -284,24 +283,27 @@ namespace M.OBD2
                     throw new Exception("Could not load command list");
 
                 foreach (var command in commands)
-                {
+                { 
                     Add(command);
+                    InitCommandTypes();
                     System.Diagnostics.Debug.WriteLine("Id: " + command.Id + " isSelected:" + command.isSelected);
                 }
-
-                //foreach (var command in commands)
-                //{
-                //    // need to do some conversion
-                //    // before adding RECORD -> LIST
-                //    Add(command);
-                //    System.Diagnostics.Debug.WriteLine(command.Id.ToString());
-                //}
 
                 if (isInitialize)
                 {
                     InitCommandBytes();
                     InitExpressions(Unit_Type);
                 }
+            }
+        }
+
+        private void InitCommandTypes()
+        {
+            COMMAND_TYPE[] CommandTypes;
+            foreach (BluetoothCmd bt in this)
+            {
+                CommandTypes = JsonToCommandTypes(bt.sCommand_Types);
+                bt.Command_Types = CommandTypes ?? new[] {COMMAND_TYPE.DEFAULT};
             }
         }
 

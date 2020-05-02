@@ -1,6 +1,7 @@
 ﻿using M.OBD._2;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using SQLite;
 
@@ -232,6 +233,12 @@ namespace M.OBD2
             commands_list.Add(fuel_system_status);
             commands_list.Add(fuel_pressure);
             //commands_list.Add(ign);
+
+            // Command type insert for any missing values
+            foreach (BluetoothCmd bthCmd in commands_list.Where(bthCmd => string.IsNullOrEmpty(bthCmd.sCommand_Types)))
+            {
+                bthCmd.sCommand_Types = BlueToothCmds.CommandTypesToJson(new[] { BlueToothCmds.COMMAND_TYPE.DEFAULT});
+            }
 
             return commands_list;
         }

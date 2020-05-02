@@ -52,9 +52,6 @@ namespace M.OBD2
 
         public void InitExpression(BluetoothCmd bthcmd, UserSettings.UNIT_TYPE Unit_Type, StringBuilder sb)
         {
-            if (bthcmd.Command_Types == null || bthcmd.Command_Types.Length == 0)
-                return;
-
             InitUnitType(bthcmd, Unit_Type);
 
             if (string.IsNullOrEmpty(sExpression))
