@@ -37,11 +37,9 @@
                 <CheckBox Grid.Row="2" Grid.Column="2"  x:Name="chkMetric" CheckedChanged="chkMetric_CheckedChanged" />
 
                 <!-- Logging -->
-                <Label Grid.Row="4" Grid.Column="1" Text="Enabled" VerticalTextAlignment="Center"/>
-                <Label Grid.Row="4" Grid.Column="2" Text="Auto" VerticalTextAlignment="Center"/>
+                <Label Grid.Row="4" Grid.Column="1" Text="Auto" VerticalTextAlignment="Center"/>
                 <Label Grid.Row="5" Grid.Column="0"  Text= "Logging:" VerticalTextAlignment="Center"/>
-                <CheckBox Grid.Row="5" Grid.Column="1"  x:Name="chkLoggingEnabled" CheckedChanged="chkLoggingEnabled_CheckedChanged" />
-                <CheckBox Grid.Row="5" Grid.Column="2"  x:Name="chkLoggingAuto" CheckedChanged="chkLoggingAuto_CheckedChanged" />
+                <CheckBox Grid.Row="5" Grid.Column="1"  x:Name="chkLoggingAuto" CheckedChanged="chkLoggingAuto_CheckedChanged" />
 
                 <!-- Test Mode -->
                 <Label Grid.Row="7" Grid.Column="1" Text="Enabled" VerticalTextAlignment="Center"/>

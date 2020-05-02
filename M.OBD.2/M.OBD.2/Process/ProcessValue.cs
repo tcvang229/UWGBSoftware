@@ -49,7 +49,7 @@ namespace M.OBD2
         /// </summary>
         /// <param name="bthcmd"></param>
         /// <param name="Unit_Type"></param>
-
+        /// <param name="sb"></param>
         public void InitExpression(BluetoothCmd bthcmd, UserSettings.UNIT_TYPE Unit_Type, StringBuilder sb)
         {
             InitUnitType(bthcmd, Unit_Type);

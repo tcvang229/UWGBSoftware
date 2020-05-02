@@ -171,7 +171,7 @@ namespace M.OBD2
                     int rows = connection.Table<BluetoothCmd>().Count();
                     System.Diagnostics.Debug.WriteLine("----ROWS----");
                 }
-                catch (SQLite.SQLiteException e)
+                catch (SQLiteException)
                 {
                     System.Diagnostics.Debug.WriteLine("----ROWS EXCEPTION----");
                     BluetoothCommandsInitializer.Initialize();
@@ -248,25 +248,24 @@ namespace M.OBD2
             }
             catch
             {
+                return null;
             }
-
-            return null;
         }
 
         // Json to array deserialize method for handling db arrays
         public static COMMAND_TYPE[] JsonToCommandTypes(string sCommand_Types)
         {
-            if (!string.IsNullOrEmpty(sCommand_Types))
+            if (string.IsNullOrEmpty(sCommand_Types))
+                return null;
+
+            try
             {
-                try
-                {
-                    return JsonConvert.DeserializeObject<COMMAND_TYPE[]>(sCommand_Types);
-                }
-                catch
-                {
-                }
+                return JsonConvert.DeserializeObject<COMMAND_TYPE[]>(sCommand_Types);
             }
-            return null;
+            catch
+            {
+                return null;
+            }
         }
 
         #endregion

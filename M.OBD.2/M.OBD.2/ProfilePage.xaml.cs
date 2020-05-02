@@ -48,7 +48,6 @@ namespace M.OBD
             UpdateCheckBoxes();
             chkImperial.CheckedChanged += chkImperial_CheckedChanged;
             chkMetric.CheckedChanged += chkMetric_CheckedChanged;
-            chkLoggingEnabled.CheckedChanged += chkLoggingEnabled_CheckedChanged;
             chkLoggingAuto.CheckedChanged += chkLoggingAuto_CheckedChanged;
             chkTestMode.CheckedChanged += chkTestMode_CheckedChanged;
             btnSave.Clicked += btnSave_Clicked;
@@ -121,11 +120,6 @@ namespace M.OBD
         }
 
         private void chkLoggingAuto_CheckedChanged(object sender, CheckedChangedEventArgs e)
-        {
-            UpdateChangedState(true);
-        }
-
-        private void chkLoggingEnabled_CheckedChanged(object sender, CheckedChangedEventArgs e)
         {
             UpdateChangedState(true);
         }
