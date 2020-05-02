@@ -9,6 +9,8 @@ namespace M.OBD2
 {
     public static class BluetoothCommandsInitializer
     {
+        private const string COMMAND_DEFAULT = "[0]";
+
         public static void Initialize()
         {
             System.Diagnostics.Debug.WriteLine("---Creating Table---");
@@ -48,6 +50,7 @@ namespace M.OBD2
                 isSelected = false,
                 Value_Min = -40,
                 Value_Max = 215,
+                sCommand_Types = COMMAND_DEFAULT
             };
 
             BluetoothCmd vss = new BluetoothCmd()
@@ -63,10 +66,10 @@ namespace M.OBD2
                 Expression_Metric = "",
                 Bytes = 4,
                 isRxBytes = true,
-                sCommand_Types = "2",
+                sCommand_Types = COMMAND_DEFAULT,
                 isSelected = true,
                 Value_Min = 0,
-                Value_Max = 255,
+                Value_Max = 255
             };
 
             BluetoothCmd iat = new BluetoothCmd()
@@ -82,10 +85,10 @@ namespace M.OBD2
                 Expression_Metric = "(a - 40)",
                 Bytes = 4,
                 isRxBytes = true,
-                sCommand_Types = "2",
+                sCommand_Types = COMMAND_DEFAULT,
                 isSelected = false,
                 Value_Min = -40,
-                Value_Max = 215,
+                Value_Max = 215
             };
 
             BluetoothCmd map = new BluetoothCmd()
@@ -101,10 +104,10 @@ namespace M.OBD2
                 Expression_Metric = "(a)",
                 Bytes = 4,
                 isRxBytes = true,
-                sCommand_Types = "2",
+                sCommand_Types = COMMAND_DEFAULT,
                 isSelected = false,
                 Value_Min = 0,
-                Value_Max = 255,
+                Value_Max = 255
             };
 
             BluetoothCmd tps = new BluetoothCmd()
@@ -120,10 +123,10 @@ namespace M.OBD2
                 Expression_Metric = "(a * 100 / 255)",
                 Bytes = 1,
                 isRxBytes = true,
-                sCommand_Types = "0",
+                sCommand_Types = COMMAND_DEFAULT,
                 isSelected = false,
                 Value_Min = 0,
-                Value_Max = 100,
+                Value_Max = 100
             };
 
             BluetoothCmd maf = new BluetoothCmd()
@@ -139,10 +142,10 @@ namespace M.OBD2
                 Expression_Metric = "(a * 1)",
                 Bytes = 1,
                 isRxBytes = true,
-                sCommand_Types = "3",
+                sCommand_Types = COMMAND_DEFAULT,
                 isSelected = false,
                 Value_Min = 0,
-                Value_Max = 10000,
+                Value_Max = 10000
             };
 
             BluetoothCmd rpm = new BluetoothCmd()
@@ -158,10 +161,10 @@ namespace M.OBD2
                 Expression_Metric = "(a * 1)",
                 Bytes = 1,
                 isRxBytes = true,
-                sCommand_Types = "0",
+                sCommand_Types = COMMAND_DEFAULT,
                 isSelected = false,
                 Value_Min = 0,
-                Value_Max = 10000,
+                Value_Max = 10000
             };
 
             BluetoothCmd mpg = new BluetoothCmd()
@@ -177,10 +180,10 @@ namespace M.OBD2
                 Expression_Metric = "(14.7*b*1740.572)/(3600*c/100)",
                 Bytes = 0,
                 isRxBytes = false,
-                sCommand_Types = "0",
+                sCommand_Types = COMMAND_DEFAULT,
                 isSelected = false,
                 Value_Min = 0,
-                Value_Max = 100,
+                Value_Max = 100
             };
 
             BluetoothCmd fuel_system_status = new BluetoothCmd()
@@ -196,10 +199,10 @@ namespace M.OBD2
                 Expression_Metric = "",
                 Bytes = 4,
                 isRxBytes = false,
-                sCommand_Types = "0",
+                sCommand_Types = COMMAND_DEFAULT,
                 isSelected = false,
                 Value_Max = 0,
-                Value_Min = 0,
+                Value_Min = 0
             };
 
             BluetoothCmd fuel_pressure = new BluetoothCmd()
@@ -215,10 +218,10 @@ namespace M.OBD2
                 Expression_Metric = "",
                 Bytes = 4,
                 isRxBytes = true,
-                sCommand_Types = "0",
+                sCommand_Types = COMMAND_DEFAULT,
                 isSelected = false,
                 Value_Min = 0,
-                Value_Max = 765,
+                Value_Max = 765
             };
 
             List<BluetoothCmd> commands_list = new List<BluetoothCmd>();
