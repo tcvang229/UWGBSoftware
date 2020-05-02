@@ -29,8 +29,8 @@ namespace M.OBD._2
         {
             InitializeComponent();
 
-            oBluetooth = new Bluetooth(true, true);
-            //oUserSettings = new UserSettings();
+            oBluetooth = new Bluetooth(true);
+            oUserSettings = new UserSettings();
 
             MainPage = new NavigationPage(new MainPage());
 
@@ -56,9 +56,6 @@ namespace M.OBD._2
 
         public static UserSettings GetUserSettings()
         {
-            if (oUserSettings == null)
-                oUserSettings = new UserSettings();
-
             return oUserSettings ?? throw new Exception("User Setting Initialization Error!");
         }
 

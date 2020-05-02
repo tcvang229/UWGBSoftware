@@ -4,11 +4,9 @@ using M.OBD._2;
 using M.OBD2;
 using System;
 using System.Collections.Generic;
-using System.Data;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using Android.Content;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -29,16 +27,14 @@ namespace M.OBD
         private readonly UserSettings oUserSettings;
 
         private bool isTimerRun;
-        private const int TIMER_UPDATE = 25;       // Update timer iteration delay in ms
+        private bool isTestMode;
         private bool isPickerProcessActive;
         private bool isPickerProcessSelected;
         private bool isPickerProcessAdd;
         private bool isPickerLogsActive;
         private bool isPickerLogsSelected;
         private UserSettings.UNIT_TYPE UnitType_Last;
-
-        private Color SELECTED_COLOR = Color.Green;
-        private Color UNSELECTED_COLOR = Color.White;
+        private const int TIMER_UPDATE = 25;       // Update timer iteration delay in ms
 
         #endregion
 
@@ -146,6 +142,7 @@ namespace M.OBD
         public void RunProcesses()
         {
             isTimerRun = true;
+            isTestMode = oUserSettings.GetIsTestMode();
 
             if (oUserSettings.GetLoggingAuto())
             {
@@ -154,7 +151,7 @@ namespace M.OBD
 
             DateTime dtCurrent = DateTime.UtcNow;
 
-            foreach (BluetoothCmd bcmd in oBlueToothCmds)
+            foreach (BluetoothCmd bcmd in oBlueToothCmds.Where(x=>x.isProcess))
             {
                 bcmd.dtNext = dtCurrent.AddMilliseconds(bcmd.Rate);
             }
@@ -163,16 +160,15 @@ namespace M.OBD
             (
                 TimeSpan.FromMilliseconds(TIMER_UPDATE), () =>
                 {
-                    foreach (BluetoothCmd bcmd in oBlueToothCmds)
+                    foreach (BluetoothCmd bcmd in oBlueToothCmds.Where(x=>x.isProcess))
                     {
                         dtCurrent = DateTime.UtcNow;
 
                         if (dtCurrent >= bcmd.dtNext)
                         {
-                            RunProcess(bcmd, oBluetooth);
+                            RunProcess(bcmd, oBluetooth, isTestMode);
 
                             bcmd.dtNext = dtCurrent.AddMilliseconds(bcmd.Rate);
-                            //Debug.WriteLine("Process:" + bcmd.Name);
                         }
                     }
                     return isTimerRun;
@@ -180,11 +176,11 @@ namespace M.OBD
             );
         }
 
-        private static void RunProcess(BluetoothCmd bcmd, Bluetooth oBluetooth)
+        private static void RunProcess(BluetoothCmd bcmd, Bluetooth oBluetooth, bool isTest)
         {
             if (bcmd.CmdBytes != null && bcmd.CmdBytes.Length != 0)
             {
-                if (!oBluetooth.isTestMode())
+                if (!isTest)
                 {
                     Task.Run(async () =>
                     {
@@ -566,7 +562,7 @@ namespace M.OBD
             //oBluetooth = null;
             //oBluetooth = new Bluetooth(true, isTest); // Create connection object
 
-            if (!oBluetooth.isTestMode())
+            if (!oUserSettings.GetIsTestMode())
             {
                 if (!Bluetooth.CheckAdapterPresent()) // Check if bluetooth is available on this device: display message and return on failure
                 {
@@ -607,8 +603,25 @@ namespace M.OBD
             // ToDo: replace with db values
             //oBlueToothCmds.CreateTestCommands(oUserSetting.GetUserUnits(), true);
             oBlueToothCmds.RetrieveCommands(oUserSettings.GetUserUnits(), true);
+
+            InitCommands(oBlueToothCmds);
             InitListViewItems(oBlueToothCmds);
             RunProcesses();
+        }
+
+        private void InitCommands(BlueToothCmds oBthCmds)
+        {
+            if (oBthCmds == null)
+                return;
+
+            foreach (BluetoothCmd bthCmd in oBthCmds)
+            {
+                if (bthCmd.isSelected && bthCmd.Selection_Type == BlueToothCmds.SELECTION_TYPE.NONE)
+                    bthCmd.Selection_Type = BlueToothCmds.SELECTION_TYPE.USER;
+
+                bthCmd.isProcess = (bthCmd.Selection_Type == BlueToothCmds.SELECTION_TYPE.USER ||
+                                    bthCmd.Selection_Type == BlueToothCmds.SELECTION_TYPE.USER_PROCESS);
+            }
         }
 
         private void ProcessConnectionError(ERROR_TYPE Error_Type)

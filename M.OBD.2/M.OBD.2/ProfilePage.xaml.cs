@@ -45,7 +45,7 @@ namespace M.OBD
         {
             Appearing += Page_Appearing;
 
-            UpdateUnitCheckBoxes();
+            UpdateCheckBoxes();
             chkImperial.CheckedChanged += chkImperial_CheckedChanged;
             chkMetric.CheckedChanged += chkMetric_CheckedChanged;
             chkLoggingEnabled.CheckedChanged += chkLoggingEnabled_CheckedChanged;
@@ -66,11 +66,12 @@ namespace M.OBD
         {
             IsEnabled = Bluetooth.isBluetoothDisconnected();
 
-            UpdateUnitCheckBoxes();
+            UpdateCheckBoxes();
         }
 
         public void UpdateUserSettings()
         {
+
         }
 
         #endregion
@@ -111,10 +112,12 @@ namespace M.OBD
 
         #region Check Boxes
 
-        private void UpdateUnitCheckBoxes()
+        private void UpdateCheckBoxes()
         {
             chkImperial.IsChecked = !oUserSettings.GetIsMetric();
             chkMetric.IsChecked = oUserSettings.GetIsMetric();
+            chkLoggingAuto.IsChecked = oUserSettings.GetLoggingAuto();
+            chkTestMode.IsChecked = oUserSettings.GetIsTestMode();
         }
 
         private void chkLoggingAuto_CheckedChanged(object sender, CheckedChangedEventArgs e)
@@ -146,6 +149,7 @@ namespace M.OBD
         private void chkTestMode_CheckedChanged(object sender, CheckedChangedEventArgs e)
         {
             UpdateChangedState(true);
+            oUserSettings.SetIsTestMode(chkTestMode.IsChecked);
         }
 
         #endregion

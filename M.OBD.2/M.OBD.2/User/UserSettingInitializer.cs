@@ -1,12 +1,12 @@
 ﻿using M.OBD._2;
-using System;
-using System.Collections.Generic;
 using SQLite;
 
 namespace M.OBD2
 {
     public static  class UserSettingInitializer
     {
+        private static UserSetting oUserSetting;
+
         public static void Initialize()
         {
             System.Diagnostics.Debug.WriteLine("---Creating Table---");
@@ -19,8 +19,8 @@ namespace M.OBD2
             using (SQLiteConnection connection = new SQLiteConnection(App.Database))
             {
                 connection.CreateTable<UserSetting>();
-
-                UserSetting oUserSetting = new UserSetting
+                
+                oUserSetting = new UserSetting
                 {
                     Id = 1,
                     isMetric = false,
@@ -33,6 +33,11 @@ namespace M.OBD2
 
                 connection.Insert(oUserSetting);
             }
+        }
+
+        public static UserSetting GetUserSetting()
+        {
+            return oUserSetting;
         }
     }
 }

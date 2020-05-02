@@ -18,14 +18,13 @@ namespace M.OBD2
 
         // Objects
         private BluetoothConnection oBluetoothConnection;
-        //private readonly Logging oLogging;
         private readonly Dtc oDtc;
         private static Random oRandom;
 
         // Vars
         private static string status_message;
         private static bool isDebug;
-        private static bool isTest;
+        //private static bool isTest;
         private static string response;
         private static BLUETOOTH_STATE Bluetooth_State;
 
@@ -49,11 +48,10 @@ namespace M.OBD2
 
         #region Initialization
 
-        public Bluetooth(bool _isDebug, bool _isTest)
+        public Bluetooth(bool _isDebug)
         {
             status_message = string.Empty;
             isDebug = _isDebug;
-            isTest = _isTest;
             Bluetooth_State = BLUETOOTH_STATE.DISCONNECTED;
             oDtc = new Dtc();
 
@@ -491,10 +489,11 @@ namespace M.OBD2
                 }
 
                 // If we are expecting bytes returned and response is valid
-                if (bcmd.Bytes != 0 && !bcmd.Response.StartsWith(RX_MESSAGE, StringComparison.OrdinalIgnoreCase))
+                if (bcmd.Bytes != 0 && (bcmd.Response.Length >= bcmd.Bytes) &&
+                    !bcmd.Response.StartsWith(RX_MESSAGE, StringComparison.OrdinalIgnoreCase))
                 {
                     // Attempt to parse the hex value
-                    if (int.TryParse(bcmd.Response.Substring(bcmd.Response.Length - (bcmd.Bytes * 2)), NumberStyles.HexNumber, null, out int result))
+                    if (int.TryParse(bcmd.Response.Substring(bcmd.Response.Length - (bcmd.Bytes)), NumberStyles.HexNumber, null, out int result))
                     {
                         // Store result and call math expression parser
                         bcmd.rxvalue = result;
@@ -535,13 +534,5 @@ namespace M.OBD2
 
         #endregion
 
-        #region Misc
-
-        public bool isTestMode()
-        {
-            return isTest;
-        }
-
-        #endregion
     }
 }

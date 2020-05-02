@@ -43,9 +43,6 @@ namespace M.OBD
 
         public void InitUserSettings(out UserSettings usersettings)
         {
-            //usersetting = new UserSetting();
-            //App.SetUserSetting(usersetting);
-
             usersettings = App.GetUserSettings();
         }
 

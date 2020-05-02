@@ -82,6 +82,10 @@ namespace M.OBD2
         // Command selection state Ex. User, Process ...
         [Ignore]
         public BlueToothCmds.SELECTION_TYPE Selection_Type { get; set; }
+
+        // If a selected running process
+        [Ignore]
+        public bool isProcess { get; set; }
     }
 
     /// <summary>

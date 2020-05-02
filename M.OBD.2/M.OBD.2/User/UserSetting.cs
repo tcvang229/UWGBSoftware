@@ -72,16 +72,22 @@ namespace M.OBD2
                 }
             }
 
-            //// ToDo: Remove hardcoded values after db is implemented
-            //isMetric = false;
-            //Device_Name = "OBDII";
-            //Device_Address = "00:1D:A5:05:4F:05";
-            //isLoggingAuto = false;
-
-            //// ToDo: Make OS path fixed or add user option ex. internal/external storage?
-            //LoggingPath = (string.IsNullOrEmpty(LoggingPath)) ? DEFAULT_LOG_PATH : LoggingPath;
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            // ToDo: This line is a temporary fix for db failed table creation - needs to be removed ///////////////////////////////////////
+            ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+            oUserSetting = UserSettingInitializer.GetUserSetting();
 
             UpdateUserUnits();
+        }
+
+        public void SetIsTestMode(bool value)
+        {
+            oUserSetting.isTestMode = value;
+        }
+
+        public bool GetIsTestMode()
+        {
+            return oUserSetting.isTestMode;
         }
 
         public bool GetIsMetric()
