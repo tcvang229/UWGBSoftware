@@ -251,8 +251,7 @@ namespace M.OBD2
 
         private void SetLogFileName()
         {
-            LogFileName = LOG_NAME_HEADER + (string.IsNullOrEmpty(LogFileName) ? string.Empty : LogFileName);
-            lblLogFile.Text = LogFileName;
+            lblLogFile.Text = LOG_NAME_HEADER + (string.IsNullOrEmpty(LogFileName) ? string.Empty : LogFileName);
         }
 
         #endregion
