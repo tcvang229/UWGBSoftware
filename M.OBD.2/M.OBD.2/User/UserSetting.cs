@@ -125,9 +125,19 @@ namespace M.OBD2
             return oUserSetting.Device_Address;
         }
 
+        public void SetDeviceAddress(string value)
+        {
+            oUserSetting.Device_Address = value;
+        }
+
         public string GetDeviceName()
         {
             return oUserSetting.Device_Name;
+        }
+
+        public void SetDeviceName(string value)
+        {
+            oUserSetting.Device_Name = value;
         }
 
         public void UpdateUserUnits()

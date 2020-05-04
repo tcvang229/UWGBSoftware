@@ -121,6 +121,9 @@ namespace M.OBD2
 
         public async Task<bool> OpenPairedDevice(string name, string address, bool isInit)
         {
+            if (string.IsNullOrEmpty(name) || string.IsNullOrEmpty(address))
+                return false;
+
             oBluetoothConnection = await GetPairedDevice(name, address, isInit);
 
             return oBluetoothConnection != null;
@@ -219,7 +222,7 @@ namespace M.OBD2
 
         public bool CheckConnection()
         {
-            if (oBluetoothConnection == null || oBluetoothConnection.oBthDevice == null || oBluetoothConnection.oBthSocket == null)
+            if (oBluetoothConnection?.oBthDevice == null || oBluetoothConnection.oBthSocket == null)
                 return false;
 
             return oBluetoothConnection.oBthSocket.IsConnected;

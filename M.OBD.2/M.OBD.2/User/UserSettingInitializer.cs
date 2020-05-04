@@ -24,8 +24,10 @@ namespace M.OBD2
                 {
                     Id = 1,
                     isMetric = false,
-                    Device_Name = string.Empty,
-                    Device_Address = string.Empty,
+                    //Device_Name = string.Empty,
+                    //Device_Address = string.Empty,
+                    Device_Name = "OBDII",
+                    Device_Address = "00:0D:18:3A:67:89",
                     isLoggingAuto = false,
                     LoggingPath = string.Empty,
                     isTestMode = true

@@ -30,7 +30,7 @@ namespace M.OBD2
         private const string LOG_FOLDER = "MOBD2_LOGS";
         private const string LOG_FILE_EXT = ".txt";
         private const string LOG_NAME_HEADER = "Log File: ";
-        private const string LOG_TITLE = "*** MOBD2 Generate Log ***";
+        private const string LOG_TITLE = "*** MOBD2 Generated Log ***";
         private const string TIME_FORMATTER = "T";
         private const int LOG_UPDATE = 1000;        // Log write time in ms
         private const int TIMER_UPDATE = 250;       // Update timer iteration delay in ms

@@ -121,9 +121,6 @@ namespace M.OBD
                 if (oBluetooth.CheckConnection())
                     oBluetooth.CloseConnection();
 
-                //oBluetooth = null;
-                //oBluetooth = new Bluetooth(true, false);
-
                 oBluetooth.LoadPairedDevices();
 
                 if (oBluetooth.Count == 0)
@@ -208,6 +205,14 @@ namespace M.OBD
             bool isValid = await oBluetooth.OpenPairedDevice(oBc.device_name, oBc.device_address, false);
 
             lblState.Text = (isValid) ? "Device Connected" : "Invalid Device";
+
+            oBluetooth.CloseConnection();
+
+            if (isValid)
+            { 
+                oUserSettings.SetDeviceName(oBc.device_name);
+                oUserSettings.SetDeviceAddress(oBc.device_address);
+            }
         }
 
         #endregion

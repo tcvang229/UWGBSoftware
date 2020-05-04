@@ -33,6 +33,7 @@ namespace M.OBD
         private bool isPickerProcessAdd;
         private bool isPickerLogsActive;
         private bool isPickerLogsSelected;
+        private bool isConnect;
         private UserSettings.UNIT_TYPE UnitType_Last;
         private const int TIMER_UPDATE = 25;       // Update timer iteration delay in ms
 
@@ -120,19 +121,36 @@ namespace M.OBD
             if (Logging.GetIsLogging())
                 StopLogging();
 
+            oBluetooth.CloseConnection();
+
             Bluetooth.SetBluetoothState(Bluetooth.BLUETOOTH_STATE.DISCONNECTED);
             UpdateControls();
         }
 
         private void btnConnect_Clicked(object sender, EventArgs e)
         {
-            if (isTimerRun)
+            if (isTimerRun || isConnect)
                 return;
 
-            Bluetooth.SetBluetoothState(Bluetooth.BLUETOOTH_STATE.CONNECTED);
-            UpdateControls();
-            // ToDo: pass user settings db values
-            OpenBluetooth("OBDII", "00:1D:A5:05:4F:05", true);
+            OpenConnection();
+        }
+
+        private async void OpenConnection()
+        {
+            btnConnect.IsEnabled = false;
+            isConnect = true;
+
+            if (!await OpenBluetooth(oUserSettings.GetDeviceName(), oUserSettings.GetDeviceAddress(),
+                oUserSettings.GetIsTestMode()))
+            {
+                btnConnect.IsEnabled = true;
+            }
+            else
+            {
+                Bluetooth.SetBluetoothState(Bluetooth.BLUETOOTH_STATE.CONNECTED);
+                UpdateControls();
+            }
+            isConnect = false;
         }
 
         #endregion
@@ -557,7 +575,7 @@ namespace M.OBD
             PAIR_FAILED
         }
 
-        private async void OpenBluetooth(string name, string address, bool isTest)
+        private async Task<bool> OpenBluetooth(string name, string address, bool isTest)
         {
             //oBluetooth = null;
             //oBluetooth = new Bluetooth(true, isTest); // Create connection object
@@ -567,31 +585,31 @@ namespace M.OBD
                 if (!Bluetooth.CheckAdapterPresent()) // Check if bluetooth is available on this device: display message and return on failure
                 {
                     ProcessConnectionError(ERROR_TYPE.ADAPTER_ERROR);
-                    return;
+                    return false;
                 }
 
                 if (!Bluetooth.CheckAdapterEnabled()) // Check if bluetooth is enabled on this device: display message and return on failure
                 {
                     ProcessConnectionError(ERROR_TYPE.ADAPTER_DISABLED);
-                    return;
+                    return false;
                 }
 
                 if (!oBluetooth.LoadPairedDevices()) // Attempt to load paired devices: display message and return on failure
                 {
                     ProcessConnectionError(ERROR_TYPE.PAIR_ERROR);
-                    return;
+                    return false;
                 }
 
                 if (!oBluetooth.CheckPairedDevices()) // Check if there are paired devices available: display message and return on failure
                 {
                     ProcessConnectionError(ERROR_TYPE.PAIR_NONE);
-                    return;
+                    return false;
                 }
 
                 if (!await oBluetooth.OpenPairedDevice(name, address, true)) // Attempt to open paired device: if failed get list of paired devices
                 {
                     ProcessConnectionError(ERROR_TYPE.PAIR_FAILED);
-                    return;
+                    return false;
                 }
             }
 
@@ -607,6 +625,7 @@ namespace M.OBD
             InitCommands(oBlueToothCmds);
             InitListViewItems(oBlueToothCmds);
             RunProcesses();
+            return true;
         }
 
         private void InitCommands(BlueToothCmds oBthCmds)
