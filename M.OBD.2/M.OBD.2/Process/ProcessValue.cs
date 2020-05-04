@@ -33,7 +33,7 @@ namespace M.OBD2
         private int decimals;
         private string formatter;
         private const int MAX_DECIMALS = 4;
-        private const string VALUE_FORMATTER = "#";
+        private const string VALUE_FORMATTER = "0";
 
         #endregion
 

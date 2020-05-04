@@ -172,6 +172,7 @@ namespace M.OBD
             foreach (BluetoothCmd bcmd in oBlueToothCmds.Where(x=>x.isProcess))
             {
                 bcmd.dtNext = dtCurrent.AddMilliseconds(bcmd.Rate);
+                UpdateProcessItem(bcmd);
             }
 
             Device.StartTimer
@@ -224,7 +225,8 @@ namespace M.OBD
 
             foreach (ProcessItem pi in ProcessItems.Where(pi => pi.id == bcmd.Id))
             {
-                pi.Value = bcmd.value.ToString();
+                string formatter = bcmd.GetFormatter();
+                pi.Value = bcmd.value.ToString(bcmd.GetFormatter());
                 break;
             }
 

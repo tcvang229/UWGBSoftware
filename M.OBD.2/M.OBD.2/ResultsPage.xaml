@@ -3,6 +3,22 @@
     <ContentPage.Content>
         <StackLayout>
             <ListView x:Name ="lvwResults">
+                <ListView.Header>
+                    <Grid >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                            <ColumnDefinition Width="100"/>
+                            <ColumnDefinition Width="100"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="5" />
+                            <RowDefinition Height="auto" />
+                        </Grid.RowDefinitions>
+                        <Label Text="Name" HorizontalTextAlignment="Center" BackgroundColor="LightGray" Grid.Column="0" Grid.Row="1" />
+                        <Label Text="Value"  HorizontalTextAlignment="Center" BackgroundColor="LightGray" Grid.Column="1" Grid.Row="1"/>
+                        <Label Text="Units" HorizontalTextAlignment="Center" BackgroundColor="LightGray" Grid.Column="2" Grid.Row="1"/>
+                    </Grid>
+                </ListView.Header>
             </ListView>
             <Grid>
                 <Grid.ColumnDefinitions>

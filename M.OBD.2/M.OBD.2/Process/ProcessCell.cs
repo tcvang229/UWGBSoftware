@@ -13,10 +13,10 @@ namespace M.OBD2
                 Padding = new Thickness(5, 10, 0, 0),
                 ColumnDefinitions =
                   {
-                    new ColumnDefinition { Width = new GridLength(10, GridUnitType.Star) },
-                    new ColumnDefinition { Width = new GridLength(10, GridUnitType.Star) },
-                    new ColumnDefinition { Width = new GridLength(10, GridUnitType.Star) },
-                    new ColumnDefinition { Width = new GridLength(10, GridUnitType.Star)  }
+                    new ColumnDefinition { Width = new GridLength(5, GridUnitType.Star) },
+                    new ColumnDefinition { Width = new GridLength(5, GridUnitType.Star) },
+                    new ColumnDefinition { Width = new GridLength(5, GridUnitType.Star) },
+                    new ColumnDefinition { Width = new GridLength(5, GridUnitType.Star) }
                   },
             };
 
@@ -31,21 +31,31 @@ namespace M.OBD2
             Label lblName = new Label()
             {
                 VerticalTextAlignment = TextAlignment.Center,
-                HorizontalTextAlignment = TextAlignment.End,
+                //HorizontalTextAlignment = TextAlignment.End,
+                HorizontalTextAlignment = TextAlignment.Start,
+                HorizontalOptions = LayoutOptions.Fill,
+
+                WidthRequest = 100
             };
             lblName.SetBinding(Label.TextProperty, new Binding("Name"));
             lblName.SetBinding(Label.TextColorProperty, new Binding("NameColor"));
 
             Label lblValue = new Label()
             {
-                VerticalTextAlignment = TextAlignment.Center
+                VerticalTextAlignment = TextAlignment.Center,
+                HorizontalTextAlignment = TextAlignment.Start,
+                HorizontalOptions = LayoutOptions.Fill,
+                WidthRequest = 100
             };
             lblValue.SetBinding(Label.TextProperty, new Binding("Value"));
             lblValue.SetBinding(Label.TextColorProperty, new Binding("ValueColor"));
 
             Label lblUnits = new Label()
             {
-                VerticalTextAlignment = TextAlignment.Center
+                VerticalTextAlignment = TextAlignment.Center,
+                HorizontalTextAlignment = TextAlignment.Start,
+                HorizontalOptions = LayoutOptions.Fill,
+                WidthRequest = 100
             };
             lblUnits.SetBinding(Label.TextProperty, new Binding("Units"));
             lblUnits.SetBinding(Label.TextColorProperty, new Binding("UnitsColor"));
