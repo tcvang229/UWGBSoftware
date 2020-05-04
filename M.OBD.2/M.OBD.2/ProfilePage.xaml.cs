@@ -127,7 +127,11 @@ namespace M.OBD
         private void chkMetric_CheckedChanged(object sender, CheckedChangedEventArgs e)
         {
             if (chkMetric.IsChecked)
+            {
                 chkImperial.IsChecked = false;
+                oUserSettings.SetIsMetric(true);
+                oUserSettings.SetUnitType(UserSettings.UNIT_TYPE.METRIC);
+            }
 
             UpdateChangedState(true);
         }
@@ -135,7 +139,11 @@ namespace M.OBD
         private void chkImperial_CheckedChanged(object sender, CheckedChangedEventArgs e)
         {
             if (chkImperial.IsChecked)
+            {
                 chkMetric.IsChecked = false;
+                oUserSettings.SetIsMetric(false);
+                oUserSettings.SetUnitType(UserSettings.UNIT_TYPE.IMPERIAL);
+            }
 
             UpdateChangedState(true);
         }

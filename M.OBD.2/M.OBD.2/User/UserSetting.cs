@@ -90,6 +90,11 @@ namespace M.OBD2
             return oUserSetting.isTestMode;
         }
 
+        public void SetUnitType(UNIT_TYPE Unit_Type)
+        {
+            oUserSetting.Unit_Type = Unit_Type;
+        }
+
         public bool GetIsMetric()
         {
             return oUserSetting.isMetric;

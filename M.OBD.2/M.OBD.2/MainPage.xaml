@@ -5,10 +5,10 @@
             x:Class="M.OBD.MainPage">
 
    <TabbedPage.ToolbarItems>
-        <ToolbarItem Text="Add"
+        <!--<ToolbarItem Text="Add"
                      Icon="add.png"
                      Clicked="ToolbarItem_Clicked"
-                     />
+                     />-->
     </TabbedPage.ToolbarItems>
 
     <local:ConnectPage Title="Connect"
