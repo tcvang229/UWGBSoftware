@@ -34,6 +34,7 @@ namespace M.OBD
         private bool isPickerLogsActive;
         private bool isPickerLogsSelected;
         private bool isConnect;
+        private static bool isDone;
         private UserSettings.UNIT_TYPE UnitType_Last;
         private const int TIMER_UPDATE = 25;       // Update timer iteration delay in ms
 
@@ -160,6 +161,7 @@ namespace M.OBD
         public void RunProcesses()
         {
             isTimerRun = true;
+            isDone = true;
             isTestMode = oUserSettings.GetIsTestMode();
 
             if (oUserSettings.GetLoggingAuto())
@@ -179,42 +181,55 @@ namespace M.OBD
             (
                 TimeSpan.FromMilliseconds(TIMER_UPDATE), () =>
                 {
-                    foreach (BluetoothCmd bcmd in oBlueToothCmds.Where(x=>x.isProcess))
+                    if (isDone)
                     {
-                        dtCurrent = DateTime.UtcNow;
-
-                        if (dtCurrent >= bcmd.dtNext)
-                        {
-                            RunProcess(bcmd, oBluetooth, isTestMode);
-
-                            bcmd.dtNext = dtCurrent.AddMilliseconds(bcmd.Rate);
-                        }
+                        Run();
                     }
+
                     return isTimerRun;
                 }
             );
         }
 
-        private static void RunProcess(BluetoothCmd bcmd, Bluetooth oBluetooth, bool isTest)
+        private void Run()
+        {
+            Task.Run(async () =>
+            {
+                isDone = false;
+
+                DateTime dtCurrent;
+
+                foreach (BluetoothCmd bcmd in oBlueToothCmds.Where(x => x.isProcess))
+                {
+                    dtCurrent = DateTime.UtcNow;
+
+                    if (dtCurrent >= bcmd.dtNext)
+                    {
+                        bcmd.dtNext = dtCurrent.AddMilliseconds(bcmd.Rate);
+                        await RunProcess(bcmd, oBluetooth, isTestMode);
+                    }
+                }
+                isDone = true;
+            });
+        }
+
+        private static async Task RunProcess(BluetoothCmd bcmd, Bluetooth oBluetooth, bool isTest)
         {
             if (bcmd.CmdBytes != null && bcmd.CmdBytes.Length != 0)
             {
                 if (!isTest)
                 {
-                    Task.Run(async () =>
-                    {
-                        if (await oBluetooth.SendCommandAsync(bcmd))
-                            UpdateProcessItem(bcmd);
-                        else
-                            Debug.WriteLine("Process: {0} {1}", bcmd.Name, Bluetooth.GetStatusMessage());
-                    });
+                    if (await oBluetooth.SendCommandAsync(bcmd))
+                        UpdateProcessItem(bcmd);
+                    else
+                        Debug.WriteLine("{0} Error: {1}", bcmd.Name, Bluetooth.GetStatusMessage());
                 }
                 else
                 {
                     if (oBluetooth.SendCommandAsync_Test(bcmd))
                         UpdateProcessItem(bcmd);
                     else
-                        Debug.WriteLine("Process: {0} {1}", bcmd.Name, Bluetooth.GetStatusMessage());
+                        Debug.WriteLine("{0} Error: {1}", bcmd.Name, Bluetooth.GetStatusMessage());
                 }
             }
         }
@@ -225,7 +240,6 @@ namespace M.OBD
 
             foreach (ProcessItem pi in ProcessItems.Where(pi => pi.id == bcmd.Id))
             {
-                string formatter = bcmd.GetFormatter();
                 pi.Value = bcmd.value.ToString(bcmd.GetFormatter());
                 break;
             }

@@ -30,7 +30,7 @@ namespace M.OBD2
                     Device_Address = "00:0D:18:3A:67:89",
                     isLoggingAuto = false,
                     LoggingPath = string.Empty,
-                    isTestMode = true
+                    isTestMode = false
                 };
 
                 connection.Insert(oUserSetting);

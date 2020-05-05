@@ -321,8 +321,8 @@ namespace M.OBD2
 
                 bool result = ValidateResponse(bcmd);
 
-                if (isDebug)
-                    Debug.WriteLine("Rx: {0}  Valid:{1}", response, result);
+                //if (isDebug)
+                //    Debug.WriteLine("Rx: {0}  Valid:{1}", response, result);
 
                 return result;
             }
@@ -387,20 +387,12 @@ namespace M.OBD2
                 bcmd.sbResponse.Append(ReadData(bc.oBthSocket));
                 bcmd.tx_good++;
 
-                bool result = ValidateResponse(bcmd);
-
-                if (isDebug)
-                    Debug.WriteLine("Rx: {0}  Valid:{1}", response, result);
-
-                return result;
+                return ValidateResponse(bcmd);
             }
             catch (Exception e)
             {
                 status_message = string.Format("{0}: {1}", "Read Error", e.Message);
                 bcmd.tx_fail++;
-
-                if (isDebug)
-                    Debug.WriteLine(status_message);
 
                 return false;
             }
@@ -492,21 +484,31 @@ namespace M.OBD2
                 }
 
                 // If we are expecting bytes returned and response is valid
-                if (bcmd.Bytes != 0 && (bcmd.Response.Length >= bcmd.Bytes) &&
-                    !bcmd.Response.StartsWith(RX_MESSAGE, StringComparison.OrdinalIgnoreCase))
+                //if (bcmd.Bytes != 0 && (bcmd.Response.Length >= bcmd.Bytes) &&
+                //    !bcmd.Response.StartsWith(RX_MESSAGE, StringComparison.OrdinalIgnoreCase))
+                if (bcmd.Bytes != 0)
                 {
-                    // Attempt to parse the hex value
-                    if (int.TryParse(bcmd.Response.Substring(bcmd.Response.Length - (bcmd.Bytes)), NumberStyles.HexNumber, null, out int result))
+                    if (!bcmd.Response.StartsWith(RX_MESSAGE, StringComparison.OrdinalIgnoreCase))
                     {
-                        // Store result and call math expression parser
-                        bcmd.rxvalue = result;
-                        if (bcmd.Calculate())
+                        // Attempt to parse the hex value
+                        if (int.TryParse(bcmd.Response.Substring(bcmd.Response.Length - (bcmd.Bytes * 2)),
+                            NumberStyles.HexNumber, null, out int result))
                         {
-                            bcmd.rx_good++;
-                            return true;
+                            // Store result and call math expression parser
+                            bcmd.rxvalue = result;
+                            if (bcmd.Calculate())
+                            {
+                                bcmd.rx_good++;
+                                return true;
+                            }
                         }
                     }
+                    else // A string message has been received
+                    {
+                        SetStatusMessage(bcmd.Response);
+                    }
                 }
+
             }
             // Response was invalid: update counter and return as failed
             bcmd.rx_fail++;
